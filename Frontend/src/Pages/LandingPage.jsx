@@ -1,10 +1,10 @@
 import React from 'react'
-import LandingHeader from '../Components/LandingHeader'
+import LandingHeader from '../Components/LandingCom/LandingHeader'
 
 export default function Landing() {
   return (
     <>
-      <LandingHeader/>
+        <LandingHeader/> 
     </>
   )
 }
