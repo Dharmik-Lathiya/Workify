@@ -13,7 +13,7 @@ const userSchema = new mongoose.Schema({
     email:{
         type:String
     },
-    skills:{type:String},
+    skills:[{type:String}],
     title:{type:String},
     password:{
         type:String

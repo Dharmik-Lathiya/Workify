@@ -24,7 +24,6 @@ const Signup = async (req,res) =>{
 
         if(res.locals.data.type == "devloper"){
             newUser = new userSchema(res.locals.data);
-            console.log("hj");
             
         }else{
             

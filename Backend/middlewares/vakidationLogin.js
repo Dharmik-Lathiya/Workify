@@ -21,7 +21,7 @@ const schema = Joi.object({
 
 
 const validationLogin = (req,res,next) => {
-
+        
     const {error , value} = schema.validate(req.body)
     
     if(error){

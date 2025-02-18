@@ -38,7 +38,6 @@ const schema = Joi.object({
 
 const validationSignup = (req,res,next) => {
 
-    console.log(res.body);
     
     const {error , value} = schema.validate(req.body)
     
