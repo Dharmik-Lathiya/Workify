@@ -31,7 +31,8 @@ const schema = Joi.object({
             'string.empty': 'Password is required',
             'string.min': 'Password must be at least 8 characters',
             'string.max': 'Password must be at most 30 characters',
-        })
+        }),
+        type:Joi.string()
 }).options({ abortEarly: false });
 
 
@@ -44,7 +45,7 @@ const validationSignup = (req,res,next) => {
     if(error){
         res.status(401).send({success:false,...error})
     }else{
-        res.locals.data = value;
+        res.locals.data = req.body;
         next()
     }
 }

@@ -4,7 +4,16 @@ const bcrypt = require('bcrypt');
 
 const Signup = async (req,res) =>{
 
-    let IsAlredyLogedIn = await userSchema.findOne({email:res.locals.data.email});
+    console.log(res.locals.data);
+    
+    let IsAlredyLogedIn;
+     if (res.locals.data.type == "devloper") {
+             IsAlredyLogedIn = await userSchema.findOne({email:res.locals.data.email});
+    
+        } else {
+    
+             IsAlredyLogedIn = await clientSchema.findOne({email:res.locals.data.email});
+        }
 
     if(!IsAlredyLogedIn){
 
@@ -13,8 +22,9 @@ const Signup = async (req,res) =>{
         })
         
 
-        if(req.body.type == "devloper"){
+        if(res.locals.data.type == "devloper"){
             newUser = new userSchema(res.locals.data);
+            console.log("hj");
             
         }else{
             

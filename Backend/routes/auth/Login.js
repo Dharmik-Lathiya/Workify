@@ -6,7 +6,7 @@ const bcrypt = require('bcrypt');
 const Login = async (req, res) => {
 
     let ExistingUser;
-    if (req.body.type == "devloper") {
+    if (res.locals.data.type == "devloper") {
         ExistingUser = await userSchema.findOne({ email: res.locals.data.email });
 
     } else {
