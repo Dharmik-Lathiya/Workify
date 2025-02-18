@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import upworkLogo from "../Assets/logo.png";
+import upworkLogo from "../../Assets/logo.png";
 export default function LandingHeader() {
     return (
         <>
@@ -21,8 +21,9 @@ export default function LandingHeader() {
                             <li className="relative group cursor-pointer flex items-center gap-1">
                                 What’s new
                             </li>
-                            <li className="relative group cursor-pointer">Enterprise</li>
-                            <li className="relative group cursor-pointer">Pricing</li>
+                            <li className="relative group cursor-pointer flex items-center gap-1">
+                                Why Workify?
+                            </li>
                         </ul>
                     </nav>
                 </div>

@@ -1,9 +1,15 @@
-import Landing from './Pages/Landing'
+import LandingPage from './Pages/LandingPage'
+import {Routes , Route} from 'react-router-dom'
 import React from 'react'
+import Signup from './Pages/Signup'
 function App() {
   return (
     <>
-      <Landing/>
+      <Routes>
+        <Route path="/" element={<LandingPage />}>
+          <Route path="Signup" element={<Signup />} />
+        </Route>
+      </Routes>
     </>
   )
 }
