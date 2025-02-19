@@ -13,7 +13,7 @@ const userSchema = new mongoose.Schema({
     email:{
         type:String
     },
-    skills:{type:String},
+    skills:[{type:String}],
     title:{type:String},
     password:{
         type:String
@@ -32,17 +32,17 @@ const userSchema = new mongoose.Schema({
     experience:[{
         title:String,
         company:String,
-        location:[{type:String}],
+        location:{type:String},
         startDate:Date,
-        startDate:Date,
+        endDate:Date,
         desc:String,
 
     }],
     educaton:[{
         school:String,
         degree:String,
-        startDate:Date,
-        startDate:Date,
+        startDate:Number,
+        endDate:Number,
         desc:String
     }],
     portfolio:[{
@@ -52,8 +52,12 @@ const userSchema = new mongoose.Schema({
         urls:[{type:String}],
         thumbnail:{type:String}
     }],
-    completedProject:[{type:String}]
-
+    completedProject:[{type:String}],
+    chats:[{
+        reciverid: { type: mongoose.Schema.Types.ObjectId, refPath: 'chats.reciverModel' }, // Dynamic ref
+        reciverModel: { type: String, enum: ['users', 'client'] }, // Model type (User or Client)
+        chatid: String
+    }]
 
 });
 

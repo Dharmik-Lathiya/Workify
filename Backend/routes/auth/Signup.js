@@ -24,7 +24,6 @@ const Signup = async (req,res) =>{
 
         if(res.locals.data.type == "devloper"){
             newUser = new userSchema(res.locals.data);
-            console.log("hj");
             
         }else{
             
@@ -35,7 +34,8 @@ const Signup = async (req,res) =>{
         if(user){
            return res.status(200).send({
                 success:true,
-                message:"sign up successfull"
+                message:"sign up successfull",
+                _id:user._id
             })
         }else{
             
