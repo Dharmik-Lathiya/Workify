@@ -11,8 +11,8 @@ export default function LandingMainSec() {
             </div>
         </div>
 
-        <div className='flex mt-20 justify-between group/1'>
-            <div className='hover:bg-[#a8ff36] bg-gray-200 rounded-xl p-5'>
+        <div className='flex mt-20 justify-between '>
+            <div className='hover:bg-[#a8ff36] bg-gray-200 rounded-xl p-5 group/1'>
             <i className=" fas fa-pencil-ruler mb-5" style={{fontSize:"3rem"}} ></i>
             <p className='group-hover/1:text-blue-400 text-2xl mb-[20rem]'>Product Design & Development</p>
 

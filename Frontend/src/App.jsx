@@ -5,6 +5,7 @@ import { UserProvider } from './Context/HeaderComponent'; // ✅ Ensure correct 
 import Signup from './Pages/Signup';
 import FreelanSignup from './Pages/Freelan/FreelanSignup';
 import CreateProfile from './Pages/Freelan/CreateProfile';
+import Chat from './Components/chat/Chat';
 
 function App() {
   return (
@@ -14,6 +15,9 @@ function App() {
         <Route path="/signup" element={<Signup />} />
         <Route path="/freelancer-signup" element={<FreelanSignup />} /> 
         <Route path='/create-profile' element={<CreateProfile/>} />
+         <Route   path='/chat' element={<Chat/>} />
+         <Route path='/chat/:id' element={<Chat/>}/>
+        
       </Routes>
     </UserProvider>
   );
