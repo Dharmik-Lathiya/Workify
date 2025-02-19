@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const JobSchema = require('../../models/JobSchema');
+const ClientSchema = require('../../models/ClientSchema');
 
 
 const PostJob = async (req,res) =>{
@@ -8,6 +9,8 @@ const PostJob = async (req,res) =>{
     let job = await newJob.save();
 
     if(job){
+        console.log(job);
+         await ClientSchema.findByIdAndUpdate(req.body.clientId,{$push:{postedJobs:job._id}})
         return res.status(200).send({
              success:true,
              message:"Job posted"

@@ -32,17 +32,17 @@ const userSchema = new mongoose.Schema({
     experience:[{
         title:String,
         company:String,
-        location:[{type:String}],
+        location:{type:String},
         startDate:Date,
-        startDate:Date,
+        endDate:Date,
         desc:String,
 
     }],
     educaton:[{
         school:String,
         degree:String,
-        startDate:Date,
-        startDate:Date,
+        startDate:Number,
+        endDate:Number,
         desc:String
     }],
     portfolio:[{
