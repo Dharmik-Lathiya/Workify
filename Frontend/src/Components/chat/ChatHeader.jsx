@@ -1,6 +1,7 @@
 import React from 'react'
 
-export default function ChatHeader() {
+export default function ChatHeader({isDisabled}) {
+
   return (
     <div>
         <div className='bg-amber-100'>
@@ -12,6 +13,8 @@ export default function ChatHeader() {
        </div>
         </div>
     </div>
+    {isDisabled && <p>waiting for message</p>}
+
     </div>
   )
 }

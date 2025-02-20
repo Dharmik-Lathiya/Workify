@@ -10,6 +10,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Chat from './Components/chat/Chat';
 import FreeLancerHome from './Pages/Freelan/FreeLancerHome.jsx';
+import Notification from './Components/notification/Notification.jsx';
 
 function App() {
   return (
@@ -24,6 +25,9 @@ function App() {
          <Route path='/chat/:id' element={<Chat/>}/>     
         <Route path='/freelancer-dashboard' element={<FreeLancerHome/>} />
       </Routes>
+         <Route path='/chat/:id' element={<Chat/>}/>
+          <Route path='/notification' element={<Notification/>}/>
+      </Routes>   
       </UserProvider>
     </UserDetailsProvider>
   );
