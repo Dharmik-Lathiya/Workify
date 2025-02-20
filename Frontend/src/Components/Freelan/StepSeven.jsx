@@ -54,7 +54,8 @@ export default function StepSeven() {
             setShowPopup(false);
             setEditingIndex(null);
             setFormData(defaultFormState);
-            document.formData.reset(); 
+            document.formData.reset();
+            
         };
     
         // Handle Edit
@@ -71,6 +72,7 @@ export default function StepSeven() {
             setExperiences(updatedEducation);
             setUserDetails({ ...userDetails, education: updatedEducation });
         };
+        
     return (
     <>
       <div className='bg-transparent'>

@@ -17,8 +17,17 @@ export const UserDetailsProvider = ({ children }) => {
     contractToHire: false,
     selectedSkills: [],
     professionalTitle: "",
-    experiences:[],
-    
+    experiences: [],
+    education: [],
+    bio: "",
+    dob: "",
+    street: "",
+    apt: "",
+    city: "",
+    state: "",
+    zip: "",
+    phone: "",
+    profileImage: "",
   });
 
   return (

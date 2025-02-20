@@ -12,6 +12,15 @@
   display: none;
 }
 
+.slick-arrow{
+  display: none;
+  visibility: hidden;
+}
+
+.slick-dots{
+  color: white !important;
+}
+
 body {
   margin: 0;
   padding: 0;

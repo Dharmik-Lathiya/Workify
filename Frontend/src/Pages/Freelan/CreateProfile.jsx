@@ -1,4 +1,5 @@
 import React,  { useState } from 'react'
+import { Link } from 'react-router-dom';
 import logo from '../../Assets/logo.png'
 import StepIntro from '../../Components/Freelan/StepIntro';
 import StepFirst from '../../Components/Freelan/StepFirst';
@@ -20,7 +21,7 @@ export default function CreateProfile() {
     let name = 'Dharmik';
   return (
     <>
-
+     
         <header className="border-b p-3 flex flex-row items-center  justify-between bg-white sticky absolute top-0">
             <img src={logo} alt="logo" className="h-10" />
             <h1 className="text-2xl font-semibold">Create Profile</h1>
@@ -71,7 +72,7 @@ export default function CreateProfile() {
               <button onClick={nextStep} className="bg-green-600 text-white py-2 px-4 rounded-lg">Next</button>
             )}
             {step === 10 && (
-              <button onClick={nextStep} className="bg-green-600 text-white py-2 px-4 rounded-lg">Submit</button>
+              <Link to='/freelancer/home' onClick={nextStep} className="bg-green-600 text-white py-2 px-4 rounded-lg">Submit</Link>
             )}
           </div>
         </div>
