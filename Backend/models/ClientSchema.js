@@ -24,9 +24,17 @@ const ClientSchema = new mongoose.Schema({
     website: { type: String },
     postedJobs: [{ type: String }],
     chats: [{
-        reciverid: { type: mongoose.Schema.Types.ObjectId, refPath: 'chats.reciverModel' }, // Dynamic ref
-        reciverModel: { type: String, enum: ['users', 'client'] }, // Model type (User or Client)
+        reciverid: { type: mongoose.Schema.Types.ObjectId, refPath: 'chats.reciverModel' },
+        reciverModel: { type: String, enum: ['users', 'client'] }, 
         chatid: String
+    }],
+    notifications:[{
+        reciverid: { type: mongoose.Schema.Types.ObjectId, refPath: 'notifications.reciverModel' }, 
+        reciverModel: { type: String, enum: ['users', 'client'] },
+        notificationType:String,
+        content:String,
+        role:String
+        
     }]
 
 
