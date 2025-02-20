@@ -10,8 +10,11 @@ const { Server } = require("socket.io");
 
 const app = express();
 const server = require('http').createServer(app);
-const io = new Server(server);
-
+const io = new Server(server,{
+  cors: {
+    origin: "http://localhost:5173"
+  }
+})
 
 
 app.use(cors());
@@ -34,6 +37,7 @@ io.on("connection", (socket) => {
   socket.on("join", (userId) => {
     connectedClients[userId] = socket.id;
     console.log(`User ${userId} connected with socket ID: ${socket.id}`);
+    socket.userId = userId;
   });
 
   socket.on("disconnect", () => {
@@ -46,4 +50,4 @@ io.on("connection", (socket) => {
   });
 });
 
-app.listen(3000)
+server.listen(3000)

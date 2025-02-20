@@ -9,6 +9,7 @@ import { UserDetailsProvider } from './Context/UserDetailsContext.jsx';
 import "slick-carousel/slick/slick.css"; 
 import "slick-carousel/slick/slick-theme.css";
 import Chat from './Components/chat/Chat';
+import Notification from './Components/notification/Notification.jsx';
 
 function App() {
   return (
@@ -21,8 +22,8 @@ function App() {
         <Route path='/create-profile' element={<CreateProfile/>} />
          <Route   path='/chat' element={<Chat/>} />
          <Route path='/chat/:id' element={<Chat/>}/>
-        
-      </Routes>
+          <Route path='/notification' element={<Notification/>}/>
+      </Routes>   
       </UserProvider>
     </UserDetailsProvider>
   );

@@ -1,6 +1,6 @@
 
 
-const watchNotifications = async (Model, modelName) => {
+const watchNotifications = async (Model, modelName,io,connectedClients) => {
 
     const changeStream = Model.watch([
       {
@@ -12,9 +12,8 @@ const watchNotifications = async (Model, modelName) => {
   
     changeStream.on("change", (change) => {
   
-        if (change.updateDescription.updatedFields.notifications) {
+        if (change.updateDescription.updatedFields) {
             const userId = change.documentKey._id.toString();
-            const newNotifications = change.updateDescription.updatedFields.notifications;
       
             // Emit real-time update to the specific user
             if (connectedClients[userId]) {
