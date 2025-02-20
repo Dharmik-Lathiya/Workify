@@ -3,7 +3,23 @@ import React, { createContext, useState } from "react";
 export const UserDetailsContext = createContext();
 
 export const UserDetailsProvider = ({ children }) => {
-  const [userDetails, setUserDetails] = useState({});
+  const [userDetails, setUserDetails] = useState({
+    firstName: "",
+    lastName: "",
+    username: "",
+    email: "",
+    password: "",
+    country: "India",
+    agreeToTerms: false,
+    experienceLevel: "",
+    freelancingGoal: "",
+    workPreferences: [],
+    contractToHire: false,
+    selectedSkills: [],
+    professionalTitle: "",
+    experiences:[],
+    
+  });
 
   return (
     <UserDetailsContext.Provider value={{ userDetails, setUserDetails }}>

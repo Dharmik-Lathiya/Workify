@@ -1,20 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useUser } from "../../Context/HeaderComponent";
 import { useNavigate } from "react-router-dom";
+import { UserDetailsContext } from "../../Context/UserDetailsContext";
 
 const FreelanSignup = () => {
+  const { userDetails, setUserDetails } = useContext(UserDetailsContext);
   const { setUserType } = useUser();
-  const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    username: "",
-    email: "",
-    password: "",
-    country: "India",
-    agreeToTerms: false,
-  });
-
   const navigate = useNavigate();
+
+  const [formData, setFormData] = useState(userDetails);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -26,6 +20,7 @@ const FreelanSignup = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setUserDetails(formData);
     setUserType(formData);
     console.log("User Registered:", formData);
     navigate("/create-profile");
@@ -37,24 +32,24 @@ const FreelanSignup = () => {
         <h2 className="text-2xl font-bold mb-6 text-center">Sign Up</h2>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="flex space-x-4">
-          <input
-            type="text"
-            name="firstName"
-            placeholder="First name"
-            value={formData.firstName}
-            onChange={handleChange}
-            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
-            required
-          />
-          <input
-            type="text"
-            name="lastName"
-            placeholder="Last name"
-            value={formData.lastName}
-            onChange={handleChange}
-            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
-            required
-          />
+            <input
+              type="text"
+              name="firstName"
+              placeholder="First name"
+              value={formData.firstName}
+              onChange={handleChange}
+              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+              required
+            />
+            <input
+              type="text"
+              name="lastName"
+              placeholder="Last name"
+              value={formData.lastName}
+              onChange={handleChange}
+              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+              required
+            />
           </div>
           <input
             type="text"
@@ -111,7 +106,7 @@ const FreelanSignup = () => {
           </button>
         </form>
         <p className="mt-4 text-center">
-          Already have an account?{' '}
+          Already have an account?{" "}
           <a href="/login" className="text-green-600 hover:underline">
             Log In
           </a>

@@ -9,6 +9,7 @@ import { UserDetailsProvider } from './Context/UserDetailsContext.jsx';
 import "slick-carousel/slick/slick.css"; 
 import "slick-carousel/slick/slick-theme.css";
 import Chat from './Components/chat/Chat';
+import FreeLancerHome from './Pages/Freelan/FreeLancerHome.jsx';
 
 function App() {
   return (
@@ -20,8 +21,8 @@ function App() {
         <Route path="/freelancer-signup" element={<FreelanSignup />} /> 
         <Route path='/create-profile' element={<CreateProfile/>} />
          <Route   path='/chat' element={<Chat/>} />
-         <Route path='/chat/:id' element={<Chat/>}/>
-        
+         <Route path='/chat/:id' element={<Chat/>}/>     
+        <Route path='/freelancer-dashboard' element={<FreeLancerHome/>} />
       </Routes>
       </UserProvider>
     </UserDetailsProvider>

@@ -1,35 +1,46 @@
-import React,{useState} from 'react'
-  
-  const initialSkillsOptions = [
-    "Web Designing",
-    "Web Development",
-    "Graphic Design",
-    "SEO Services",
-    "App Development",
-    "Cybersecurity",
-    "Content Writing",
-    "IT Support",
-  ];
-  
+import React, { useContext, useState } from "react";
+import { UserDetailsContext } from "../../Context/UserDetailsContext";
+
+const initialSkillsOptions = [
+  "Web Designing",
+  "Web Development",
+  "Graphic Design",
+  "SEO Services",
+  "App Development",
+  "Cybersecurity",
+  "Content Writing",
+  "IT Support",
+];
+
+
+
 export default function StepFour() {
-  
-    const [selectedSkills, setSelectedSkills] = useState([]);
-    const [skillsOptions, setSkillsOptions] = useState(initialSkillsOptions);
-    const [newSkill, setNewSkill] = useState("");
-  
-    const toggleSelection = (id, setSelected) => {
-      setSelected((prev) =>
-        prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
-      );
-    };
-  
-    const addSkill = () => {
-      if (newSkill.trim() && !skillsOptions.includes(newSkill)) {
-        setSkillsOptions([...skillsOptions, newSkill]);
-        setNewSkill("");
-      }
-    };
- 
+  const { userDetails, setUserDetails } = useContext(UserDetailsContext);
+  const [skillsOptions, setSkillsOptions] = useState(initialSkillsOptions);
+  const [newSkill, setNewSkill] = useState("");
+
+  const toggleSelection = (skill) => {
+    setUserDetails((prev) => ({
+      ...prev,
+      selectedSkills: prev.selectedSkills.includes(skill)
+        ? prev.selectedSkills.filter((s) => s !== skill)
+        : [...prev.selectedSkills, skill],
+    }));
+  };
+
+  const addSkill = () => {
+    if (newSkill.trim() && !skillsOptions.includes(newSkill)) {
+      setSkillsOptions([...skillsOptions, newSkill]);
+      setUserDetails((prev) => ({
+        ...prev,
+        selectedSkills: [...prev.selectedSkills, newSkill], // Automatically select new skill
+      }));
+      setNewSkill("");
+    }
+  };
+
+  console.log(userDetails.selectedSkills);
+
   return (
     <div className="max-w-3xl mx-auto h-[57dvh]">
       <h2 className="text-2xl font-semibold mt-8">Select Your Skills</h2>
@@ -38,9 +49,11 @@ export default function StepFour() {
           <div
             key={skill}
             className={`border rounded-lg p-3 text-center cursor-pointer transition duration-200 ${
-              selectedSkills.includes(skill) ? "border-green-600 bg-green-100" : "border-gray-300 hover:shadow"
+              userDetails.selectedSkills.includes(skill)
+                ? "border-green-600 bg-green-100"
+                : "border-gray-300 hover:shadow"
             }`}
-            onClick={() => toggleSelection(skill, setSelectedSkills)}
+            onClick={() => toggleSelection(skill)}
           >
             {skill}
           </div>
@@ -62,6 +75,5 @@ export default function StepFour() {
         </button>
       </div>
     </div>
-
-  )
+  );
 }

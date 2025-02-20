@@ -5,16 +5,12 @@ export default function StepSix() {
 
     const { userDetails, setUserDetails } = useContext(UserDetailsContext);
 
-    // Initialize experience list
     const [experiences, setExperiences] = useState(userDetails.experiences || []);
 
-    // Track whether popup is open
     const [showPopup, setShowPopup] = useState(false);
 
-    // Track if we are editing an experience
     const [editingIndex, setEditingIndex] = useState(null);
 
-    // Default form state
     const defaultFormState = {
         title: "",
         company: "",
@@ -59,7 +55,7 @@ export default function StepSix() {
         setShowPopup(false);
         setEditingIndex(null);
         setFormData(defaultFormState);
-        document.formData.reset();
+        
     };
 
     // Handle Edit
@@ -67,7 +63,6 @@ export default function StepSix() {
         setFormData(experiences[index]);
         setEditingIndex(index);
         setShowPopup(true);
-        document.formData.reset();
     };
 
     // Handle Delete
@@ -76,6 +71,9 @@ export default function StepSix() {
         setExperiences(updatedExperiences);
         setUserDetails({ ...userDetails, experiences: updatedExperiences });
     };
+
+    console.log(userDetails.experiences);
+    
 
     return (
         <div className='bg-transparent'>
