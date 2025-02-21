@@ -22,7 +22,7 @@ const ClientSchema = new mongoose.Schema({
     phone: { type: Number },
     empNumber: { type: String },
     website: { type: String },
-    postedJobs: [{ type: String }],
+    postedJobs: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Jobs' }],
     chats: [{
         reciverid: { type: mongoose.Schema.Types.ObjectId, refPath: 'chats.reciverModel' },
         reciverModel: { type: String, enum: ['users', 'client'] }, 

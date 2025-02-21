@@ -5,14 +5,11 @@ const bcrypt = require('bcrypt');
 
 const Login = async (req, res) => {
 
-    let ExistingUser;
-    if (res.locals.data.type == "devloper") {
-        ExistingUser = await userSchema.findOne({ email: res.locals.data.email });
-
-    } else {
+    let ExistingUser = await userSchema.findOne({ email: res.locals.data.email });
+    if (!ExistingUser) {
 
         ExistingUser = await clientSchema.findOne({ email: res.locals.data.email });
-    }
+    } 
 
     if (ExistingUser) {
 

@@ -12,6 +12,10 @@ const addChat = require('./chat/AddChat');
 const getChat = require('./chat/getChats');
 const addNotification = require('./notification/AddNotification');
 const getNotification = require('./notification/getNotification');
+const getUser = require('./getters/getUser')
+
+
+routes.get("/getuser/:type/:id",getUser);
 
 routes.post("/signup",validationSignup,signup);
 routes.post("/login",validationLogin,login);

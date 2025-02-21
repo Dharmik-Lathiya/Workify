@@ -57,7 +57,7 @@ const userSchema = new mongoose.Schema({
         urls: [{ type: String }],
         thumbnail: { type: String }
     }],
-    completedProject: [{ type: String }],
+    completedProject: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Jobs' }],
     chats: [{
         reciverid: { type: mongoose.Schema.Types.ObjectId, refPath: 'chats.reciverModel' }, // Dynamic ref
         reciverModel: { type: String, enum: ['users', 'client'] }, // Model type (User or Client)

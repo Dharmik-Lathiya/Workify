@@ -19,8 +19,6 @@ export default function ChatSide({ db }) {
                     setChats(data)
                     setIsDisabled(false)
                     console.log(isDisabled);
-
-
                 }
 
             });
