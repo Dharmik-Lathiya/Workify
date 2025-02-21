@@ -11,13 +11,17 @@ const watchNotifications = async (Model, modelName,io,connectedClients) => {
     ]);
   
     changeStream.on("change", (change) => {
-  
-        if (change.updateDescription.updatedFields) {
-            const userId = change.documentKey._id.toString();
       
-            // Emit real-time update to the specific user
+      const updatedFields = change.updateDescription.updatedFields;
+      const notificationUpdated = Object.keys(updatedFields).some(field => field.startsWith("notifications"));
+      
+    
+      if (notificationUpdated) {
+          const userId = change.documentKey._id.toString();
+           
+      
             if (connectedClients[userId]) {
-              io.to(connectedClients[userId]).emit("notification", newNotifications);
+              io.to(connectedClients[userId]).emit("notification", "jajja");
               console.log(`Sent notification update to user ${userId}`);
             }
           }
