@@ -4,7 +4,6 @@ const bcrypt = require('bcrypt');
 
 const Signup = async (req,res) =>{
 
-    console.log(res.locals.data);
     
     let IsAlredyLogedIn;
      if (res.locals.data.type == "devloper") {

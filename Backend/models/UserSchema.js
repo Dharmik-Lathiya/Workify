@@ -32,18 +32,23 @@ const userSchema = new mongoose.Schema({
     experience: [{
         title: String,
         company: String,
-        location: { type: String },
-        startDate: Date,
-        endDate: Date,
-        desc: String,
+        location:String ,
+        country:String ,
+        startDate: {month:String,year:String},
+        endDate: {month:String,year:String},
+        description: String,
+        currentRole:Boolean
 
     }],
     educaton: [{
         school: String,
         degree: String,
-        startDate: Number,
-        endDate: Number,
-        desc: String
+        country: String,
+        field: String,
+        location:String ,
+        startDate: {month:String,year:String},
+        endDate: {month:String,year:String},
+        description: String
     }],
     portfolio: [{
         title: String,
