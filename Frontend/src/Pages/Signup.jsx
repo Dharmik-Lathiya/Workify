@@ -36,7 +36,7 @@ export default function Signup() {
           </label>
         </div>
         <Link
-          to={userType === "client" ? "/client-signup" : "/freelancer/signup"}
+          to={userType === "client" ? "/client/signup" : "/freelancer/signup"}
           className="bg-green-600 text-white px-6 py-2 rounded-full mt-6 text-center"
         >
           {userType === "client" ? "Join as a Client" : "Apply as a Freelancer"}
