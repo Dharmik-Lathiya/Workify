@@ -23,7 +23,7 @@ const FreelanSignup = () => {
     setUserDetails(formData);
     setUserType(formData);
     console.log("User Registered:", formData);
-    navigate("/create-profile");
+    navigate("/freelancer/create-profile");
   };
 
   return (

@@ -36,7 +36,7 @@ export default function FreelancerHeader() {
                                 What’s new
                             </li>
                             <li className="relative group cursor-pointer flex items-center gap-1">
-                                Why Workify?
+                                Message
                             </li>
                         </ul>
                     </nav>
@@ -48,7 +48,7 @@ export default function FreelancerHeader() {
                             placeholder="Search"
                             className="border rounded-full px-4 py-2 pl-8 focus:outline-none focus:ring-2 focus:ring-gray-400"
                         />
-                        <i className="fas fa-search absolute left-2 top-2.5 text-gray-500"></i>
+                        <i className="fas fa-search absolute left-2 top-3 text-gray-500"></i>
                     </div>
                     <div className='relative'>
 

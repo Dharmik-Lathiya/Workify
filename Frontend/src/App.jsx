@@ -11,6 +11,7 @@ import "slick-carousel/slick/slick-theme.css";
 import Chat from './Components/chat/Chat';
 import FreeLancerHome from './Pages/Freelan/FreeLancerHome.jsx';
 import Notification from './Components/notification/Notification.jsx';
+import Temp from './Pages/Freelan/Temp.jsx';
 
 function App() {
   return (
@@ -19,12 +20,14 @@ function App() {
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/signup" element={<Signup />} />
-          <Route path="/freelancer-signup" element={<FreelanSignup />} />
-          <Route path='/create-profile' element={<CreateProfile />} />
+          <Route path="/freelancer" element={<Temp />}>
+            <Route path="SignUp" element={<FreelanSignup />} />
+            <Route path="create-profile" element={<CreateProfile />} />
+            <Route path="home" element={<FreeLancerHome />} />
+          </Route>
           <Route path='/chat' element={<Chat />} />
           <Route path='/chat/:id' element={<Chat />} />
           <Route path='/freelancer-dashboard' element={<FreeLancerHome />} />
-          <Route path='/chat/:id' element={<Chat />} />
           <Route path='/notification' element={<Notification />} />
         </Routes>
       </UserProvider>

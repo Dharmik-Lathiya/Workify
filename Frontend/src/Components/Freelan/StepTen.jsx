@@ -5,7 +5,6 @@ import thankYouLogo from "../../Assets/UserIcon.png";
 export default function StepTen() {
   const { userDetails } = useContext(UserDetailsContext);
   console.log(userDetails);
-  console.log(userDetails.experienceLevel);
   
 
   return (
