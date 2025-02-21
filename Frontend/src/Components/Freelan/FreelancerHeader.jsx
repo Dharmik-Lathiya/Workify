@@ -1,21 +1,42 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
-import workify from '../../Assets/logo.png'
-import profileImg from '../../Assets/UserIcon.png'
+import React, { useContext, useEffect } from 'react'
+import { useLocation } from "react-router-dom";
 
+import { Link } from 'react-router-dom';
+import { UserDetailsContext } from '../../Context/UserDetailsContext'
+import logo from '../../Assets/logo.png'
 export default function FreelancerHeader() {
-  return (
-    <>
-         <header className="flex items-center justify-between px-6 py-3 shadow-md bg-white">
+
+    const location = useLocation();
+
+    console.log("lodo", location);
+
+
+    if ((window.location.pathname === "/freelancer/signup") || (window.location.pathname === "/freelancer/create-profile")) {
+        return;
+    }
+
+    useEffect(() => {
+        console.log("Pathname changed:", location.pathname);
+    }, [location.pathname]);
+
+    const { userDetails } = useContext(UserDetailsContext);
+    return (
+        <>
+            <header className="flex items-center justify-between px-6 py-3 shadow-md bg-white">
                 <div className="flex items-center gap-6">
-                    <img src={workify} alt="Upwork Logo" className="h-8" />
+                    <img src={logo} alt="Upwork Logo" className="h-8 w-24" />
                     <nav className="hidden md:flex items-center gap-4 text-gray-700">
                         <ul className="flex gap-4">
+                            <Link to='/freelancer/home'>
+                                <li className="relative group cursor-pointer flex items-center gap-1">
+                                    Home
+                                </li>
+                            </Link>
                             <li className="relative group cursor-pointer flex items-center gap-1">
                                 Find talent
                             </li>
                             <li className="relative group cursor-pointer flex items-center gap-1">
-                                Find work 
+                                Find work
                             </li>
                             <li className="relative group cursor-pointer flex items-center gap-1">
                                 Why Upwork
@@ -40,9 +61,11 @@ export default function FreelancerHeader() {
                     </div>
                     <i class="fas fa-question"></i>
                     <i class="far fa-bell text-xl"></i>
-                    <img src={profileImg} alt="" className='h-9 w-9 rounded-full' />
+                    <Link to='/freelancer/profile'>
+                        <img src={userDetails.profileImage} alt="" className='h-9 w-9 rounded-full' />
+                    </Link>
                 </div>
             </header>
-    </>
-  )
+        </>
+    )
 }

@@ -16,7 +16,7 @@ export default function StepNine() {
     state: "",
     zip: "",
     phone: "",
-    profileImage: logo,
+    profileImage:"",
   });
 
   // Sync formData with userDetails when context updates
