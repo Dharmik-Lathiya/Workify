@@ -13,7 +13,7 @@ const getNotification = async (req,res) => {
                     return res.status(404).json({ message: "User not found" });
                 }
         
-                res.json(user);
+                res.json(user.notifications);
             } catch (error) {
                 res.status(500).json({ error: error.message });
             }
