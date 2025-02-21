@@ -12,6 +12,8 @@ import Chat from './Components/chat/Chat';
 import FreeLancerHome from './Pages/Freelan/FreeLancerHome.jsx';
 import Notification from './Components/notification/Notification.jsx';
 import Temp from './Pages/Freelan/Temp.jsx';
+import FreelancerProfile from './Components/Freelan/FreelancerProfile.jsx';
+import FreelanerLogin from './Pages/Freelan/FreelanerLogin.jsx';
 
 function App() {
   return (
@@ -22,14 +24,18 @@ function App() {
           <Route path="/signup" element={<Signup />} />
           <Route path="/freelancer" element={<Temp />}>
             <Route path="SignUp" element={<FreelanSignup />} />
+            <Route path="Login" element={<FreelanerLogin />} />
+
             <Route path="create-profile" element={<CreateProfile />} />
             <Route path="home" element={<FreeLancerHome />} />
+            <Route path="profile" element={<FreelancerProfile/>} />
           </Route>
           <Route path='/chat' element={<Chat />} />
           <Route path='/chat/:id' element={<Chat />} />
           <Route path='/freelancer-dashboard' element={<FreeLancerHome />} />
           <Route path='/notification' element={<Notification />} />
         </Routes>
+        
       </UserProvider>
     </UserDetailsProvider>
   );

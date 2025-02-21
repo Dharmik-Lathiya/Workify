@@ -12,7 +12,7 @@ export default function Notification() {
   let i = 0;
   useEffect(() => {
     console.log("ghjkl");
-    fetch(import.meta.env.VITE_APP_BACKEND_URL + "/getnotification", {
+    fetch("http://localhost:3000" + "/getnotification", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
