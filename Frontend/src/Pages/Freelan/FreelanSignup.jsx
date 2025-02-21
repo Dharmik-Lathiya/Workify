@@ -1,6 +1,7 @@
 import React, { useState, useContext } from "react";
+
 import { useUser } from "../../Context/HeaderComponent";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { UserDetailsContext } from "../../Context/UserDetailsContext";
 
 const FreelanSignup = () => {
@@ -107,9 +108,9 @@ const FreelanSignup = () => {
         </form>
         <p className="mt-4 text-center">
           Already have an account?{" "}
-          <a href="/login" className="text-green-600 hover:underline">
+          <Link to="/freelancer/Login" className="text-green-600 hover:underline">
             Log In
-          </a>
+          </Link>
         </p>
       </div>
     </div>

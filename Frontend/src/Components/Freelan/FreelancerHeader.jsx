@@ -1,12 +1,9 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext, useEffect , useState} from 'react'
 import { useLocation } from "react-router-dom";
 
 import { Link } from 'react-router-dom';
 import { UserDetailsContext } from '../../Context/UserDetailsContext'
 import logo from '../../Assets/logo.png'
-import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
-import workify from '../../Assets/logo.png'
 import Notification from './Notification'
 import { io } from 'socket.io-client';
 
@@ -26,10 +23,8 @@ export default function FreelancerHeader() {
     }, [location.pathname]);
 
     const { userDetails } = useContext(UserDetailsContext);
-    return (
-        <>
-            <header className="flex items-center justify-between px-6 py-3 shadow-md bg-white">
 
+    
     const [isOpn, SetIsOpen] = useState(false);
     const [newNoti, SetNewNoti] = useState(false);
     const socket = io("http://localhost:3000");
@@ -40,7 +35,6 @@ export default function FreelancerHeader() {
     })
 
     return (
-
         <>
             <header className="flex items-center justify-between px-6 py-3 shadow-md bg-white">
                 <div className="flex items-center gap-6">
@@ -81,10 +75,6 @@ export default function FreelancerHeader() {
                         <i className="fas fa-search absolute left-2 top-3 text-gray-500"></i>
                     </div>
                     <i class="fas fa-question"></i>
-                    <i class="far fa-bell text-xl"></i>
-                    <Link to='/freelancer/profile'>
-                        <img src={userDetails.profileImage} alt="" className='h-9 w-9 rounded-full' />
-                    </Link>
                     <div className='relative'>
 
                         <button onClick={() => { SetIsOpen(!isOpn); SetNewNoti(false) }} className='relative'>
@@ -94,12 +84,14 @@ export default function FreelancerHeader() {
 
                         {isOpn && <Notification set={SetNewNoti} />}
                     </div>
-                    <button className="text-black">Log in</button>
-                    <Link to='/SignUp' className="bg-green-600 text-white px-4 py-2 rounded-full">Sign up</Link>
-                </div>
+                    <Link to='/freelancer/profile'>
+                        <img src={userDetails.profileImage} alt="" className='h-9 w-9 rounded-full' />
+                    </Link>
+                    
+                    
+            </div>
             </header>
         </>
     )
-        </>
-    )
+       
 }
