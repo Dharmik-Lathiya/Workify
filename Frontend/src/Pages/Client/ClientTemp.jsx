@@ -1,12 +1,12 @@
 import React from 'react'
 import { Outlet } from 'react-router-dom'
-import FreelancerHeader from '../../Components/Freelan/FreelancerHeader'
 import Footer from '../../Components/Footer'
+import ClientHeader from '../../Components/Client/ClientHeader'
 
 export default function ClientTemp() {
   return (
     <>
-        <FreelancerHeader/>
+        <ClientHeader/>
         <Outlet/>
         <Footer/> 
     </>

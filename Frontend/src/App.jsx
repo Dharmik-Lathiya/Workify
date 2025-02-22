@@ -18,6 +18,8 @@ import Login from './Pages/Login.jsx'
 import { ClientDetailsProvider } from "/src/Context/ClientDetailsContext.jsx";
 import ClientSignup from './Pages/Client/ClientSignup.jsx'
 import ClientCreateProfile from './Pages/Client/ClientCreateProfile.jsx';
+import ClientHome from './Pages/Client/ClientHome.jsx';
+import ClientProfile from './Components/Client/ClientProfile.jsx';
 
 
 function App() {
@@ -31,7 +33,6 @@ function App() {
             <Route path="/Login" element={<Login />} />
             <Route path="/freelancer" element={<Temp />}>
               <Route path="SignUp" element={<FreelanSignup />} />
-              
               <Route path="create-profile" element={<CreateProfile />} />
               <Route path="home" element={<FreeLancerHome />} />
               <Route path="profile" element={<FreelancerProfile />} />
@@ -39,6 +40,8 @@ function App() {
             <Route path="/client" element={<ClientTemp />}>
               <Route path="SignUp" element={<ClientSignup />} />
               <Route path="create-profile" element={<ClientCreateProfile />} />
+              <Route path="home" element={<ClientHome/>} />
+              <Route path="profile" element={<ClientProfile/>} />
             </Route>
             <Route path='/chat' element={<Chat />} />
             <Route path='/chat/:id' element={<Chat />} />

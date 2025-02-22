@@ -12,7 +12,7 @@ export default function ClientStepOne() {
 
   return (
     <>
-      <section className="flex gap-20 mx-auto max-w-6xl items-center justify-center">
+      <section className="flex gap-20 mx-auto max-w-6xl items-center justify-center mt-44 mb-40">
         <div>
           <h2 className="text-2xl font-medium">Job Post Details</h2>
           <p className="text-4xl font-semibold mt-3 w-9/12">
