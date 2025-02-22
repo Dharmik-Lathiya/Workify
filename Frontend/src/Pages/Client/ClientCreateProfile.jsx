@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import logo from '../../Assets/logo.png'
 import ClientStepIntro from '../../Components/Client/ClientStepIntro';
+import ClientStepOne from '../../Components/Client/ClientStepOne';
+import ClientStepTwo from '../../Components/Client/ClientStepTwo';
 
 export default function ClientCreateProfile() {
     const [step, setStep] = useState(0);
@@ -33,6 +35,9 @@ export default function ClientCreateProfile() {
             }
 
             {step === 0 && (<ClientStepIntro nextStep={nextStep} />)}
+            {step === 1 && (<ClientStepOne nextStep={nextStep} />)}
+            {step === 2 && (<ClientStepTwo nextStep={nextStep} />)}
+            
 
             {step > 0 && step <= 10 && (
                 <div className="bg-white inset-x-0 bottom-0 p-5 shadow-2xs border-t-2 border-slate-300 w-full fixed">

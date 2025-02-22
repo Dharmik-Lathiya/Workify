@@ -3,6 +3,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import { useUser } from "../../Context/HeaderComponent";
 import { Link, useNavigate } from "react-router-dom";
 import { UserDetailsContext } from "../../Context/UserDetailsContext";
+import logo from '../../Assets/logo.png'
 
 const FreelanSignup = () => {
   const { userDetails, setUserDetails } = useContext(UserDetailsContext);
@@ -24,67 +25,72 @@ const FreelanSignup = () => {
     setUserDetails(formData);
     setUserType(formData);
 
-    fetch(import.meta.env.VITE_APP_BACKEND_URL + "/signup", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(
-        {
-          type: "devloper",
-          firstName: userDetails.firstName,
-          lastName: userDetails.lastName,
-          username: userDetails.username,
-          email: userDetails.email,
-          password: userDetails.password,
-        }
-      )
-    }).then((res) => {
-      res.json().then(data => {
-        console.log(data);
-        if (data.success) {
-          navigate("/freelancer/create-profile");
-        }
-        if (!data.success && data.message) {
-    
-          toast.error(data.message, {
-            position: "top-center",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: false,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-    
-          });
-        } else {
-    
-          data.details.map((detail) => {
-            toast.error(detail.message, {
-              position: "top-center",
-              autoClose: 5000,
-              hideProgressBar: false,
-              closeOnClick: false,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-              theme: "light",
-    
-            });
-    
-          })
-        }
+    // fetch(import.meta.env.VITE_APP_BACKEND_URL + "/signup", {
+    //   method: "POST",
+    //   headers: {
+    //     "Content-Type": "application/json"
+    //   },
+    //   body: JSON.stringify(
+    //     {
+    //       type: "devloper",
+    //       firstName: userDetails.firstName,
+    //       lastName: userDetails.lastName,
+    //       username: userDetails.username,
+    //       email: userDetails.email,
+    //       password: userDetails.password,
+    //     }
+    //   )
+    // }).then((res) => {
+    //   res.json().then(data => {
+    //     console.log(data);
+    //     if (data.success) {
+    //       navigate("/freelancer/create-profile");
+    //     }
+    //     if (!data.success && data.message) {
 
-      })
-    })
-   
+    //       toast.error(data.message, {
+    //         position: "top-center",
+    //         autoClose: 5000,
+    //         hideProgressBar: false,
+    //         closeOnClick: false,
+    //         pauseOnHover: true,
+    //         draggable: true,
+    //         progress: undefined,
+    //         theme: "light",
+
+    //       });
+    //     } else {
+
+    //       data.details.map((detail) => {
+    //         toast.error(detail.message, {
+    //           position: "top-center",
+    //           autoClose: 5000,
+    //           hideProgressBar: false,
+    //           closeOnClick: false,
+    //           pauseOnHover: true,
+    //           draggable: true,
+    //           progress: undefined,
+    //           theme: "light",
+
+    //         });
+
+    //       })
+    //     }
+
+    //   })
+    // })
+
   };
 
   return (
-
-
+<>
+    <header className="border-b p-3 flex flex-row items-center  justify-between bg-white sticky  top-0">
+        <img src={logo} alt="logo" className="h-10" />
+        <h1 className="text-2xl font-semibold">Create Profile</h1>
+      </header>
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
+      
+
       <ToastContainer
         position="top-center"
         autoClose={5000}
@@ -176,12 +182,13 @@ const FreelanSignup = () => {
         </form>
         <p className="mt-4 text-center">
           Already have an account?{" "}
-          <Link to="/freelancer/Login" className="text-green-600 hover:underline">
+          <Link to="/Login" className="text-green-600 hover:underline">
             Log In
           </Link>
         </p>
       </div>
     </div>
+    </>
   );
 };
 

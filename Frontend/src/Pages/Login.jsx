@@ -1,9 +1,11 @@
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { ToastContainer, toast } from 'react-toastify';
+import Footer from '../Components/Footer';
+import logo from '../Assets/logo.png'
 
 
-export default function FreelanerLogin() {
+export default function Login() {
 
     const navigate = useNavigate()
     const [data, setData] = useState({
@@ -61,7 +63,10 @@ export default function FreelanerLogin() {
     }
     return (
         <>
-
+            <header className="border-b p-3 flex flex-row items-center  justify-between bg-white sticky  top-0">
+                    <img src={logo} alt="logo" className="h-10" />
+                    <h1 className="text-2xl font-semibold">Create Profile</h1>
+                  </header>
             <ToastContainer
                 position="top-center"
                 autoClose={5000}
@@ -85,7 +90,7 @@ export default function FreelanerLogin() {
                     </button>
 
                     <p className='mt-5 text-[15px]'>Don't have an Workify account? </p>
-                    <Link to="/freelancer/signup">
+                    <Link to="/signup">
                         <button className='w-40 bg- h-9 text-green-500 rounded-xl mt-2 border-2 border-green-500'>
                             Sign Up
                         </button>
@@ -93,6 +98,7 @@ export default function FreelanerLogin() {
                 </div>
 
             </div>
+            <Footer/>
         </>
     )
 }

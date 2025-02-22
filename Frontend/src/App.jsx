@@ -14,7 +14,7 @@ import Notification from './Components/notification/Notification.jsx';
 import Temp from './Pages/Freelan/Temp.jsx';
 import ClientTemp from './Pages/Client/ClientTemp.jsx';
 import FreelancerProfile from './Components/Freelan/FreelancerProfile.jsx';
-import FreelanerLogin from './Pages/Freelan/FreelanerLogin.jsx';
+import Login from './Pages/Login.jsx'
 import { ClientDetailsProvider } from "/src/Context/ClientDetailsContext.jsx";
 import ClientSignup from './Pages/Client/ClientSignup.jsx'
 import ClientCreateProfile from './Pages/Client/ClientCreateProfile.jsx';
@@ -28,9 +28,10 @@ function App() {
           <Routes>
             <Route path="/" element={<LandingPage />} />
             <Route path="/signup" element={<Signup />} />
+            <Route path="/Login" element={<Login />} />
             <Route path="/freelancer" element={<Temp />}>
               <Route path="SignUp" element={<FreelanSignup />} />
-              <Route path="Login" element={<FreelanerLogin />} />
+              
               <Route path="create-profile" element={<CreateProfile />} />
               <Route path="home" element={<FreeLancerHome />} />
               <Route path="profile" element={<FreelancerProfile />} />
@@ -38,7 +39,6 @@ function App() {
             <Route path="/client" element={<ClientTemp />}>
               <Route path="SignUp" element={<ClientSignup />} />
               <Route path="create-profile" element={<ClientCreateProfile />} />
-
             </Route>
             <Route path='/chat' element={<Chat />} />
             <Route path='/chat/:id' element={<Chat />} />
