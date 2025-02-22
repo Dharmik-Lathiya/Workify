@@ -1,11 +1,11 @@
 const Joi = require('joi')
 
 const schema = Joi.object({
-    email: Joi.string().email().required().messages({
-        'string.empty': 'Email is required',
-        'string.email': 'Invalid email format'
+    value: Joi.string()
+    .required()
+    .messages({
+        "string.empty": "Email or username is required"
     }),
-    
     password: Joi.string()
         .min(8)
         .max(30)
@@ -14,8 +14,7 @@ const schema = Joi.object({
             'string.empty': 'Password is required',
             'string.min': 'Password must be at least 8 characters',
             'string.max': 'Password must be at most 30 characters',
-        }),
-        type:Joi.string()
+        })
         
 }).options({ abortEarly: false });
 

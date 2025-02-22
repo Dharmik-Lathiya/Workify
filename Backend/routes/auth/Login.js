@@ -5,10 +5,9 @@ const bcrypt = require('bcrypt');
 
 const Login = async (req, res) => {
 
-    let ExistingUser = await userSchema.findOne({ email: res.locals.data.email });
+    let ExistingUser = await userSchema.findOne({ $or:[{email:req.body.value},{username:req.body.value}] });
     if (!ExistingUser) {
-
-        ExistingUser = await clientSchema.findOne({ email: res.locals.data.email });
+        ExistingUser = await clientSchema.findOne({ $or:[{email:req.body.value},{username:req.body.value}] });
     } 
 
     if (ExistingUser) {

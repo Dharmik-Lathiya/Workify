@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-
+import { ToastContainer, toast } from 'react-toastify';
 import { useUser } from "../../Context/HeaderComponent";
 import { Link, useNavigate } from "react-router-dom";
 import { UserDetailsContext } from "../../Context/UserDetailsContext";
@@ -23,12 +23,80 @@ const FreelanSignup = () => {
     e.preventDefault();
     setUserDetails(formData);
     setUserType(formData);
-    console.log("User Registered:", formData);
-    navigate("/freelancer/create-profile");
+
+    fetch(import.meta.env.VITE_APP_BACKEND_URL + "/signup", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(
+        {
+          type: "devloper",
+          firstName: userDetails.firstName,
+          lastName: userDetails.lastName,
+          username: userDetails.username,
+          email: userDetails.email,
+          password: userDetails.password,
+        }
+      )
+    }).then((res) => {
+      res.json().then(data => {
+        console.log(data);
+        if (data.success) {
+          navigate("/freelancer/create-profile");
+        }
+        if (!data.success && data.message) {
+    
+          toast.error(data.message, {
+            position: "top-center",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: false,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+    
+          });
+        } else {
+    
+          data.details.map((detail) => {
+            toast.error(detail.message, {
+              position: "top-center",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: false,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "light",
+    
+            });
+    
+          })
+        }
+
+      })
+    })
+   
   };
 
   return (
+
+
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
+      <ToastContainer
+        position="top-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick={false}
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
       <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
         <h2 className="text-2xl font-bold mb-6 text-center">Sign Up</h2>
         <form onSubmit={handleSubmit} className="space-y-4">
