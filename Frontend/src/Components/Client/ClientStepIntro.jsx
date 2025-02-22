@@ -1,23 +1,21 @@
-import React, { useContext } from 'react'
+import React,{useContext} from 'react'
 import Slider from "react-slick";
-import userIcon from '../../Assets/userIcon.png';
+import userIcon from '../../Assets/userIcon.png'
 import "slick-carousel/slick/slick.css"; 
 import "slick-carousel/slick/slick-theme.css";
 import { UserDetailsContext } from '../../Context/UserDetailsContext';
 
-export default function StepIntro({ nextStep }) {
-
-  const {userDetails} = useContext(UserDetailsContext)
-  var settings = {
-          dots: true,
-          infinite: true,
-          speed: 100,
-          autoplaySpeed: 2000,
-          slidesToShow: 1,
-          slidesToScroll: 1,
-        };
+export default function ClientStepIntro({ nextStep }) {
+    const {userDetails} = useContext(UserDetailsContext)
+      var settings = {
+              dots: true,
+              infinite: true,
+              speed: 100,
+              autoplaySpeed: 2000,
+              slidesToShow: 1,
+              slidesToScroll: 1,
+            };
   return (
-    
     <div className="flex justify-center items-center h-[78dvh] px-6">
       <div className="bg-white p-8 rounded-lg shadow-lg  w-1/2 flex items-center flex-col mx-auto mt-10">
         <h2 className="text-3xl font-semibold mb-4">Hey {userDetails.firstName}. Ready for your next big opportunity?</h2>

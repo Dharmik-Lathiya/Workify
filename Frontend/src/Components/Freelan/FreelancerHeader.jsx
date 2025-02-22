@@ -11,10 +11,7 @@ export default function FreelancerHeader() {
 
     const location = useLocation();
 
-    console.log("lodo", location);
-
-
-    if ((window.location.pathname === "/freelancer/signup") || (window.location.pathname === "/freelancer/create-profile")) {
+    if ((window.location.pathname === "/freelancer/signup") || (window.location.pathname === "/freelancer/create-profile") || (window.location.pathname === "/client/signup") || (window.location.pathname === "/client/create-profile")) {
         return;
     }
 

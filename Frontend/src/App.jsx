@@ -12,31 +12,42 @@ import Chat from './Components/chat/Chat';
 import FreeLancerHome from './Pages/Freelan/FreeLancerHome.jsx';
 import Notification from './Components/notification/Notification.jsx';
 import Temp from './Pages/Freelan/Temp.jsx';
+import ClientTemp from './Pages/Client/ClientTemp.jsx';
 import FreelancerProfile from './Components/Freelan/FreelancerProfile.jsx';
 import FreelanerLogin from './Pages/Freelan/FreelanerLogin.jsx';
+import { ClientDetailsProvider } from "/src/Context/ClientDetailsContext.jsx";
+import ClientSignup from './Pages/Client/ClientSignup.jsx'
+import ClientCreateProfile from './Pages/Client/ClientCreateProfile.jsx';
+
 
 function App() {
   return (
     <UserDetailsProvider>
-      <UserProvider>
-        <Routes>
-          <Route path="/" element={<LandingPage />} />
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/freelancer" element={<Temp />}>
-            <Route path="SignUp" element={<FreelanSignup />} />
-            <Route path="Login" element={<FreelanerLogin />} />
+      <ClientDetailsProvider>
+        <UserProvider>
+          <Routes>
+            <Route path="/" element={<LandingPage />} />
+            <Route path="/signup" element={<Signup />} />
+            <Route path="/freelancer" element={<Temp />}>
+              <Route path="SignUp" element={<FreelanSignup />} />
+              <Route path="Login" element={<FreelanerLogin />} />
+              <Route path="create-profile" element={<CreateProfile />} />
+              <Route path="home" element={<FreeLancerHome />} />
+              <Route path="profile" element={<FreelancerProfile />} />
+            </Route>
+            <Route path="/client" element={<ClientTemp />}>
+              <Route path="SignUp" element={<ClientSignup />} />
+              <Route path="create-profile" element={<ClientCreateProfile />} />
 
-            <Route path="create-profile" element={<CreateProfile />} />
-            <Route path="home" element={<FreeLancerHome />} />
-            <Route path="profile" element={<FreelancerProfile/>} />
-          </Route>
-          <Route path='/chat' element={<Chat />} />
-          <Route path='/chat/:id' element={<Chat />} />
-          <Route path='/freelancer-dashboard' element={<FreeLancerHome />} />
-          <Route path='/notification' element={<Notification />} />
-        </Routes>
-        
-      </UserProvider>
+            </Route>
+            <Route path='/chat' element={<Chat />} />
+            <Route path='/chat/:id' element={<Chat />} />
+            <Route path='/freelancer-dashboard' element={<FreeLancerHome />} />
+            <Route path='/notification' element={<Notification />} />
+          </Routes>
+
+        </UserProvider>
+      </ClientDetailsProvider>
     </UserDetailsProvider>
   );
 }

@@ -1,15 +1,15 @@
-import React, { useState, useContext } from "react";
-import { ToastContainer, toast } from 'react-toastify';
+import React,{useState,useContext} from 'react'
 import { useUser } from "../../Context/HeaderComponent";
 import { Link, useNavigate } from "react-router-dom";
-import { UserDetailsContext } from "../../Context/UserDetailsContext";
+import { ClientDetailsContext } from '../../Context/ClientDetailsContext';
 
-const FreelanSignup = () => {
-  const { userDetails, setUserDetails } = useContext(UserDetailsContext);
+export default function ClientSignup() {
+    
+const { clientDetails, setClientDetails } = useContext(ClientDetailsContext);
   const { setUserType } = useUser();
   const navigate = useNavigate();
 
-  const [formData, setFormData] = useState(userDetails);
+  const [formData, setFormData] = useState(clientDetails);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -21,84 +21,18 @@ const FreelanSignup = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setUserDetails(formData);
+    setClientDetails(formData);
     setUserType(formData);
-
-    fetch(import.meta.env.VITE_APP_BACKEND_URL + "/signup", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(
-        {
-          type: "devloper",
-          firstName: userDetails.firstName,
-          lastName: userDetails.lastName,
-          username: userDetails.username,
-          email: userDetails.email,
-          password: userDetails.password,
-        }
-      )
-    }).then((res) => {
-      res.json().then(data => {
-        console.log(data);
-        if (data.success) {
-          navigate("/freelancer/create-profile");
-        }
-        if (!data.success && data.message) {
-    
-          toast.error(data.message, {
-            position: "top-center",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: false,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-    
-          });
-        } else {
-    
-          data.details.map((detail) => {
-            toast.error(detail.message, {
-              position: "top-center",
-              autoClose: 5000,
-              hideProgressBar: false,
-              closeOnClick: false,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-              theme: "light",
-    
-            });
-    
-          })
-        }
-
-      })
-    })
-   
+    navigate("/client/create-profile");
   };
 
+
+
   return (
-
-
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <ToastContainer
-        position="top-center"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick={false}
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="light"
-      />
+    <>
+      <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
-        <h2 className="text-2xl font-bold mb-6 text-center">Sign Up For Freelancers</h2>
+        <h2 className="text-2xl font-bold mb-6 text-center">Sign Up For Clients</h2>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="flex space-x-4">
             <input
@@ -182,7 +116,6 @@ const FreelanSignup = () => {
         </p>
       </div>
     </div>
-  );
-};
-
-export default FreelanSignup;
+    </>
+  )
+}
