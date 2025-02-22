@@ -3,18 +3,18 @@ const Joi = require('joi')
 const schema = Joi.object({
     firstName: Joi.string().min(5).max(50).required().messages({
         'string.empty':'First name is required',
-        'string.min': 'First name must be at least 2 characters',
+        'string.min': 'First name must be at least 5 characters',
         'string.max': 'First name must be at most 50 characters'
     }),
     
     lastName: Joi.string().min(5).max(50).required().messages({
         'string.empty': 'Last name is required',
-        'string.min': 'Last name must be at least 2 characters',
+        'string.min': 'Last name must be at least 5 characters',
         'string.max': 'Last name must be at most 50 characters'
     }),
     username: Joi.string().min(5).max(50).required().messages({
         'string.empty': 'username is required',
-        'string.min': 'username must be at least 2 characters',
+        'string.min': 'username must be at least 5 characters',
         'string.max': 'username must be at most 50 characters'
     }),
     
@@ -37,6 +37,8 @@ const schema = Joi.object({
 
 const validationSignup = (req,res,next) => {
 
+    console.log(req.body);
+    
     const {firstName,lastName,username,email,password} = req.body
     const {error , value} = schema.validate({firstName:firstName,lastName:lastName,username:username,email:email,password:password})
     

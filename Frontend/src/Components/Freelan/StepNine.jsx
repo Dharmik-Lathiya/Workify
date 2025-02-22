@@ -3,9 +3,9 @@ import { UserDetailsContext } from "../../Context/UserDetailsContext.jsx";
 import logo from "../../Assets/UserIcon.png";
 
 export default function StepNine() {
-  const { userDetails, setUserDetails } = useContext(UserDetailsContext);
-
-  // Initialize form data
+  const { userDetails, setUserDetails,userId } = useContext(UserDetailsContext);
+  const [flag,setFlag] = useState(false)
+  // Initialize form data 
   const [formData, setFormData] = useState({
     bio: "",
     dob: "",
@@ -25,7 +25,43 @@ export default function StepNine() {
       ...prev,
       ...userDetails,
     }));
-  }, [userDetails]);
+
+    if(flag){
+      fetch(import.meta.env.VITE_APP_BACKEND_URL+"/updateuser",{
+        method:"PUT",
+        headers:{
+          "Content-Type":"application/json"
+        },
+        body:JSON.stringify(
+          {
+            id: userId,
+            update:{
+            type:"devloper",
+            skills:userDetails.selectedSkills,
+            title:userDetails.professionalTitle,
+            photo:userDetails.profileImage,
+            dob:userDetails.dob,
+            address:userDetails.street + " " + userDetails.apt + " " + userDetails.city + " " + userDetails.zip + " " + userDetails.state ,
+            country:userDetails.country,
+            phone:userDetails.phone,
+            languages:userDetails.languages,
+            bio:userDetails.bio,
+            price:215,
+            experience:userDetails.experiences,
+            educaton:userDetails.education
+            }
+        
+        }
+        )
+      }).then((res)=>{
+        res.json().then(data=>{
+          console.log(data);
+          
+        })
+      })
+  
+    }
+  }, [userDetails,flag]);
 
   // Handle text inputs
   const handleChange = (e) => {
@@ -51,43 +87,10 @@ export default function StepNine() {
       ...prev,
       ...formData, 
     }));
+    setFlag(true)
     console.log("Updated Profile Details:", formData.profileImage); // This should log the base64 image
 
-    fetch(import.meta.env.VITE_APP_BACKEND_URL+"/signup",{
-      method:"POST",
-      headers:{
-        "Content-Type":"application/json"
-      },
-      body:JSON.stringify(
-        {
-          type:"devloper",
-          firstName:userDetails.firstName,
-          lastName:userDetails.lastName,
-          username:userDetails.username,
-          email:userDetails.email,
-          password:userDetails.password,
-          skills:userDetails.selectedSkills,
-          title:userDetails.professionalTitle,
-          photo:userDetails.profileImage,
-          dob:userDetails.dob,
-          address:userDetails.street + " " + userDetails.apt + " " + userDetails.city + " " + userDetails.zip + " " + userDetails.state ,
-          country:userDetails.country,
-          phone:userDetails.phone,
-          languages:userDetails.languages,
-          bio:userDetails.bio,
-          price:215,
-          experience:userDetails.experiences,
-          educaton:userDetails.education
-      
-      }
-      )
-    }).then((res)=>{
-      res.json().then(data=>{
-        console.log(data);
-        
-      })
-    })
-
+    
   };
   
 

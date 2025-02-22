@@ -21,7 +21,7 @@ export default function CreateProfile() {
   let name = 'Dharmik';
 
 
-
+  
   
   return (
     <>
@@ -75,7 +75,7 @@ export default function CreateProfile() {
               <button onClick={nextStep} className="bg-green-600 text-white py-2 px-4 rounded-lg">Next</button>
             )}
             {step === 10 && (
-              <Link to='/freelancer/home' onClick={nextStep} className="bg-green-600 text-white py-2 px-4 rounded-lg">Submit</Link>
+              <Link to='/freelancer/home'  onClick={nextStep }  className="bg-green-600 text-white py-2 px-4 rounded-lg">Submit</Link>
             )}
           </div>
         </div>

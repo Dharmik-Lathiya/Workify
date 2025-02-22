@@ -1,14 +1,18 @@
 import React, { useEffect, useState } from 'react'
 import { set, ref, onValue } from "firebase/database";
 import { useParams } from 'react-router-dom';
+import { UserDetailsContext } from '../../Context/UserDetailsContext';
 import ChatHeader from './ChatHeader';
 
 export default function ChatSide({ db }) {
+
+    const {userId} =useContext(UserDetailsContext);
     const { id } = useParams();
     const [message, setMessage] = useState('')
     const [chats, setChats] = useState([]);
     const [isDisabled, setIsDisabled] = useState(true)
-
+    console.log(userId);
+    
     useEffect(() => {
 
         if (id) {

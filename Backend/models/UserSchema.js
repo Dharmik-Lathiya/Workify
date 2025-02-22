@@ -24,7 +24,7 @@ const userSchema = new mongoose.Schema({
     country: { type: String },
     phone: { type: Number },
     languages: [{
-        lang: String,
+        name: String,
         proficiency: String
     }],
     bio: { type: String },
