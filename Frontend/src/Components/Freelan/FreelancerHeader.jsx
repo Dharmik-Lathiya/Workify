@@ -48,7 +48,6 @@ export default function FreelancerHeader() {
                             </li>
                             <li className="relative group cursor-pointer flex items-center gap-1">
                                 Find work
-                                Find work
                             </li>
                             <li className="relative group cursor-pointer flex items-center gap-1">
                                 Why Upwork

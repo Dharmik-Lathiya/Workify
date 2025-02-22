@@ -3,6 +3,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import { useUser } from "../../Context/HeaderComponent";
 import { Link, useNavigate } from "react-router-dom";
 import { UserDetailsContext } from "../../Context/UserDetailsContext";
+import logo from '../../Assets/logo.png'
 
 const FreelanSignup = () => {
   const { userDetails, setUserDetails ,userId,SetUserId} = useContext(UserDetailsContext);
@@ -100,9 +101,14 @@ const FreelanSignup = () => {
   },[userDetails])
 
   return (
-
-
+<>
+    <header className="border-b p-3 flex flex-row items-center  justify-between bg-white sticky  top-0">
+        <img src={logo} alt="logo" className="h-10" />
+        <h1 className="text-2xl font-semibold">Create Profile</h1>
+      </header>
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
+      
+
       <ToastContainer
         position="top-center"
         autoClose={5000}
@@ -194,12 +200,13 @@ const FreelanSignup = () => {
         </form>
         <p className="mt-4 text-center">
           Already have an account?{" "}
-          <Link to="/freelancer/Login" className="text-green-600 hover:underline">
+          <Link to="/Login" className="text-green-600 hover:underline">
             Log In
           </Link>
         </p>
       </div>
     </div>
+    </>
   );
 };
 

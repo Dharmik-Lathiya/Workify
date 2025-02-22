@@ -12,6 +12,7 @@ export const ClientDetailsProvider = ({ children }) => {
         password: "",
         country: "India",
         agreeToTerms: false,
+        jobTitle:"",
     });
 
 

@@ -36,7 +36,7 @@ export default function LandingHeader() {
                         />
                         <i className="fas fa-search absolute left-2 top-2.5 text-gray-500"></i>
                     </div>
-                    <button className="text-black">Log in</button>
+                    <Link to='/Login' className="text-black">Log in</Link>
                     <Link to='/SignUp' className="bg-green-600 text-white px-4 py-2 rounded-full">Sign up</Link>
                 </div>
             </header>
