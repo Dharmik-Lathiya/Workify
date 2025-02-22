@@ -12,7 +12,10 @@ const addChat = require('./chat/AddChat');
 const getChat = require('./chat/getChats');
 const addNotification = require('./notification/AddNotification');
 const getNotification = require('./notification/getNotification');
-const getUser = require('./getters/getUser')
+const getUser = require('./getters/getUser');
+const educationDeleter = require('./deleter/EducationDeleter');
+const experienceDeleter = require('./deleter/ExperienceDeleter');
+const portfolioDeleter = require('./deleter/PortfolioDeleter');
 
 
 routes.get("/getuser/:type/:id",getUser);
@@ -30,4 +33,7 @@ routes.put("/updateuser",userUpdater);
 routes.put("/addchat",addChat);
 routes.put("/addnotification",addNotification);
 
+routes.delete("/deleteeducation",educationDeleter);
+routes.delete("/deleteexperience",experienceDeleter);
+routes.delete("/deleteportfolio",portfolioDeleter);
 module.exports = routes

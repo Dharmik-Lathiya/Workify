@@ -29,9 +29,10 @@ export const UserDetailsProvider = ({ children }) => {
     phone: "",
     profileImage: "",
   });
+  const [userId , SetUserId] = useState('');
 
   return (
-    <UserDetailsContext.Provider value={{ userDetails, setUserDetails }}>
+    <UserDetailsContext.Provider value={{ userDetails, setUserDetails,userId ,SetUserId}}>
       {children}
     </UserDetailsContext.Provider>
   );

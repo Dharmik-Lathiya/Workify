@@ -1,11 +1,11 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { ToastContainer, toast } from 'react-toastify';
 import { useUser } from "../../Context/HeaderComponent";
 import { Link, useNavigate } from "react-router-dom";
 import { UserDetailsContext } from "../../Context/UserDetailsContext";
 
 const FreelanSignup = () => {
-  const { userDetails, setUserDetails } = useContext(UserDetailsContext);
+  const { userDetails, setUserDetails ,userId,SetUserId} = useContext(UserDetailsContext);
   const { setUserType } = useUser();
   const navigate = useNavigate();
 
@@ -21,9 +21,22 @@ const FreelanSignup = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setUserDetails(formData);
-    setUserType(formData);
+    setUserDetails((prevDetails) => ({
+      ...prevDetails,
+      ...formData,
+    }));
+    setUserType((prevDetails) => ({
+      ...prevDetails,
+      ...formData,
+    }));
 
+   
+  };
+
+  useEffect(()=>{
+
+
+    if(formData.agreeToTerms)
     fetch(import.meta.env.VITE_APP_BACKEND_URL + "/signup", {
       method: "POST",
       headers: {
@@ -42,7 +55,12 @@ const FreelanSignup = () => {
     }).then((res) => {
       res.json().then(data => {
         console.log(data);
+        
         if (data.success) {
+          SetUserId((pervId) =>{
+            return data._id
+          })
+          
           navigate("/freelancer/create-profile");
         }
         if (!data.success && data.message) {
@@ -78,8 +96,8 @@ const FreelanSignup = () => {
 
       })
     })
-   
-  };
+
+  },[userDetails])
 
   return (
 

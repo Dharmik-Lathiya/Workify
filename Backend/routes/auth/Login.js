@@ -4,9 +4,10 @@ const clientSchema = require("../../models/ClientSchema")
 const bcrypt = require('bcrypt');
 
 const Login = async (req, res) => {
-
+    let type ="devloper"
     let ExistingUser = await userSchema.findOne({ $or:[{email:req.body.value},{username:req.body.value}] });
     if (!ExistingUser) {
+        type ="client"
         ExistingUser = await clientSchema.findOne({ $or:[{email:req.body.value},{username:req.body.value}] });
     } 
 
@@ -18,6 +19,7 @@ const Login = async (req, res) => {
             res.status(200).send({
                 success: true,
                 message: "login successfull",
+                type:type,
                 _id:ExistingUser._id
             })
 
