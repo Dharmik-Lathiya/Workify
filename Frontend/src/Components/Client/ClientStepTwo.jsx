@@ -1,30 +1,37 @@
 import React, { useState, useContext } from "react";
-import {ClientDetailsContext} from '../../Context/ClientDetailsContext'
+import { ClientDetailsContext } from "../../Context/ClientDetailsContext";
 
 export default function ClientStepTwo() {
-    const {clientDetails, setClientDetails} = useContext(ClientDetailsContext);
-  const [inputSkill, setInputSkill] = useState("");  
-  const [skills, setSkills] = useState(["Html", "Css", "Js", "Php", "React.js", "Node.js"]); 
-  const [selectedSkills,setSelectedSkills] = useState(clientDetails.skills || []); 
+  const { clientDetails, setClientDetails } = useContext(ClientDetailsContext);
+  const [inputSkill, setInputSkill] = useState("");
+  const [skills, setSkills] = useState(["Html", "Css", "Js", "Php", "React.js", "Node.js"]);
+  // Initialize from the nested job object
+  const [selectedSkills, setSelectedSkills] = useState(clientDetails.job.skills || []);
 
-  const selectedSkill = (e) =>{
-    let selSkill = e.target.dataset.skill ; 
+  const selectedSkill = (e) => {
+    const selSkill = e.target.dataset.skill;
     if (!selectedSkills.includes(selSkill)) {
-        const updatedSkills = [...selectedSkills, selSkill];
-            setSelectedSkills(updatedSkills);
-        setClientDetails({ ...clientDetails, skills: updatedSkills });
-      }
-  console.log(clientDetails.skills);
-  }
+      const updatedSkills = [...selectedSkills, selSkill];
+      setSelectedSkills(updatedSkills);
+      // Update the nested job object's skills array
+      setClientDetails((prev) => ({
+        ...prev,
+        job: {
+          ...prev.job,
+          skills: updatedSkills,
+        },
+      }));
+    }
+    console.log(clientDetails.job.skills);
+  };
 
   const addInputSkill = () => {
     if (inputSkill.trim() !== "") {
-      setSkills([...skills, inputSkill]); 
-      setInputSkill("");  
+      setSkills([...skills, inputSkill]);
+      setInputSkill("");
     }
   };
 
-  
   return (
     <>
       <section className="flex mx-auto max-w-6xl items-center justify-center gap-10 mt-34 mb-40">
@@ -37,7 +44,7 @@ export default function ClientStepTwo() {
 
         <div className="flex flex-col justify-start">
           <p className="text-[16px] font-medium mt-4">Selected List</p>
-          <div className="text-[15px] mt-2 *:border-slate-200 *:my-1 *:border-2 *:p-2 *:rounded-2xl *:mx-1 w-80">
+          <div className="text-[15px] mt-2 border-slate-200 my-1 border-2 p-2 rounded-2xl mx-1 w-80">
             {selectedSkills.map((skill, index) => (
               <button key={index} className="border-2 border-slate-300 px-3 py-1 rounded-xl">
                 {skill}
@@ -47,9 +54,14 @@ export default function ClientStepTwo() {
 
           {/* Skills section */}
           <span className="text-[16px] font-medium mt-4">Popular skills for Web Design</span>
-          <div id="allSkils" className="text-[15px] mt-2 *:border-slate-200 *:my-1 *:border-2 *:p-2 *:rounded-2xl *:mx-1 w-80">
+          <div id="allSkils" className="text-[15px] mt-2 border-slate-200 my-1 border-2 p-2 rounded-2xl mx-1 w-80">
             {skills.map((skill, index) => (
-              <button key={index} className="border-2 border-slate-300 px-3 py-1 rounded-xl" data-skill={skill} onClick={selectedSkill}>
+              <button
+                key={index}
+                className="border-2 border-slate-300 px-3 py-1 rounded-xl"
+                data-skill={skill}
+                onClick={selectedSkill}
+              >
                 {skill}
               </button>
             ))}
@@ -63,11 +75,11 @@ export default function ClientStepTwo() {
               className="border-2 border-slate-300 w-80 rounded m-2"
               id="inputSkill"
               value={inputSkill}
-              onChange={(e) => setInputSkill(e.target.value)}  
+              onChange={(e) => setInputSkill(e.target.value)}
             />
             <button
               className="p-1 border-2 border-slate-200 px-5 rounded-xl"
-              onClick={addInputSkill} 
+              onClick={addInputSkill}
             >
               Add
             </button>

@@ -8,7 +8,7 @@ export default function ClientStepFive() {
   const handleDescriptionChange = (e) => {
     const newDesc = e.target.value;
 
-    // Update the context
+
     setClientDetails((prev) => ({
       ...prev,
       job: {

@@ -3,16 +3,26 @@ import { ClientDetailsContext } from "../../Context/ClientDetailsContext";
 
 export default function ClientStepOne() {
   const { clientDetails, setClientDetails } = useContext(ClientDetailsContext);
-  const [title, setTitle] = useState(clientDetails.title || ""); 
+  
+  // Initialize the title from the nested job object
+  const [title, setTitle] = useState(clientDetails.job.jobTitle || "");
 
   const handleChange = (e) => {
-    setTitle(e.target.value);
-    setClientDetails((prev) => ({ ...prev, title: e.target.value })); 
+    const newTitle = e.target.value;
+    setTitle(newTitle);
+    // Update the nested job object with the new title
+    setClientDetails((prev) => ({
+      ...prev,
+      job: {
+        ...prev.job,
+        jobTitle: newTitle,
+      },
+    }));
   };
 
   return (
     <>
-      <section className="flex gap-20 mx-auto max-w-6xl items-center justify-center mt-44 mb-40">
+      <section className="flex gap-20 mx-auto max-w-6xl items-center justify-center mt-36 mb-40">
         <div>
           <h2 className="text-2xl font-medium">Job Post Details</h2>
           <p className="text-4xl font-semibold mt-3 w-9/12">
@@ -37,6 +47,7 @@ export default function ClientStepOne() {
             <li>Facebook ad specialist needed for product launch</li>
           </ul>
         </div>
+        
       </section>
     </>
   );
