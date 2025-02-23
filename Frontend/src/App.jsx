@@ -20,6 +20,8 @@ import ClientSignup from './Pages/Client/ClientSignup.jsx'
 import ClientCreateProfile from './Pages/Client/ClientCreateProfile.jsx';
 import ClientHome from './Pages/Client/ClientHome.jsx';
 import ClientProfile from './Components/Client/ClientProfile.jsx';
+import ClientDevelperSearch from './Components/Client/ClientDevelperSearch.jsx';
+import DeveloperProfile from './Components/Client/DeveloperProfile.jsx';
 import { UserDetailsContext } from "./Context/UserDetailsContext";
 import { ClientDetailsContext } from './Context/ClientDetailsContext';
 
@@ -43,6 +45,12 @@ function App() {
             <Route path="/client" element={<ClientTemp />}>
 
               <Route path="SignUp" element={<ClientSignup />} />
+              <Route path="create-profile" element={<ClientCreateProfile />} />
+              <Route path="home" element={<ClientHome/>} />
+              <Route path="profile" element={<ClientProfile/>} />
+              <Route path="find-developer" element={<ClientDevelperSearch/>} />
+              <Route path="developer-profile/:id" element={<DeveloperProfile />} />            
+
 
               {clinetId ? <Route path="create-profile" element={<ClientCreateProfile />} /> : <Route path="create-profile" element={<Navigate to={'/client/signup'}/>}  /> }
               {clinetId ? <Route path="home" element={<ClientHome/>} /> : <Route path="home" element={<Navigate to={'/client/signup'}/>}  /> }

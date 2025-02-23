@@ -1,96 +1,153 @@
-import React, { useContext, useState } from 'react'
-import { UserDetailsContext } from '../../Context/UserDetailsContext'
+import React, { useContext, useState, useEffect } from "react";
+import { ClientDetailsContext } from "../../Context/ClientDetailsContext";
 
 export default function ClientProfile() {
-    const { userDetails } = useContext(UserDetailsContext);
-    const [title, setTitle] = useState("Web Designing");
-    const [rate, setRate] = useState("$60.00/hr");
-    const [skills, setSkills] = useState("Web Design, UI/UX");
-    const [isEditingTitle, setIsEditingTitle] = useState(false);
-    const [newTitle, setNewTitle] = useState(title);
+  const { clientDetails, setClientDetails } = useContext(ClientDetailsContext);
+  const [showPopup, setShowPopup] = useState(false);
+  
+  // Initialize formData from clientDetails
+  const [formData, setFormData] = useState(clientDetails);
 
-    return (
-        <>
-            <div class="max-w-6xl mt-10 mx-auto bg-white p-6 rounded-lg shadow-md">
-                <div class="flex justify-between items-center mb-4">
+  // Sync formData with clientDetails when context updates
+  useEffect(() => {
+    setFormData(clientDetails);
+  }, [clientDetails]);
 
-                    <div className='flex'>
-                        <div>
-                            <img src={userDetails.profileImage} alt="" className='h-28 w-28 rounded-full' />
-                        </div>
-                        <div className='flex-col ml-10'>
-                            <h1 class="font-semibold text-4xl">Dharmik F.</h1>
-                            <p class="text-gray-500 mt-3">📍 Rajkot, India - 5:49 pm local time</p>
-                        </div>
-                    </div>
-                    <div className='flex gap-5'>
+  // Handle input change
+  const handleChange = (e) => {
+    const { name, value, type, checked, files } = e.target;
 
-                        <button class="px-4 py-2 border-2 border-green-500 text-green-500 rounded-lg">See public view</button>
-                        <button class="px-4 py-2 bg-green-500 text-white rounded-lg">Profile Settings</button>
-                    </div>
-                </div>
+    if (type === "file") {
+      const file = files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          setFormData((prev) => ({ ...prev, photo: reader.result }));
+        };
+        reader.readAsDataURL(file);
+      }
+    } else {
+      setFormData((prev) => ({
+        ...prev,
+        [name]: type === "checkbox" ? checked : value,
+      }));
+    }
+  };
 
+  // Handle form submission
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log("Updated Data:", formData);
+    setClientDetails(formData); // Update context with new data
+    setShowPopup(false); // Close popup
+  };
 
-        {/* Profile Sidebar */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-10">
-          <div className="md:col-span-1">
-            <div className="bg-gray-200 p-4 rounded-lg">
-              <h2 className="text-xl font-semibold">Profile Details</h2>
-              <ul className="mt-4 text-sm text-gray-700">
-                <li><strong>Languages:</strong> English, Hindi</li>
-                <li><strong>Location:</strong> India</li>
-                <li><strong>Education:</strong> Oxford Global University</li>
-              </ul>
+  return (
+    <>
+      <div className="max-w-6xl mt-10 mx-auto bg-white p-6 rounded-lg shadow-md">
+        <div className="flex justify-between items-center mb-4">
+          <div className="flex">
+            <img
+              src={clientDetails.photo || "https://via.placeholder.com/100"}
+              alt="Profile"
+              className="h-28 w-28 rounded-full border-2"
+            />
+            <div className="ml-10">
+              <h1 className="font-semibold text-4xl">{clientDetails.firstName || "User"}</h1>
+              <p className="text-gray-500 mt-3">📍 {clientDetails.address || "No address provided"} </p>
             </div>
           </div>
-          {/* Main Content */}
-          <div className="md:col-span-2 space-y-6">
-            {/* Service */}
-            <div className="bg-white p-4 shadow-md rounded-lg flex justify-between items-center">
-              {isEditingTitle ? (
-                <input 
-                  type="text" 
-                  className="border p-1 rounded" 
-                  value={newTitle} 
-                  onChange={(e) => setNewTitle(e.target.value)} 
-                  onBlur={() => { setTitle(newTitle); setIsEditingTitle(false); }}
-                  autoFocus
-                />
-              ) : (
-                <h2 className="text-lg font-semibold">{title}</h2>
-              )}
-              <i className="fa fa-pencil-alt text-gray-500 cursor-pointer" onClick={() => setIsEditingTitle(true)}></i>
-            </div>
-            <div className="bg-white p-4 shadow-md rounded-lg flex justify-between items-center">
-              <p className="text-gray-600">{rate}</p>
-              <i className="fa fa-pencil-alt text-gray-500 cursor-pointer" onClick={() => setRate(prompt("Update Rate:", rate) || rate)}></i>
-            </div>
-            {/* Portfolio */}
-            <div className="bg-white p-4 shadow-md rounded-lg">
-              <h2 className="text-lg font-semibold">Portfolio</h2>
-              <div className="h-32 bg-gray-200 rounded-lg flex items-center justify-center">
-                <span className="text-gray-500">[Image Placeholder]</span>
-              </div>
-            </div>
-            {/* Skills */}
-            <div className="bg-white p-4 shadow-md rounded-lg flex justify-between items-center">
-              <p className="text-gray-600">{skills}</p>
-              <i className="fa fa-pencil-alt text-gray-500 cursor-pointer" onClick={() => setSkills(prompt("Update Skills:", skills) || skills)}></i>
-            </div>
-            {/* Education */}
-            <div className="bg-white p-4 shadow-md rounded-lg">
-              <h2 className="text-lg font-semibold">Education</h2>
-              <p className="text-gray-500">Add any Education that isn't covered above.</p>
-            </div>
-            {/* Other Experiences */}
-            <div className="bg-white p-4 shadow-md rounded-lg">
-              <h2 className="text-lg font-semibold">Experiences</h2>
-              <p className="text-gray-500">Add any Experience that isn't covered above.</p>
-            </div>
+          <div className="flex gap-5">
+            <button className="px-4 py-2 border-2 border-green-500 text-green-500 rounded-lg">
+              See public view
+            </button>
+            <button
+              className="px-4 py-2 bg-green-500 text-white rounded-lg"
+              onClick={() => setShowPopup(true)}
+            >
+              Profile Settings
+            </button>
           </div>
         </div>
-    </div>
+      </div>
 
-        </>
-    )
+      {/* Popup for Profile Settings */}
+      {showPopup && (
+        <div className="fixed inset-0 flex items-center justify-center bg-opacity-50 z-50 my-10">
+          <div className="bg-white p-6 rounded-lg shadow-lg w-[50vw]">
+            <div className="flex justify-between">
+              <h2 className="text-xl font-bold">Edit Profile</h2>
+              <button
+                onClick={() => setShowPopup(false)}
+                className="p-2 px-4 bg-red-500 text-white rounded-lg"
+              >
+                X
+              </button>
+            </div>
+
+            <form onSubmit={handleSubmit} className="mt-4 space-y-4">
+              <div className="flex gap-5">
+                <input
+                  type="text"
+                  name="firstName"
+                  placeholder="First Name"
+                  value={formData.firstName || ""}
+                  onChange={handleChange}
+                  className="w-full border px-3 py-2 rounded-md"
+                />
+                <input
+                  type="text"
+                  name="lastName"
+                  placeholder="Last Name"
+                  value={formData.lastName || ""}
+                  onChange={handleChange}
+                  className="w-full border px-3 py-2 rounded-md"
+                />
+              </div>
+              <input
+                type="text"
+                name="address"
+                placeholder="Address"
+                value={formData.address || ""}
+                onChange={handleChange}
+                className="w-full border px-3 py-2 rounded-md"
+              />
+              <input
+                type="text"
+                name="phone"
+                placeholder="Phone Number"
+                value={formData.phone || ""}
+                onChange={handleChange}
+                className="w-full border px-3 py-2 rounded-md"
+              />
+              <p className="text-xl font-medium">Profile Image</p>
+              {formData.photo && (
+                <img
+                  src={formData.photo}
+                  alt="Profile Preview"
+                  className="h-28 w-28 mt-2 rounded-full border-2"
+                />
+              )}
+              {/* Image Upload */}
+              <div className="flex flex-col items-center w-40">
+                <input
+                  type="file"
+                  name="photo"
+                  accept="image/*"
+                  onChange={handleChange}
+                  className="w-full border px-3 py-2 rounded-md"
+                />
+              </div>
+
+              <button
+                type="submit"
+                className="mt-4 px-4 py-2 bg-green-500 text-white rounded-lg w-full"              >
+                Save Changes
+              </button>
+            </form>
+          </div>
+        </div>
+      )}
+    </>
+  );
 }

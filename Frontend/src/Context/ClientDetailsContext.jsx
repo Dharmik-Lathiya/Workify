@@ -12,6 +12,7 @@ export const ClientDetailsProvider = ({ children }) => {
         email: "",
         password: "",
         country: "India",
+        profileImage:"",
         agreeToTerms: false,
         photo:"",
         address:"",

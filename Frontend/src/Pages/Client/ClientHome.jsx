@@ -53,8 +53,6 @@ export default function Dashboard() {
       jobs: [...prevState.jobs, jobData],
     }));
 
-    console.log("Updated Jobs Data: ", [...clientDetails.jobs, jobData]);
-
     // Reset jobData
     setJobData({
       jobTitle: "",
@@ -71,14 +69,12 @@ export default function Dashboard() {
     setShowPopup(false);
   };
 
-  // Handler for selecting a popular skill (adds to selected skills if not already added)
   const selectSkill = (skill) => {
     if (!jobData.skills.includes(skill)) {
       setJobData(prev => ({ ...prev, skills: [...prev.skills, skill] }));
     }
   };
 
-  // Handler for adding custom skill from input
   const addInputSkill = () => {
     if (inputSkill.trim()) {
       setJobData(prev => ({
@@ -89,18 +85,12 @@ export default function Dashboard() {
     }
   };
 
-  // Radio handler for size, time, experience – we update jobData.type accordingly
   const handleRadioChange = (field, value) => {
     setJobData(prev => ({
       ...prev,
       type: { ...prev.type, [field]: value },
     }));
   };
-
-  console.log(clientDetails.job.jobTitle);
-  console.log(clientDetails.job.skills);
-
-
 
   const settings = {
     dots: true,
@@ -110,6 +100,8 @@ export default function Dashboard() {
     slidesToScroll: 3,
   };
 
+  let allJobs = [...clientDetails.jobs, clientDetails.job];
+  
   return (
     <div className="p-6 min-h-screen mx-auto">
       {/* Welcome Section */}
@@ -277,27 +269,33 @@ export default function Dashboard() {
 
       {/* Overview Section */}
       <p className="mx-10 mb-4 text-2xl font-medium">Overview</p>
-      <div className="flex bg-white p-6 rounded-2xl shadow-lg border-2 border-slate-200">
-        <div className="bg-slate-100 w-4/12 rounded-2xl p-4">
-        <p className="text-[16px] font-medium mt-4">Job Title</p>
-          <span className="text-xxl font-bold">{clientDetails.job.jobTitle}</span>
-          <p className="text-[16px] font-medium mt-4">Selected Skills</p>
-          <div className="text-[15px] mt-2 border-slate-200 my-1 border-2 p-2 rounded-2xl mx-1">
-            {clientDetails.job.skills.map((skill, index) => (
-              <button key={index} className="border-2 border-slate-300 px-3 py-1 rounded-xl m-1">
-                {skill}
-              </button>
-            ))}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        {allJobs.map((job, index) => (
+          <div key={index} className="bg-slate-100 p-4 rounded-2xl shadow-lg border-2 border-slate-200">
+            <span className="text-[16px] font-bold">Job Title:</span>
+            <span className="text-xxl ml-2">{job.jobTitle}</span>
+
+            {/* Skills Display */}
+            <p className="text-[16px] font-medium mt-4">Selected Skills</p>
+            <div className="text-[15px] mt-2 border-slate-200 my-1 border-2 p-2 rounded-2xl mx-1">
+              {job.skills.map((skill, skillIndex) => (
+                <button key={skillIndex} className="border-2 border-slate-300 px-3 py-1 rounded-xl m-1">
+                  {skill}
+                </button>
+              ))}
+            </div>
+
+            {/* Job Details */}
+            <p className="mt-4 font-semibold">Project Type</p>
+            <ul className="text-[15px] mt-2 ml-2">
+              <li><strong>Size:</strong> {job.type.size}</li>
+              <li><strong>Time:</strong> {job.type.time}</li>
+              <li><strong>Experience:</strong> {job.type.exp}</li>
+              <li><strong>Price:</strong> {job.type.price}</li>
+              <li><strong>Description:</strong> <p>{job.type.desc.slice(0, 44)}</p></li>
+            </ul>
           </div>
-          <p className="mt-4 font-semibold">Project Type</p>
-          <ul className="text-[15px] mt-2 *:w-40">
-            <li><strong>Size:</strong> {clientDetails.job.type.size}</li>
-            <li><strong>Time:</strong> {clientDetails.job.type.time}</li>
-            <li><strong>Experience:</strong> {clientDetails.job.type.exp}</li>
-            <li><strong>Price:</strong> {clientDetails.job.type.price}</li>
-            <li><strong>Description:</strong> <p className='w-80'>{clientDetails.job.type.desc.slice(0, 50)}</p></li>
-          </ul>
-        </div>
+        ))}
       </div>
 
 
@@ -306,8 +304,9 @@ export default function Dashboard() {
         <h2 className="text-xl font-semibold mb-4">Review your project's goals with an expert, one-on-one</h2>
         <div className="flex gap-10 h-60">
           <div className="w-3/12 text-white bg-green-600 rounded-xl">
-            <p className="p-2">Guild tour</p>
+            <p className="p-2 font-semibold ml-2 text-xl ">Guild tour</p>
             <p className="p-2 font-medium w-60 mx-auto">Book a consultation with an expert to review your project’s budget, timeline, and scope one-on-one.</p>
+            <button className='ml-4 bg-slate-100 mt-8 text-black p-2 rounded-xl'>Learn more</button>
           </div>
           <div className="w-9/12">
             <Slider {...settings}>
@@ -329,14 +328,22 @@ export default function Dashboard() {
                   country: 'Egypt',
                   rate: '$50/hr',
                   title: 'Full Stack Web Developer',
+                },
+                {
+                  name: 'Galal M.',
+                  country: 'Egypt',
+                  rate: '$50/hr',
+                  title: 'Full Stack Web Developer',
                 }
               ].map((expert, index) => (
-                <div key={index} className="border p-4 rounded-lg text-center h-60">
-                  <h3 className="font-semibold">{expert.name}</h3>
-                  <p className="text-gray-500">{expert.country}</p>
-                  <p className="font-medium">{expert.rate}</p>
-                  <p className="text-gray-600">{expert.title}</p>
-                  <button className="mt-2 px-4 py-2 bg-blue-500 text-white rounded-lg">Book a consultation</button>
+                <div>
+                  <div key={index} className="border-2 border-slate-200 p-4 rounded-lg text-center h-60 ml-3">
+                    <h3 className="font-semibold">{expert.name}</h3>
+                    <p className="text-gray-500">{expert.country}</p>
+                    <p className="font-medium">{expert.rate}</p>
+                    <p className="text-gray-600">{expert.title}</p>
+                    <button className="mt-2 px-4 py-2 bg-blue-500 text-white rounded-lg">Book a consultation</button>
+                  </div>
                 </div>
               ))}
             </Slider>
