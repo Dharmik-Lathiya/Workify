@@ -8,9 +8,6 @@ const ClientSchema = new mongoose.Schema({
         type: String
     },
     username:String,
-    companyName: {
-        type: String
-    },
     email: {
         type: String
     },
@@ -21,9 +18,8 @@ const ClientSchema = new mongoose.Schema({
     address: { type: String },
     country: { type: String },
     phone: { type: Number },
-    empNumber: { type: String },
-    website: { type: String },
     postedJobs: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Jobs' }],
+    savedJobs:[{ type: mongoose.Schema.Types.ObjectId, ref: 'Jobs' }],
     chats: [{
         reciverid: { type: mongoose.Schema.Types.ObjectId, refPath: 'chats.reciverModel' },
         reciverModel: { type: String, enum: ['users', 'client'] }, 

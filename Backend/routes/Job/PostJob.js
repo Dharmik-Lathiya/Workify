@@ -5,7 +5,8 @@ const ClientSchema = require('../../models/ClientSchema');
 
 const PostJob = async (req,res) =>{
 
-    let newJob = new JobSchema(req.body);
+    const date = new Date()
+    let newJob = new JobSchema({...req.body,curtime:date.toUTCString()});
     let job = await newJob.save();
 
     if(job){

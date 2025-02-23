@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { Link } from 'react-router-dom';
+import React, { useContext, useId, useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom';
 import logo from '../../Assets/logo.png'
 import StepIntro from '../../Components/Freelan/StepIntro';
 import StepFirst from '../../Components/Freelan/StepFirst';
@@ -15,13 +15,9 @@ import StepTen from '../../Components/Freelan/StepTen';
 
 export default function CreateProfile() {
   const [step, setStep] = useState(0);
-
   const nextStep = () => setStep((prev) => (prev === 0 ? 1 : Math.min(prev + 1, 10)));
   const prevStep = () => setStep((prev) => Math.max(prev - 1, 0));
   let name = 'Dharmik';
-
-
-  
   
   return (
     <>
