@@ -20,6 +20,8 @@ import ClientSignup from './Pages/Client/ClientSignup.jsx'
 import ClientCreateProfile from './Pages/Client/ClientCreateProfile.jsx';
 import ClientHome from './Pages/Client/ClientHome.jsx';
 import ClientProfile from './Components/Client/ClientProfile.jsx';
+import ClientDevelperSearch from './Components/Client/ClientDevelperSearch.jsx';
+import DeveloperProfile from './Components/Client/DeveloperProfile.jsx';
 
 
 function App() {
@@ -42,6 +44,9 @@ function App() {
               <Route path="create-profile" element={<ClientCreateProfile />} />
               <Route path="home" element={<ClientHome/>} />
               <Route path="profile" element={<ClientProfile/>} />
+              <Route path="find-developer" element={<ClientDevelperSearch/>} />
+              <Route path="developer-profile/:id" element={<DeveloperProfile />} />            
+
             </Route>
             <Route path='/chat' element={<Chat />} />
             <Route path='/chat/:id' element={<Chat />} />

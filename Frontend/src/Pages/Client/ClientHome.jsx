@@ -69,14 +69,12 @@ export default function Dashboard() {
     setShowPopup(false);
   };
 
-  // Handler for selecting a popular skill (adds to selected skills if not already added)
   const selectSkill = (skill) => {
     if (!jobData.skills.includes(skill)) {
       setJobData(prev => ({ ...prev, skills: [...prev.skills, skill] }));
     }
   };
 
-  // Handler for adding custom skill from input
   const addInputSkill = () => {
     if (inputSkill.trim()) {
       setJobData(prev => ({
@@ -87,7 +85,6 @@ export default function Dashboard() {
     }
   };
 
-  // Radio handler for size, time, experience – we update jobData.type accordingly
   const handleRadioChange = (field, value) => {
     setJobData(prev => ({
       ...prev,
@@ -103,11 +100,8 @@ export default function Dashboard() {
     slidesToScroll: 3,
   };
 
-  const allJobs = [...clientDetails.jobs, jobData];
-  allJobs.pop();
-  console.log(allJobs);
-
-
+  let allJobs = [...clientDetails.jobs, clientDetails.job];
+  
   return (
     <div className="p-6 min-h-screen mx-auto">
       {/* Welcome Section */}
@@ -298,7 +292,7 @@ export default function Dashboard() {
               <li><strong>Time:</strong> {job.type.time}</li>
               <li><strong>Experience:</strong> {job.type.exp}</li>
               <li><strong>Price:</strong> {job.type.price}</li>
-              <li><strong>Description:</strong> <p className="w-80">{job.type.desc.slice(0, 50)}</p></li>
+              <li><strong>Description:</strong> <p>{job.type.desc.slice(0, 44)}</p></li>
             </ul>
           </div>
         ))}
@@ -310,8 +304,9 @@ export default function Dashboard() {
         <h2 className="text-xl font-semibold mb-4">Review your project's goals with an expert, one-on-one</h2>
         <div className="flex gap-10 h-60">
           <div className="w-3/12 text-white bg-green-600 rounded-xl">
-            <p className="p-2">Guild tour</p>
+            <p className="p-2 font-semibold ml-2 text-xl ">Guild tour</p>
             <p className="p-2 font-medium w-60 mx-auto">Book a consultation with an expert to review your project’s budget, timeline, and scope one-on-one.</p>
+            <button className='ml-4 bg-slate-100 mt-8 text-black p-2 rounded-xl'>Learn more</button>
           </div>
           <div className="w-9/12">
             <Slider {...settings}>
