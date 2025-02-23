@@ -18,10 +18,12 @@ const educationDeleter = require('./deleter/EducationDeleter');
 const experienceDeleter = require('./deleter/ExperienceDeleter');
 const portfolioDeleter = require('./deleter/PortfolioDeleter');
 const getRecentJobs = require('./getters/getRecentJobs');
-const getBestMatches = require('./getters/getBestMatch')
+const getBestMatches = require('./getters/getBestMatch');
+const getSavedJobs = require('./getters/getSavedJobs');
 
 routes.get("/getuser/:type/:id",getUser);
 
+routes.post("/getsavedpost",getSavedJobs);
 routes.post("/getrecentjobs",getRecentJobs);
 routes.post("/getbestmatches",getBestMatches);
 routes.post("/signup",validationSignup,signup);

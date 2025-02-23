@@ -1,44 +1,83 @@
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
+import { UserDetailsContext } from "../../Context/UserDetailsContext.jsx";
 
 export default function FreelancerMainJobs() {
-    const bestMatches = [
-        {
-            date: "Posted yesterday",
-            title: "Build WordPress Website",
-            desc: "Fixed-price - Entry level - Est. Budget: $100",
-            skill: ["WordPress", "Web Development", "Web Design", "PHP", "HTML5"],
-            country: "United States",
-            proposals: 50,
-            spent: 900,
-            verified: true,
-        },
-    ];
-    
-    const mostRecent = [
-        {
-            date: "Posted today",
-            title: "React.js Developer Needed",
-            desc: "Hourly - Intermediate level - Est. Budget: $25/hr",
-            skill: ["React.js", "JavaScript", "CSS", "Frontend"],
-            country: "Canada",
-            proposals: 30,
-            spent: 1200,
-            verified: true,
-        },
-    ];
 
-    const [selectedTab, setSelectedTab] = useState('Most Recent');
+
+    const { userDetails, userId } = useContext(UserDetailsContext);
+    const [selectedTab, setSelectedTab] = useState('getsavedpost');
     const [savedJobs, setSavedJobs] = useState([]);
-    const jobsList = selectedTab === 'Best Matches' ? bestMatches : selectedTab === 'Saved Jobs' ? savedJobs : mostRecent;
+    const [jobsList, SetJobList] = useState([]);
+    const [flag, setFlag] = useState(true);
 
     const toggleSaveJob = (job) => {
+
         const isJobSaved = savedJobs.some(saved => saved.title === job.title);
         if (isJobSaved) {
             setSavedJobs(savedJobs.filter(saved => saved.title !== job.title));
+            fetch(import.meta.env.VITE_APP_BACKEND_URL + "/savejob", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    id: userId,
+                    jobId: job._id,
+                    type: "delete",
+
+                })
+            }).then((res) => {
+                res.json().then(data => {
+                    console.log(data);
+
+                })
+            }).catch()
         } else {
             setSavedJobs([...savedJobs, job]);
+            fetch(import.meta.env.VITE_APP_BACKEND_URL + "/savejob", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    id: userId,
+                    jobId: job._id,
+                    type: "save",
+
+                })
+            }).then((res) => {
+                res.json().then(data => {
+                    console.log(data);
+
+                })
+            }).catch()
         }
     };
+
+    useEffect(() => {
+
+        fetch(import.meta.env.VITE_APP_BACKEND_URL + "/" + selectedTab, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                id: userId,
+                skills: userDetails.selectedSkills
+            })
+        }).then((res) => {
+            res.json().then(data => {
+                SetJobList(() => { return data });
+                selectedTab === 'getsavedpost' || flag ? setSavedJobs(() => { return data }) : 0
+                if (flag) {
+                    setSelectedTab(() => { return 'getbestmatches' });
+                }
+                setFlag(false)
+
+            })
+        }).catch()
+
+    }, [selectedTab])
 
     return (
         <>
@@ -53,43 +92,43 @@ export default function FreelancerMainJobs() {
                 </div>
 
                 <div className="flex space-x-4 mb-4">
-                    <button 
-                        className={`px-4 py-2 rounded-md ${selectedTab === 'Best Matches' ? 'bg-gray-800 text-white' : 'bg-gray-200 text-gray-700'}`}
-                        onClick={() => setSelectedTab('Best Matches')}
+                    <button
+                        className={`px-4 py-2 rounded-md ${selectedTab === 'getbestmatches' ? 'bg-gray-800 text-white' : 'bg-gray-200 text-gray-700'}`}
+                        onClick={() => setSelectedTab('getbestmatches')}
                     >
                         Best Matches
                     </button>
-                    <button 
-                        className={`px-4 py-2 rounded-md ${selectedTab === 'Most Recent' ? 'bg-gray-800 text-white' : 'bg-gray-200 text-gray-700'}`}
-                        onClick={() => setSelectedTab('Most Recent')}
+                    <button
+                        className={`px-4 py-2 rounded-md ${selectedTab === 'getrecentjobs' ? 'bg-gray-800 text-white' : 'bg-gray-200 text-gray-700'}`}
+                        onClick={() => setSelectedTab('getrecentjobs')}
                     >
                         Most Recent
                     </button>
-                    <button 
+                    <button
                         className={`px-4 py-2 rounded-md ${selectedTab === 'Saved Jobs' ? 'bg-gray-800 text-white' : 'bg-gray-200 text-gray-700'}`}
-                        onClick={() => setSelectedTab('Saved Jobs')}
+                        onClick={() => setSelectedTab('getsavedpost')}
                     >
                         Saved Jobs
                     </button>
                 </div>
 
                 <div className="space-y-4">
-                    {jobsList.map((job, index) => (
+                    {jobsList && jobsList.map((job, index) => (
                         <div key={index} className="bg-white p-6 rounded-xl shadow-md border">
                             <p className="text-gray-500 text-sm">{job.date}</p>
                             <div className='flex justify-between'>
-                            <h3 className="font-bold text-xl text-gray-800">{job.title}</h3>
-                            <button
-                                className="text-red-500 focus:outline-none mr-8"
-                                onClick={() => toggleSaveJob(job)}
-                            >
-                                <i className={savedJobs.some(saved => saved.title === job.title) ? "fas fa-heart" : "far fa-heart"}></i>
-                            </button>
+                                <h3 className="font-bold text-xl text-gray-800">{job.title}</h3>
+                                <button
+                                    className="text-red-500 focus:outline-none mr-8"
+                                    onClick={() => toggleSaveJob(job)}
+                                >
+                                    <i className={savedJobs.some(saved => saved.title === job.title) ? "fas fa-heart" : "far fa-heart"}></i>
+                                </button>
                             </div>
                             <p className="text-gray-600 text-sm mt-2">{job.desc}</p>
 
                             <div className="flex flex-wrap gap-2 mt-3">
-                                {job.skill.map((skill, idx) => (
+                                {job.skills.map((skill, idx) => (
                                     <span
                                         key={idx}
                                         className="bg-gray-200 text-gray-700 px-3 py-1 text-xs font-medium rounded-full"
@@ -118,7 +157,7 @@ export default function FreelancerMainJobs() {
                                 </span>
                             </div>
 
-                           
+
                         </div>
                     ))}
                 </div>
