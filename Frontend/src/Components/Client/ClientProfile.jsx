@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react'
 import { UserDetailsContext } from '../../Context/UserDetailsContext'
 
-export default function FreelancerProfile() {
+export default function ClientProfile() {
     const { userDetails } = useContext(UserDetailsContext);
     const [title, setTitle] = useState("Web Designing");
     const [rate, setRate] = useState("$60.00/hr");
