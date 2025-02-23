@@ -4,10 +4,13 @@ import { ToastContainer, toast } from 'react-toastify';
 import Footer from '../Components/Footer';
 import logo from '../Assets/logo.png'
 import { UserDetailsContext } from "../Context/UserDetailsContext.jsx";
+import { ClientDetailsContext } from '../Context/ClientDetailsContext';
+
 export default function Login() {
     
     const {userId , SetUserId} = useContext(UserDetailsContext);
-
+    const { clinetId , setClientId} = useContext(ClientDetailsContext);
+    
     const navigate = useNavigate()
     const [data, setData] = useState({
         value: "",
@@ -28,8 +31,11 @@ export default function Login() {
                 if (data.success) {
                     if(data.type == "devloper"){
                         SetUserId(data._id)
+                        navigate('/freelancer/home');
+                    }else{
+                        setClientId(data._id)
+                        navigate('/client/home');
                     }
-                    navigate('/freelancer/home');
                 }
                 if (!data.success && data.message) {
 

@@ -31,9 +31,10 @@ export const ClientDetailsProvider = ({ children }) => {
         jobs:[],
     });
 
+    const [clinetId,setClientId] = useState('')
 
     return (
-        <ClientDetailsContext.Provider value={{ clientDetails, setClientDetails }}>
+        <ClientDetailsContext.Provider value={{ clientDetails, setClientDetails ,clinetId ,setClientId }}>
             {children}
         </ClientDetailsContext.Provider>
     );

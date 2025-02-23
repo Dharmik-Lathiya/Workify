@@ -1,6 +1,6 @@
 import LandingPage from './Pages/LandingPage';
-import { Routes, Route } from 'react-router-dom';
-import React from 'react';
+import { Routes, Route, Navigate } from 'react-router-dom';
+import React, { useContext } from 'react';
 import { UserProvider } from './Context/HeaderComponent'; // ✅ Ensure correct file import
 import Signup from './Pages/Signup';
 import FreelanSignup from './Pages/Freelan/FreelanSignup';
@@ -20,28 +20,33 @@ import ClientSignup from './Pages/Client/ClientSignup.jsx'
 import ClientCreateProfile from './Pages/Client/ClientCreateProfile.jsx';
 import ClientHome from './Pages/Client/ClientHome.jsx';
 import ClientProfile from './Components/Client/ClientProfile.jsx';
+import { UserDetailsContext } from "./Context/UserDetailsContext";
+import { ClientDetailsContext } from './Context/ClientDetailsContext';
 
 
 function App() {
+  const { userId} = useContext(UserDetailsContext);
+  const { clinetId} = useContext(ClientDetailsContext);
+  
   return (
-    <UserDetailsProvider>
-      <ClientDetailsProvider>
-        <UserProvider>
+    
           <Routes>
             <Route path="/" element={<LandingPage />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/Login" element={<Login />} />
             <Route path="/freelancer" element={<Temp />}>
               <Route path="SignUp" element={<FreelanSignup />} />
-              <Route path="create-profile" element={<CreateProfile />} />
-              <Route path="home" element={<FreeLancerHome />} />
-              <Route path="profile" element={<FreelancerProfile />} />
+              {userId ?  <Route path="create-profile" element={<CreateProfile />}  /> : <Route path="create-profile" element={<Navigate to={'/freelancer/signup'}/>}  /> }
+              {userId ?  <Route path="profile" element={<FreelancerProfile />} />  : <Route path="profile" element={<Navigate to={'/freelancer/signup'}/>}  /> }
+              {userId ?  <Route path="home" element={<FreeLancerHome />} />: <Route path="home" element={<Navigate to={'/freelancer/signup'}/>}  /> }
             </Route>
             <Route path="/client" element={<ClientTemp />}>
+
               <Route path="SignUp" element={<ClientSignup />} />
-              <Route path="create-profile" element={<ClientCreateProfile />} />
-              <Route path="home" element={<ClientHome/>} />
-              <Route path="profile" element={<ClientProfile/>} />
+
+              {clinetId ? <Route path="create-profile" element={<ClientCreateProfile />} /> : <Route path="create-profile" element={<Navigate to={'/client/signup'}/>}  /> }
+              {clinetId ? <Route path="home" element={<ClientHome/>} /> : <Route path="home" element={<Navigate to={'/client/signup'}/>}  /> }
+              {clinetId ? <Route path="profile" element={<ClientProfile/>} /> : <Route path="profile" element={<Navigate to={'/client/signup'}/>}  /> }
             </Route>
             <Route path='/chat' element={<Chat />} />
             <Route path='/chat/:id' element={<Chat />} />
@@ -49,9 +54,6 @@ function App() {
             <Route path='/notification' element={<Notification />} />
           </Routes>
 
-        </UserProvider>
-      </ClientDetailsProvider>
-    </UserDetailsProvider>
   );
 }
 

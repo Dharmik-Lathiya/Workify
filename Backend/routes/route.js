@@ -20,12 +20,21 @@ const portfolioDeleter = require('./deleter/PortfolioDeleter');
 const getRecentJobs = require('./getters/getRecentJobs');
 const getBestMatches = require('./getters/getBestMatch');
 const getSavedJobs = require('./getters/getSavedJobs');
+const Verification = require('./auth/Verification');
+const searchJobs = require('./Search/SearchJobs');
+const searchUser = require('./Search/SearchUser');
+
+
+
 
 routes.get("/getuser/:type/:id",getUser);
 
+routes.post("/verification",Verification);
 routes.post("/getsavedpost",getSavedJobs);
 routes.post("/getrecentjobs",getRecentJobs);
 routes.post("/getbestmatches",getBestMatches);
+routes.post("/searchjobs",searchJobs);
+routes.post("/searchusers",searchUser);
 routes.post("/signup",validationSignup,signup);
 routes.post("/login",validationLogin,login);
 routes.post("/postjob",postJob);
