@@ -27,7 +27,8 @@ export const ClientDetailsProvider = ({ children }) => {
                 price: 0,
                 desc: "",
             }
-        }
+        },
+        jobs:[],
     });
 
 
