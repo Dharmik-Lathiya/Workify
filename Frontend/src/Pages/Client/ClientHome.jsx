@@ -4,9 +4,11 @@ import Slider from 'react-slick';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { Link } from 'react-router-dom';
+import { UserDetailsContext } from '../../Context/UserDetailsContext.jsx';
 
 export default function Dashboard() {
   const { clientDetails, setClientDetails } = useContext(ClientDetailsContext);
+  const {userDetails} = useContext(UserDetailsContext);
   const [showPopup, setShowPopup] = useState(false);
 
   // State for job data (without curtime)

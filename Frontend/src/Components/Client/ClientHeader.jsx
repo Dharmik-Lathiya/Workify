@@ -36,7 +36,7 @@ export default function ClientHeader() {
 
     const handleKeyDown = (e) => {
         if (e.key === "Enter") {
-            e.preventDefault(); // Prevents page reload
+            e.preventDefault();
             const route = searchType === "Talent" ? "/client/find-developer" : "/client/find-jobs";
             navigate(route);
         }

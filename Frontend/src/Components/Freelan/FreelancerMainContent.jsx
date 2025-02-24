@@ -1,10 +1,14 @@
-import React from "react";
+import React, { useContext } from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import FreelancerMainJobs from './FreelancerMainJobs.jsx'
+import { UserDetailsContext } from "../../Context/UserDetailsContext.jsx";
 
 export default function FreelancerMainContent() {
+    const {userDetails} = useContext(UserDetailsContext);
+    console.log(userDetails.firstName);
+    
     const settings = {
         dots: true,
         infinite: true,
@@ -67,8 +71,8 @@ export default function FreelancerMainContent() {
                         <div className="flex items-center space-x-3">
                             <div className="w-12 h-12 bg-gray-300 rounded-full"></div>
                             <div>
-                                <h3 className="font-bold">Dharmik F.</h3>
-                                <p className="text-sm text-gray-600">Web Designing</p>
+                                <h3 className="font-bold">{userDetails.firstName}</h3>
+                                <p className="text-sm text-gray-600">{userDetails.professionalTitle}</p>
                             </div>
                         </div>
                         <a href="#" className="text-green-600 font-semibold text-sm mt-2 block">
