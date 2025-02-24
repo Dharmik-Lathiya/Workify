@@ -17,10 +17,8 @@ export default function ChatMenu() {
           "Content-Type": "application/json",
       },
       body:JSON.stringify({
-        // type: userId ? "user" : "client",
-        type:"user",
-        id:"67b62ec3e4a7216330c0307d"
-        // id: userId ? userId : clinetId
+        type: userId ? "user" : "client",
+        id: userId ? userId : clinetId
       })
     }).then((res) =>{
         res.json().then(data =>{
