@@ -3,6 +3,7 @@ import ClientDetailsContext from '../../Context/ClientDetailsContext.jsx';
 import Slider from 'react-slick';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { Link } from 'react-router-dom';
 
 export default function Dashboard() {
   const { clientDetails, setClientDetails } = useContext(ClientDetailsContext);
@@ -92,6 +93,49 @@ export default function Dashboard() {
     }));
   };
 
+  const developers = [
+    {
+      id: 1,
+      name: "Kemar J.",
+      title: "Lead Generation Expert, Email Researcher and List Builder, Data Entry",
+      hourlyRate: "$15/hr",
+      jobSuccess: "95%",
+      earnings: "$50k+",
+      skills: ["Lead Generation", "Data Entry", "Data Mining", "Email Research"],
+      profileImage: "https://via.placeholder.com/100",
+    },
+    {
+      id: 2,
+      name: "AJ R.",
+      title: "Data Entry | LinkedIn lead generation | Web Research | List Building",
+      hourlyRate: "$7/hr",
+      jobSuccess: "85%",
+      earnings: "$25k+",
+      skills: ["Data Entry", "Web Research", "List Building", "Data Scraping"],
+      profileImage: "https://via.placeholder.com/100",
+    },
+    {
+      id: 3,
+      name: "Ruben V.",
+      title: "Certified Facebook Ads & Google Ads Expert | Meta | Adwords | PPC",
+      hourlyRate: "$20/hr",
+      jobSuccess: "100%",
+      earnings: "$100k+",
+      skills: ["Google Ads", "Meta Ads", "Adwords", "PPC"],
+      profileImage: "https://via.placeholder.com/100",
+    },
+    {
+      id: 4,
+      name: "Muhammed M.",
+      title: "Dropshipping | Shopify | SMM | VA | Customer Care | DMCA",
+      hourlyRate: "$9/hr",
+      jobSuccess: "90%",
+      earnings: "$30k+",
+      skills: ["Shopify", "Virtual Assistant", "Customer Support"],
+      profileImage: "https://via.placeholder.com/100",
+    },
+  ];
+
   const settings = {
     dots: true,
     infinite: true,
@@ -101,7 +145,7 @@ export default function Dashboard() {
   };
 
   let allJobs = [...clientDetails.jobs, clientDetails.job];
-  
+
   return (
     <div className="p-6 min-h-screen mx-auto">
       {/* Welcome Section */}
@@ -268,8 +312,8 @@ export default function Dashboard() {
       )}
 
       {/* Overview Section */}
-      <p className="mx-10 mb-4 text-2xl font-medium">Overview</p>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <p className="mx-10 mb-4 text-2xl font-medium ">Overview</p>
+      <div className="grid grid-cols-1 md:grid-cols-2 bg-slate-100 rounded-xl p-4 lg:grid-cols-3 gap-4">
         {allJobs.map((job, index) => (
           <div key={index} className="bg-slate-100 p-4 rounded-2xl shadow-lg border-2 border-slate-200">
             <span className="text-[16px] font-bold">Job Title:</span>
@@ -292,7 +336,7 @@ export default function Dashboard() {
               <li><strong>Time:</strong> {job.type.time}</li>
               <li><strong>Experience:</strong> {job.type.exp}</li>
               <li><strong>Price:</strong> {job.type.price}</li>
-              <li><strong>Description:</strong> <p>{job.type.desc.slice(0, 44)}</p></li>
+              <li><strong>Description:</strong> <p>{job.type.desc.slice(0, 40)}</p></li>
             </ul>
           </div>
         ))}
@@ -300,53 +344,47 @@ export default function Dashboard() {
 
 
       {/* Additional sections (e.g., slider, Help & Resources) remain unchanged */}
-      <div className="bg-white p-6 rounded-2xl shadow-lg mt-6">
+      <div className="bg-white p-6 rounded-2xl shadow-lg mt-6 h-96">
         <h2 className="text-xl font-semibold mb-4">Review your project's goals with an expert, one-on-one</h2>
-        <div className="flex gap-10 h-60">
+        <div className="flex gap-10 h-74">
           <div className="w-3/12 text-white bg-green-600 rounded-xl">
             <p className="p-2 font-semibold ml-2 text-xl ">Guild tour</p>
             <p className="p-2 font-medium w-60 mx-auto">Book a consultation with an expert to review your project’s budget, timeline, and scope one-on-one.</p>
             <button className='ml-4 bg-slate-100 mt-8 text-black p-2 rounded-xl'>Learn more</button>
           </div>
-          <div className="w-9/12">
-            <Slider {...settings}>
-              {[
-                {
-                  name: 'Prakash T.',
-                  country: 'India',
-                  rate: '$20/hr',
-                  title: 'Full Stack Developer',
-                },
-                {
-                  name: 'Lucio Ricardo',
-                  country: 'Mexico',
-                  rate: '$30/hr',
-                  title: 'Python & Server-side Developer',
-                },
-                {
-                  name: 'Galal M.',
-                  country: 'Egypt',
-                  rate: '$50/hr',
-                  title: 'Full Stack Web Developer',
-                },
-                {
-                  name: 'Galal M.',
-                  country: 'Egypt',
-                  rate: '$50/hr',
-                  title: 'Full Stack Web Developer',
-                }
-              ].map((expert, index) => (
-                <div>
-                  <div key={index} className="border-2 border-slate-200 p-4 rounded-lg text-center h-60 ml-3">
-                    <h3 className="font-semibold">{expert.name}</h3>
-                    <p className="text-gray-500">{expert.country}</p>
-                    <p className="font-medium">{expert.rate}</p>
-                    <p className="text-gray-600">{expert.title}</p>
-                    <button className="mt-2 px-4 py-2 bg-blue-500 text-white rounded-lg">Book a consultation</button>
+          <div className="w-9/12 h-full p-2">
+            <Slider {...settings} className="w-full flex">
+              {developers.map((developer) => (
+                <div key={developer.id} className="px-2"> {/* Adds spacing between slides */}
+                  <div className="bg-white p-5 rounded-lg shadow-md flex items-center justify-between">
+                    <div className="items-center gap-4">
+                      <img
+                        src={developer.profileImage}
+                        alt={developer.name}
+                        className="w-16 h-16 rounded-full border mx-auto"
+                      />
+                      <div>
+                        <h2 className="text-lg font-bold">{developer.name}</h2>
+                        <p className="text-sm text-gray-600">{developer.title}</p>
+
+                        <div className="flex gap-2 mt-2 flex-wrap my-4">
+                          {developer.skills.map((skill, index) => (
+                            <span key={index} className="bg-gray-200 px-2 py-1 rounded text-xs">
+                              {skill}
+                            </span>
+                          ))}
+                        </div>
+                        <Link to={`/client/developer-profile/${developer.id}`} className="px-4 py-1 bg-green-500 text-white rounded-lg">
+                          Invite to Job
+                        </Link>
+                      </div>
+                    </div>
+
                   </div>
                 </div>
               ))}
             </Slider>
+
           </div>
         </div>
       </div>
