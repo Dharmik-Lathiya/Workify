@@ -31,9 +31,11 @@ export default function Login() {
                 if (data.success) {
                     if(data.type == "devloper"){
                         SetUserId(data._id)
+                        localStorage.setItem("userId",data._id);
                         navigate('/freelancer/home');
                     }else{
                         setClientId(data._id)
+                        localStorage.setItem("clientId",data._id);
                         navigate('/client/home');
                     }
                 }

@@ -41,7 +41,7 @@ export default function FreelancerMainJobs() {
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify({
-                    id: userId,
+                    id: localStorage.getItem("userId"),
                     jobId: job._id,
                     type: "save",
 
@@ -63,7 +63,7 @@ export default function FreelancerMainJobs() {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                id: userId,
+                id: localStorage.getItem("userId"),
                 skills: userDetails.selectedSkills
             })
         }).then((res) => {

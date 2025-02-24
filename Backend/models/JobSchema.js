@@ -2,8 +2,8 @@ const mongoose = require('mongoose');
 
 
 const JobSchema = mongoose.Schema({
-    clientId:String,
-    title:String,
+    clientId:{ type: mongoose.Schema.Types.ObjectId, ref: 'client' },
+    jobTitle:String,
     skills:[{type:String}],
     curtime:Date,
     type:{size:String,months:String,exp:String},
