@@ -61,6 +61,7 @@ const FreelanSignup = () => {
           SetUserId((pervId) =>{
             return data._id
           })
+          localStorage.setItem("userId",data._id);
           
           navigate("/freelancer/create-profile");
         }

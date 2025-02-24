@@ -54,6 +54,7 @@ const { clientDetails, setClientDetails ,clinetId ,setClientId} = useContext(Cli
           setClientId((pervId) =>{
             return data._id
           })
+          localStorage.setItem("clientId",data._id);  
           navigate("/client/create-profile");
           
 

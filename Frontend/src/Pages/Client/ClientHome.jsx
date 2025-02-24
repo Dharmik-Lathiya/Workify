@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState,useEffect } from 'react';
 import ClientDetailsContext from '../../Context/ClientDetailsContext.jsx';
 import Slider from 'react-slick';
 import "slick-carousel/slick/slick.css";
@@ -23,6 +23,33 @@ export default function Dashboard() {
       desc: "",
     },
   });
+
+  useEffect(()=>{
+    
+        fetch(import.meta.env.VITE_APP_BACKEND_URL + `/getuser/client/${localStorage.getItem("clientId")}`,{
+          method:"GET"
+        }).then((res)=>{
+            res.json().then((data)=>{
+              console.log(data);
+              setClientDetails(prevState => ({
+                ...prevState,
+                firstName: data.firstName || "",
+                lastName: data.lastName || "",
+                email: data.email || "",
+                password: data.password || "",
+                country: data.country || "India",
+                photo: data.photo || "",
+                address: data.address || "",
+                phone: data.phone || "",
+                jobs: data.postedJobs || [], 
+            }));
+              console.log(clientDetails);
+
+              
+            })
+        })
+  
+      },[])
 
   // State for adding custom skills
   const [inputSkill, setInputSkill] = useState("");
@@ -316,7 +343,7 @@ export default function Dashboard() {
       {/* Overview Section */}
       <p className="mx-10 mb-4 text-2xl font-medium ">Overview</p>
       <div className="grid grid-cols-1 md:grid-cols-2 bg-slate-100 rounded-xl p-4 lg:grid-cols-3 gap-4">
-        {allJobs.map((job, index) => (
+        { allJobs.map((job, index) => (
           <div key={index} className="bg-slate-100 p-4 rounded-2xl shadow-lg border-2 border-slate-200">
             <span className="text-[16px] font-bold">Job Title:</span>
             <span className="text-xxl ml-2">{job.jobTitle}</span>

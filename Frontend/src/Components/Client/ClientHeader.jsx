@@ -54,7 +54,7 @@ export default function ClientHeader() {
                         console.log(data);
                         
                         const route = searchType === "Talent" ? "/client/find-developer" : "/client/find-jobs";
-                        // navigate(route)
+                         navigate(route)
                     })
              })
 
