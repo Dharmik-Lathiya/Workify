@@ -6,7 +6,7 @@ import "slick-carousel/slick/slick-theme.css";
 import { Link } from 'react-router-dom';
 
 export default function Dashboard() {
-  const { clientDetails, setClientDetails } = useContext(ClientDetailsContext);
+  const { clientDetails, setClientDetails,clinetId ,setClientId } = useContext(ClientDetailsContext);
   const [showPopup, setShowPopup] = useState(false);
 
   // State for job data (without curtime)

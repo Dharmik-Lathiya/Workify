@@ -2,19 +2,27 @@ import React, { useEffect, useState, useContext } from 'react'
 import { set, ref, onValue } from "firebase/database";
 import { useParams } from 'react-router-dom';
 import { UserDetailsContext } from '../../Context/UserDetailsContext';
+import { ClientDetailsContext } from '../../Context/ClientDetailsContext';
+import ChatContext from '../../Context/ChatContext'
 import ChatHeader from './ChatHeader';
 
+
+
 export default function ChatSide({ db }) {
-
-
+    
+    
+    const {chat} = useContext(ChatContext);
 
     const {userId} =useContext(UserDetailsContext);
+    const {clinetId } = useContext(ClientDetailsContext);
+    
     const { id } = useParams();
     const [message, setMessage] = useState('')
     const [chats, setChats] = useState([]);
     const [isDisabled, setIsDisabled] = useState(true);
     const [isFirst,setIsFirst ] = useState(false)
 
+    const senderid = userId ? {userId:userId ,  model: "users"} : {clinetId:clinetId , model: "client"} 
     
     useEffect(() => {
 
@@ -50,11 +58,10 @@ export default function ChatSide({ db }) {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                userId: "67b62ec3e4a7216330c0307d",
-                reciverid: "67b62f0fe4a7216330c03080",
-                recivermodel: "client",
+                senderid,
+                reciverid: chat.reciverid._id,
+                recivermodel: chat.reciverModel,
                 notificationType:"message",
-                model: "users",
                 role: "sender",
                 content:message
             })

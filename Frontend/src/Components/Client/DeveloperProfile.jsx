@@ -17,10 +17,9 @@ const {clinetId } = useContext(ClientDetailsContext);
           "Content-Type": "application/json",
       },
       body: JSON.stringify({
-          clientId: "67b62ec3e4a7216330c0307d",
+          clientId: clinetId,
           reciverid: id,
           recivermodel: "users",
-          notificationType:"message",
           model: "client",
           role: "sender",
           content:message,

@@ -105,7 +105,7 @@ export default function FreelancerMainJobs() {
                         Most Recent
                     </button>
                     <button
-                        className={`px-4 py-2 rounded-md ${selectedTab === 'Saved Jobs' ? 'bg-gray-800 text-white' : 'bg-gray-200 text-gray-700'}`}
+                        className={`px-4 py-2 rounded-md ${selectedTab === 'getsavedpost' ? 'bg-gray-800 text-white' : 'bg-gray-200 text-gray-700'}`}
                         onClick={() => setSelectedTab('getsavedpost')}
                     >
                         Saved Jobs
