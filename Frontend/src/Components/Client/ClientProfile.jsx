@@ -1,5 +1,6 @@
 import React, { useContext, useState, useEffect } from "react";
 import { ClientDetailsContext } from "../../Context/ClientDetailsContext";
+import { Link } from "react-router-dom";
 
 export default function ClientProfile() {
   const { clientDetails, setClientDetails } = useContext(ClientDetailsContext);
@@ -150,7 +151,7 @@ export default function ClientProfile() {
       <div className="max-w-6xl mx-auto mt-2 shadow-lg p-5 rounded-xl bg-white py-8">
         <span className="text-xl font-medium">Balance: ${0} </span><br />
         <button className="bg-green-500 px-4 py-2 mt-4 text-white rounded-xl">
-          Pay Now
+          Add Balance
         </button>
       </div>
       <div className="max-w-6xl mx-auto mt-2 shadow-lg p-5 rounded-xl bg-white py-8">
@@ -160,6 +161,7 @@ export default function ClientProfile() {
           Add Billing Method
         </button>
       </div>
+      <Link to='/'>Log Out</Link>
     </>
   );
 }

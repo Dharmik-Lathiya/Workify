@@ -1,10 +1,10 @@
-import React,{useEffect,useContext,useState} from 'react'
+import React, { useEffect, useContext, useState } from 'react'
 import { Link } from 'react-router-dom';
 import logo from '../../Assets/logo.png'
 import { UserDetailsContext } from '../../Context/UserDetailsContext';
 import Notification from '../Freelan/Notification'
 import { io } from 'socket.io-client';
-import { useLocation } from 'react-router-dom';
+import { useLocation,useNavigate  } from 'react-router-dom';
 
 export default function ClientHeader() {
     const location = useLocation();
@@ -12,7 +12,7 @@ export default function ClientHeader() {
     if ((window.location.pathname === "/freelancer/signup") || (window.location.pathname === "/freelancer/create-profile") || (window.location.pathname === "/client/signup") || (window.location.pathname === "/client/create-profile")) {
         return;
     }
-    
+
 
     useEffect(() => {
         console.log("Pathname changed:", location.pathname);
@@ -20,7 +20,7 @@ export default function ClientHeader() {
 
     const { userDetails } = useContext(UserDetailsContext);
 
-    
+
     const [isOpn, SetIsOpen] = useState(false);
     const [newNoti, SetNewNoti] = useState(false);
     const socket = io("http://localhost:3000");
@@ -29,6 +29,18 @@ export default function ClientHeader() {
     socket.on("notification", (data) => {
         SetNewNoti(true)
     })
+
+    const [query, setQuery] = useState("");
+    const [searchType, setSearchType] = useState("Talent");
+    const navigate = useNavigate();
+
+    const handleKeyDown = (e) => {
+        if (e.key === "Enter") {
+            e.preventDefault(); // Prevents page reload
+            const route = searchType === "Talent" ? "/client/find-developer" : "/client/find-jobs";
+            navigate(route);
+        }
+    };
     return (
         <header className="flex items-center justify-between px-6 py-3 shadow-md bg-white">
             <div className="flex items-center gap-6">
@@ -41,11 +53,11 @@ export default function ClientHeader() {
                             </li>
                         </Link>
                         <Link to='/client/find-developer'>
-                        <li className="relative group cursor-pointer flex items-center gap-1">
-                            Manage Work
-                        </li>
+                            <li className="relative group cursor-pointer flex items-center gap-1">
+                                Manage Work
+                            </li>
                         </Link>
-                        
+
                         <li className="relative group cursor-pointer flex items-center gap-1">
                             Why Upwork
                         </li>
@@ -59,14 +71,29 @@ export default function ClientHeader() {
                 </nav>
             </div>
             <div className="flex items-center gap-4">
-                <div className="relative">
+                <div className="relative border rounded-full flex items-center">
+                    <i className="fas fa-search absolute left-3 text-gray-500"></i>
                     <input
                         type="text"
                         placeholder="Search"
-                        className="border rounded-full px-4 py-2 pl-8 focus:outline-none focus:ring-2 focus:ring-gray-400"
+                        value={query}
+                        onChange={(e) => setQuery(e.target.value)}
+                        onKeyDown={handleKeyDown}
+                        className="px-4 py-2 rounded-full pl-10 focus:outline-none focus:ring-2 focus:ring-gray-400 flex-grow"
                     />
-                    <i className="fas fa-search absolute left-2 top-3 text-gray-500"></i>
+                    <select
+                        name="searchType"
+                        value={searchType}
+                        onChange={(e) => setSearchType(e.target.value)}
+                        className="rounded-full py-2 px-4 bg-white border"
+                    >
+                        <option value="Talent">Talent</option>
+                        <option value="Jobs">Jobs</option>
+                    </select>
+                
                 </div>
+
+
                 <i class="fas fa-question"></i>
                 <div className='relative'>
 

@@ -76,7 +76,7 @@ export default function StepSeven() {
     return (
     <>
       <div className='bg-transparent'>
-            <div className='ml-10 mt-4 h-[59.9dvh]'>
+            <div className='ml-10 mt-4 h-[59.9dvh] mb-14'>
                 <p className='text-3xl w-[50dvw] font-semibold'>Clients like to know what you know - add your education here.</p>
                 <p className='w-[52dvw] mt-5'>You don’t have to have a degree. Adding any relevant education helps make your profile more visible.</p>
                 <div className='flex'>
@@ -159,7 +159,7 @@ export default function StepSeven() {
                             <input
                                 type="text"
                                 name="location"
-                                placeholder="Ex: London"
+                                placeholder="Ex: Rajkot"
                                 value={formData.location}
                                 onChange={handleChange}
                                 className="w-1/2 border px-3 py-2 rounded-md mt-1"
@@ -196,7 +196,17 @@ export default function StepSeven() {
                                     >
                                         <option value="">Month</option>
                                         <option value="January">January</option>
-                                        <option value="February">February</option>
+                                        <option value="February">February</option>    
+                                        <option value="March">March</option>
+                                        <option value="April">April</option>
+                                        <option value="May">May</option>
+                                        <option value="June">June</option>
+                                        <option value="July">July</option>
+                                        <option value="August">August</option>
+                                        <option value="September">September</option>
+                                        <option value="October">October</option>
+                                        <option value="November">November</option>
+                                        <option value="December">December</option>
                                     </select>
                                     <input
                                         type="number"
@@ -231,6 +241,16 @@ export default function StepSeven() {
                                         <option value="">Month</option>
                                         <option value="January">January</option>
                                         <option value="February">February</option>
+                                        <option value="March">March</option>
+                                        <option value="April">April</option>
+                                        <option value="May">May</option>
+                                        <option value="June">June</option>
+                                        <option value="July">July</option>
+                                        <option value="August">August</option>
+                                        <option value="September">September</option>
+                                        <option value="October">October</option>
+                                        <option value="November">November</option>
+                                        <option value="December">December</option>
                                     </select>
                                     <input
                                         type="number"

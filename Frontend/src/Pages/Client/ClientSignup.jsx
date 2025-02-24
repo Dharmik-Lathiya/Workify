@@ -189,7 +189,7 @@ const { clientDetails, setClientDetails ,clinetId ,setClientId} = useContext(Cli
         </form>
         <p className="mt-4 text-center">
           Already have an account?{" "}
-          <Link to="/freelancer/Login" className="text-green-600 hover:underline">
+          <Link to="/Login" className="text-green-600 hover:underline">
             Log In
           </Link>
         </p>
