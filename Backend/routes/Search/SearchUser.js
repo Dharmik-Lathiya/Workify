@@ -4,6 +4,9 @@ const Fuse = require("fuse.js");
 
 
 const searchUser = async (req, res) => {
+
+    console.log(req.body.query);
+    
     const users = await UserSchema.find({});
 
     const options = {
@@ -15,10 +18,11 @@ const searchUser = async (req, res) => {
 
     const fuse = new Fuse(users, options);
     let result = fuse.search(req.body.query); 
-
+    console.log(result);
+    
     result = result.map((user) => user.item);
 
-    if(result){
+    if(!result){
 
         return res.status(404).json({success:false , message:"no users found"})
     }

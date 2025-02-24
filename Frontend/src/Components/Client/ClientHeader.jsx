@@ -37,8 +37,28 @@ export default function ClientHeader() {
     const handleKeyDown = (e) => {
         if (e.key === "Enter") {
             e.preventDefault(); // Prevents page reload
-            const route = searchType === "Talent" ? "/client/find-developer" : "/client/find-jobs";
-            navigate(route);
+
+            console.log(e.target.value);
+            
+            let url = searchType === "Talent" ? "searchusers" : "searchjobs";
+             fetch(import.meta.env.VITE_APP_BACKEND_URL+"/" + url,{
+                method:"POST",
+                headers:{
+                  "Content-Type":"application/json"
+                },
+                body:JSON.stringify({
+                    query:e.target.value
+                })
+             }).then((res)=>{
+                    res.json().then(data => {
+                        console.log(data);
+                        
+                        const route = searchType === "Talent" ? "/client/find-developer" : "/client/find-jobs";
+                        // navigate(route)
+                    })
+             })
+
+         ;
         }
     };
     return (

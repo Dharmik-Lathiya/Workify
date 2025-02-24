@@ -15,7 +15,7 @@ const searchJobs = async (req,res) =>{
 
       result = result.map((job) => job.item);
 
-      if(result){
+      if(!result){
 
         return res.status(404).json({success:false , message:"no jobs found"})
     }
