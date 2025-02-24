@@ -13,9 +13,9 @@ export default function FreelancerMainJobs() {
 
     const toggleSaveJob = (job) => {
 
-        const isJobSaved = savedJobs.some(saved => saved.title === job.title);
+        const isJobSaved = savedJobs.some(saved => saved.jobTitle === job.jobTitle);
         if (isJobSaved) {
-            setSavedJobs(savedJobs.filter(saved => saved.title !== job.title));
+            setSavedJobs(savedJobs.filter(saved => saved.jobTitle !== job.jobTitle));
             fetch(import.meta.env.VITE_APP_BACKEND_URL + "/savejob", {
                 method: "POST",
                 headers: {
@@ -118,12 +118,12 @@ export default function FreelancerMainJobs() {
                         <div key={index} className="bg-white p-6 rounded-xl shadow-md border">
                             <p className="text-gray-500 text-sm">{job.date}</p>
                             <div className='flex justify-between'>
-                                <h3 className="font-bold text-xl text-gray-800">{job.title}</h3>
+                                <h3 className="font-bold text-xl text-gray-800">{job.jobTitle}</h3>
                                 <button
                                     className="text-red-500 focus:outline-none mr-8"
                                     onClick={() => toggleSaveJob(job)}
                                 >
-                                    <i className={savedJobs.some(saved => saved.title === job.title) ? "fas fa-heart" : "far fa-heart"}></i>
+                                    <i className={savedJobs.some(saved => saved.jobTitle === job.jobTitle) ? "fas fa-heart" : "far fa-heart"}></i>
                                 </button>
                             </div>
                             <p className="text-gray-600 text-sm mt-2">{job.desc}</p>
