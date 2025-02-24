@@ -4,7 +4,9 @@ const ClientSchema = require('../../models/ClientSchema');
 
 const getChats = async (req,res) => {
 
-        if(req.body.type){
+    console.log(req.body);
+    
+        if(req.body.type == "user"){
             try {
                 const user = await UserSchema.findById(req.body.id)
                     .populate('chats.reciverid', 'firstName lastName username email photo'); // Select only needed fields

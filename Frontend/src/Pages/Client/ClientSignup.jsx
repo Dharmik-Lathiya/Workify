@@ -1,11 +1,12 @@
-import React,{useState,useContext} from 'react'
+import React,{useState,useContext, useEffect} from 'react'
 import { useUser } from "../../Context/HeaderComponent";
 import { Link, useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from 'react-toastify';
 import { ClientDetailsContext } from '../../Context/ClientDetailsContext';
 
 export default function ClientSignup() {
     
-const { clientDetails, setClientDetails } = useContext(ClientDetailsContext);
+const { clientDetails, setClientDetails ,clinetId ,setClientId} = useContext(ClientDetailsContext);
   const { setUserType } = useUser();
   const navigate = useNavigate();
 
@@ -23,13 +24,91 @@ const { clientDetails, setClientDetails } = useContext(ClientDetailsContext);
     e.preventDefault();
     setClientDetails(formData);
     setUserType(formData);
-    navigate("/client/create-profile");
   };
 
 
+  useEffect(()=>{
+
+
+    if(formData.agreeToTerms)
+    fetch(import.meta.env.VITE_APP_BACKEND_URL + "/signup", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(
+        {
+          type: "client",
+          firstName: clientDetails.firstName,
+          lastName: clientDetails.lastName,
+          username: clientDetails.username,
+          email: clientDetails.email,
+          password: clientDetails.password,
+        }
+      )
+    }).then((res) => {
+      res.json().then(data => {
+        console.log(data);
+        
+        if (data.success) {
+          setClientId((pervId) =>{
+            return data._id
+          })
+          navigate("/client/create-profile");
+          
+
+        }
+        if (!data.success && data.message) {
+    
+          toast.error(data.message, {
+            position: "top-center",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: false,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+    
+          });
+        } else {
+    
+          data.details.map((detail) => {
+            toast.error(detail.message, {
+              position: "top-center",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: false,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "light",
+    
+            });
+    
+          })
+        }
+
+      })
+    })
+
+  },[clientDetails])
 
   return (
     <>
+      
+      <ToastContainer
+        position="top-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick={false}
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
       <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
         <h2 className="text-2xl font-bold mb-6 text-center">Sign Up For Clients</h2>

@@ -1,19 +1,51 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React ,{useEffect,useContext, useState}from 'react'
+import { UserDetailsContext } from "../../Context/UserDetailsContext";
+import { ClientDetailsContext } from '../../Context/ClientDetailsContext';
+import ChatUserList from './ChatUserList';
+
 
 export default function ChatMenu() {
+  
+  const {clinetId } = useContext(ClientDetailsContext);
+  const { userId} = useContext(UserDetailsContext);
+  const [chats,setChat] = useState(null)
+  useEffect(()=>{
+
+    fetch(import.meta.env.VITE_APP_BACKEND_URL + "/getchat", {
+      method: "POST",
+      headers: {
+          "Content-Type": "application/json",
+      },
+      body:JSON.stringify({
+        // type: userId ? "user" : "client",
+        type:"user",
+        id:"67b62ec3e4a7216330c0307d"
+        // id: userId ? userId : clinetId
+      })
+    }).then((res) =>{
+        res.json().then(data =>{
+          console.log(data);
+          
+          if(data){
+            setChat(() => {return data})
+          }
+        })
+    })
+  },[])
+
   return (
     <div className='border h-[100vh] w-[20%]'>
       <p className='text-xl p-3'>messages</p>
 
       <div className='m-10'>
-
-        <Link to={'/chat/1'}>
-          <div className='flex  mt-5 mb-5' data-chat-id="1">
-            <img src="https://fastly.picsum.photos/id/786/200/300.jpg?hmac=ukrca61AOMxrxsEnCf7j49AnyoIwIsyIikReiUhm6zQ" alt="userprofile" className='w-10 h-10 rounded-4xl border' />
-            <p className='text-2xl ml-4'> User</p>
-          </div>
-        </Link>
+      {
+       chats &&  chats.map((chat) =>{
+        console.log("hjk");
+        
+        return  <ChatUserList chat={chat}/>
+        })
+      }
+       
       </div>
     </div>
   )
