@@ -40,9 +40,12 @@ export default function ClientHeader() {
                                 Hire Talent
                             </li>
                         </Link>
+                        <Link to='/client/find-developer'>
                         <li className="relative group cursor-pointer flex items-center gap-1">
                             Manage Work
                         </li>
+                        </Link>
+                        
                         <li className="relative group cursor-pointer flex items-center gap-1">
                             Why Upwork
                         </li>
