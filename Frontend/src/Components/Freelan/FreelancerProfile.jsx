@@ -3,9 +3,9 @@ import { UserDetailsContext } from '../../Context/UserDetailsContext'
 
 export default function FreelancerProfile() {
     const { userDetails } = useContext(UserDetailsContext);
-    const [title, setTitle] = useState("Web Designing");
+    const [title, setTitle] = useState(userDetails.title);
     const [rate, setRate] = useState("$60.00/hr");
-    const [skills, setSkills] = useState("Web Design, UI/UX");
+    const [skills, setSkills] = useState(userDetails.skills);
     const [isEditingTitle, setIsEditingTitle] = useState(false);
     const [newTitle, setNewTitle] = useState(title);
 
