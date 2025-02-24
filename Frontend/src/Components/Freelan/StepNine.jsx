@@ -106,7 +106,7 @@ export default function StepNine() {
           <img
             src={formData.profileImage}
             alt="Profile"
-            className="rounded-full w-20 h-20 object-cover mb-2"
+            className="rounded-full w-20 h-20 object-cover mb-2 border-2"
           />
           <label className="border border-gray-400 px-3 py-1 rounded-md text-sm text-gray-700 cursor-pointer">
             Add Profile
