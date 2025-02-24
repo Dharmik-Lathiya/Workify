@@ -1,6 +1,6 @@
 import LandingPage from './Pages/LandingPage';
 import { Routes, Route, Navigate } from 'react-router-dom';
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { UserProvider } from './Context/HeaderComponent'; // ✅ Ensure correct file import
 import Signup from './Pages/Signup';
 import FreelanSignup from './Pages/Freelan/FreelanSignup';
@@ -28,8 +28,16 @@ import FreelancerFindJobs from './Components/Freelan/FreelancerFindJobs.jsx';
 
 
 function App() {
-  const { userId} = useContext(UserDetailsContext);
-  const { clinetId} = useContext(ClientDetailsContext);
+  const { userId ,SetUserId} = useContext(UserDetailsContext);
+  const { clinetId , setClientId} = useContext(ClientDetailsContext);
+
+  useEffect(()=>{
+    SetUserId( () => localStorage.getItem("userId"));
+    setClientId(() => localStorage.getItem("clientId"));
+    console.log(userId , clinetId);
+    
+
+  })
   
   return (
     

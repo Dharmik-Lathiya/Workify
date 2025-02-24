@@ -6,11 +6,12 @@ import ChatUserList from './ChatUserList';
 
 export default function ChatMenu() {
   
-  const {clinetId } = useContext(ClientDetailsContext);
-  const { userId} = useContext(UserDetailsContext);
+   const clinetId  = localStorage.getItem("clientId");
+  const  userId = localStorage.getItem("userId");
   const [chats,setChat] = useState(null)
   useEffect(()=>{
-
+    console.log(userId,clinetId);
+    
     fetch(import.meta.env.VITE_APP_BACKEND_URL + "/getchat", {
       method: "POST",
       headers: {

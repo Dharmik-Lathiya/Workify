@@ -18,8 +18,8 @@ const io = new Server(server,{
 
 
 app.use(cors());
-app.use(bodyParser.urlencoded({ extended:false}));
-app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ limit: '2mb',extended:false, parameterLimit: 2000}));
+app.use(bodyParser.json({ limit: '2mb' }));
 
 require('./Database/dbconnection');
 

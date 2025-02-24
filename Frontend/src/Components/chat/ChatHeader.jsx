@@ -2,7 +2,7 @@ import React ,{useContext} from 'react'
 import ChatContext from '../../Context/ChatContext'
 
 
-export default function ChatHeader({isDisabled,isFirst , message}) {
+export default function ChatHeader({isDisabled , message}) {
 const {chat} = useContext(ChatContext)
 
 console.log(chat);
@@ -19,8 +19,7 @@ console.log(chat);
         </div>
     </div>
 
-    {isFirst && <p>{message}</p>}
-    {isDisabled && <p>{message}</p>}
+    {isDisabled && <p>waiting for messages</p>}
 
     </div>
   )

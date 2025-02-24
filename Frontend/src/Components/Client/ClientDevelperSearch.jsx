@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 export default function ClientDeveloperSearch() {
   const developers = [
     {
-      id: 1,
+      id: "67bc67196ab1cf7c3144b1e3",
       name: "Kemar J.",
       title: "Lead Generation Expert, Email Researcher and List Builder, Data Entry",
       hourlyRate: "$15/hr",

@@ -22,7 +22,6 @@ const {clinetId } = useContext(ClientDetailsContext);
           recivermodel: "users",
           model: "client",
           role: "sender",
-          content:message,
           chatId:chatId
       })
   }).then(()=>{
@@ -35,7 +34,6 @@ const {clinetId } = useContext(ClientDetailsContext);
   // Developers Data
   const developers = [
     {
-      id: 1,
       name: "Vijay P.",
       location: "Umarkhi, India",
       localTime: "12:53 AM",
@@ -52,7 +50,7 @@ const {clinetId } = useContext(ClientDetailsContext);
       ],
     },
     {
-      id: 2,
+      id: "67bc67196ab1cf7c3144b1e3",
       name: "Kemar J.",
       location: "Kingston, Jamaica",
       localTime: "2:00 PM",
@@ -69,7 +67,7 @@ const {clinetId } = useContext(ClientDetailsContext);
   ];
 
   // Find developer based on ID
-  const developer = developers.find((dev) => dev.id === parseInt(id));
+  const developer = developers.find((dev) => dev.id == id);
 
   // Show error if developer not found
   if (!developer) return <h2 className="text-center mt-10 text-red-500">Developer Not Found</h2>;

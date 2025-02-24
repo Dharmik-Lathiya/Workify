@@ -85,9 +85,11 @@ export default function ClientHeader() {
                         <li className="relative group cursor-pointer flex items-center gap-1">
                             Reports
                         </li>
+                        <Link to='/chat'>
                         <li className="relative group cursor-pointer flex items-center gap-1">
                             Message
                         </li>
+                        </Link>
                     </ul>
                 </nav>
             </div>

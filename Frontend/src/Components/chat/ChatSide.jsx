@@ -20,8 +20,7 @@ export default function ChatSide({ db }) {
     const [message, setMessage] = useState('')
     const [chats, setChats] = useState([]);
     const [isDisabled, setIsDisabled] = useState(true);
-    const [isFirst,setIsFirst ] = useState(false)
-
+    
     const senderid = userId ? {userId:userId ,  model: "users"} : {clinetId:clinetId , model: "client"} 
     
     useEffect(() => {
@@ -32,10 +31,12 @@ export default function ChatSide({ db }) {
                 console.log(data);
                 if (data) {
                     setChats(data)
+                    
+                    
                     setIsDisabled(false)
                 }else{
                     setIsDisabled(false)
-                    setIsFirst(true)
+                   
                 }
 
             });
@@ -74,7 +75,7 @@ export default function ChatSide({ db }) {
     return (
         <div className='bg-amber-50 w-full  relative'>
 
-            {id && <ChatHeader isDisabled={isDisabled} isFirst={isFirst}  message={isFirst ? "be first one to message" :  "waiting for message"}/>}
+            {id && <ChatHeader isDisabled={isDisabled}   />}
             <div>
                 {
                     chats.map((item) => {

@@ -84,9 +84,11 @@ export default function FreelancerHeader() {
                             <li className="relative group cursor-pointer flex items-center gap-1">
                                 What’s new
                             </li>
+                            <Link to='/chat'>
                             <li className="relative group cursor-pointer flex items-center gap-1">
                                 Message
                             </li>
+                            </Link>
                         </ul>
                     </nav>
                 </div>
