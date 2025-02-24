@@ -1,8 +1,37 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useParams } from "react-router-dom";
+import { ClientDetailsContext } from '../../Context/ClientDetailsContext';
+
 
 export default function DeveloperProfile() {
-  const { id } = useParams(); // Get ID from URL
+  const { id } = useParams(); 
+
+const {clinetId } = useContext(ClientDetailsContext);
+
+  function createChat() {
+
+    let chatId = `${Date.now()}-${Math.floor(Math.random() * 10000)}`
+    fetch(import.meta.env.VITE_APP_BACKEND_URL + "/addchat", {
+      method: "PUT",
+      headers: {
+          "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+          clientId: "67b62ec3e4a7216330c0307d",
+          reciverid: id,
+          recivermodel: "users",
+          notificationType:"message",
+          model: "client",
+          role: "sender",
+          content:message,
+          chatId:chatId
+      })
+  }).then(()=>{
+
+     
+  })
+    
+  }
 
   // Developers Data
   const developers = [
@@ -73,7 +102,7 @@ export default function DeveloperProfile() {
               <p className="text-green-600 font-semibold">⭐ {developer.jobSuccess}% Job Success</p>
             </div>
           </div>
-          <button className="px-5 py-2 bg-green-500 text-white rounded-lg">Hire</button>
+          <button className="px-5 py-2 bg-green-500 text-white rounded-lg" onClick={createChat}>Hire</button>
         </div>
 
         {/* Work History */}

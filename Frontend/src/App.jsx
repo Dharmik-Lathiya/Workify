@@ -45,9 +45,6 @@ function App() {
             <Route path="/client" element={<ClientTemp />}>
 
               <Route path="SignUp" element={<ClientSignup />} />
-              <Route path="create-profile" element={<ClientCreateProfile />} />
-              <Route path="home" element={<ClientHome/>} />
-              <Route path="profile" element={<ClientProfile/>} />
               <Route path="find-developer" element={<ClientDevelperSearch/>} />
               <Route path="developer-profile/:id" element={<DeveloperProfile />} />            
 
