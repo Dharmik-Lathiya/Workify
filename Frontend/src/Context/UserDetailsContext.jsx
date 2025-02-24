@@ -28,6 +28,7 @@ export const UserDetailsProvider = ({ children }) => {
     zip: "",
     phone: "",
     profileImage: "",
+    languages:[],
   });
   const [userId , SetUserId] = useState(null);
 

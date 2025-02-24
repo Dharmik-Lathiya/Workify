@@ -1,5 +1,5 @@
-import React, { useContext, useEffect , useState} from 'react'
-import { useLocation } from "react-router-dom";
+import React, { useContext, useEffect, useState } from 'react'
+import { useLocation, useNavigate } from "react-router-dom";
 
 import { Link } from 'react-router-dom';
 import { UserDetailsContext } from '../../Context/UserDetailsContext'
@@ -21,7 +21,7 @@ export default function FreelancerHeader() {
 
     const { userDetails } = useContext(UserDetailsContext);
 
-    
+
     const [isOpn, SetIsOpen] = useState(false);
     const [newNoti, SetNewNoti] = useState(false);
     const socket = io("http://localhost:3000");
@@ -30,6 +30,36 @@ export default function FreelancerHeader() {
     socket.on("notification", (data) => {
         SetNewNoti(true)
     })
+
+    const [query, setQuery] = useState("");
+    const [searchType, setSearchType] = useState("Talent");
+    const navigate = useNavigate();
+
+    const handleKeyDown = (e) => {
+        if (e.key === "Enter") {
+            e.preventDefault();
+            
+            let url = searchType === "Talent" ?  "searchjobs" : "searchusers";
+             fetch(import.meta.env.VITE_APP_BACKEND_URL+"/" + url,{
+                method:"POST",
+                headers:{
+                  "Content-Type":"application/json"
+                },
+                body:JSON.stringify({
+                    query:e.target.value
+                })
+             }).then((res)=>{
+                    res.json().then(data => {
+                        console.log(data);
+                        
+                        const route = searchType === "Talent" ?  "/client/find-jobs" : "/client/find-developer";
+                        navigate(route);
+                    })
+             })
+
+         ;
+        }
+    };
 
     return (
         <>
@@ -62,14 +92,28 @@ export default function FreelancerHeader() {
                     </nav>
                 </div>
                 <div className="flex items-center gap-4">
-                    <div className="relative">
+                    <div className="relative border rounded-full flex items-center">
+                        <i className="fas fa-search absolute left-3 text-gray-500"></i>
                         <input
                             type="text"
                             placeholder="Search"
-                            className="border rounded-full px-4 py-2 pl-8 focus:outline-none focus:ring-2 focus:ring-gray-400"
+                            value={query}
+                            onChange={(e) => setQuery(e.target.value)}
+                            onKeyDown={handleKeyDown}
+                            className="px-4 py-2 rounded-full pl-10 focus:outline-none focus:ring-2 focus:ring-gray-400 flex-grow"
                         />
-                        <i className="fas fa-search absolute left-2 top-3 text-gray-500"></i>
+                        <select
+                            name="searchType"
+                            value={searchType}
+                            onChange={(e) => setSearchType(e.target.value)}
+                            className="rounded-full py-2 px-4 bg-white border"
+                        >
+                            <option value="Jobs">Jobs</option>
+                            <option value="Talent">Talent</option>
+                        </select>
+
                     </div>
+
                     <i class="fas fa-question"></i>
                     <div className='relative'>
 
@@ -83,11 +127,11 @@ export default function FreelancerHeader() {
                     <Link to='/freelancer/profile'>
                         <img src={userDetails.profileImage} alt="" className='h-9 w-9 rounded-full' />
                     </Link>
-                    
-                    
-            </div>
+
+
+                </div>
             </header>
         </>
     )
-       
+
 }

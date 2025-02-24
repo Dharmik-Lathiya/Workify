@@ -8,6 +8,8 @@ export default function FreelancerProfile() {
     const [skills, setSkills] = useState(userDetails.skills);
     const [isEditingTitle, setIsEditingTitle] = useState(false);
     const [newTitle, setNewTitle] = useState(title);
+    console.log(userDetails.languages);
+    
 
     return (
         <>
@@ -19,8 +21,8 @@ export default function FreelancerProfile() {
                             <img src={userDetails.profileImage} alt="" className='h-28 w-28 rounded-full' />
                         </div>
                         <div className='flex-col ml-10'>
-                            <h1 class="font-semibold text-4xl">Dharmik F.</h1>
-                            <p class="text-gray-500 mt-3">📍 Rajkot, India - 5:49 pm local time</p>
+                            <h1 class="font-semibold text-4xl">{userDetails.firstName}</h1>
+                            <p class="text-gray-500 mt-3">📍{userDetails.bio}</p>
                         </div>
                     </div>
                     <div className='flex gap-5'>
@@ -37,7 +39,7 @@ export default function FreelancerProfile() {
             <div className="bg-gray-200 p-4 rounded-lg">
               <h2 className="text-xl font-semibold">Profile Details</h2>
               <ul className="mt-4 text-sm text-gray-700">
-                <li><strong>Languages:</strong> English, Hindi</li>
+                <li><strong>Languages:</strong> {userDetails.languages}</li>
                 <li><strong>Location:</strong> India</li>
                 <li><strong>Education:</strong> Oxford Global University</li>
               </ul>
