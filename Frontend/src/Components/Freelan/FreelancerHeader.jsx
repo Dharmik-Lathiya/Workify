@@ -32,7 +32,7 @@ export default function FreelancerHeader() {
     })
 
     const [query, setQuery] = useState("");
-    const [searchType, setSearchType] = useState("Talent");
+    const [searchType, setSearchType] = useState("Jobs");
     const navigate = useNavigate();
 
     const handleKeyDown = (e) => {
@@ -51,8 +51,7 @@ export default function FreelancerHeader() {
              }).then((res)=>{
                     res.json().then(data => {
                         console.log(data);
-                        
-                        const route = searchType === "Talent" ?  "/client/find-jobs" : "/client/find-developer";
+                        const route = searchType === "Talent" ? "/freelancer/find-developer" : "/freelancer/find-jobs" ;
                         navigate(route);
                     })
              })

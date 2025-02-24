@@ -24,6 +24,7 @@ import ClientDevelperSearch from './Components/Client/ClientDevelperSearch.jsx';
 import DeveloperProfile from './Components/Client/DeveloperProfile.jsx';
 import { UserDetailsContext } from "./Context/UserDetailsContext";
 import { ClientDetailsContext } from './Context/ClientDetailsContext';
+import FreelancerFindJobs from './Components/Freelan/FreelancerFindJobs.jsx';
 
 
 function App() {
@@ -37,10 +38,12 @@ function App() {
             <Route path="/signup" element={<Signup />} />
             <Route path="/Login" element={<Login />} />
             <Route path="/freelancer" element={<Temp />}>
+            
               <Route path="SignUp" element={<FreelanSignup />} />
               { localStorage.getItem("userId") ?  <Route path="create-profile" element={<CreateProfile />}  /> : <Route path="create-profile" element={<Navigate to={'/freelancer/signup'}/>}  /> }
               { localStorage.getItem("userId") ?  <Route path="profile" element={<FreelancerProfile />} />  : <Route path="profile" element={<Navigate to={'/freelancer/signup'}/>}  /> }
               { localStorage.getItem("userId") ?  <Route path="home" element={<FreeLancerHome />} />: <Route path="home" element={<Navigate to={'/freelancer/signup'}/>}  /> }
+              { localStorage.getItem("userId") ?  <Route path="find-jobs" element={<FreelancerFindJobs />} />: <Route path="find-jobs" element={<Navigate to={'/freelancer/signup'}/>}  /> }
             </Route>
             <Route path="/client" element={<ClientTemp />}>
               <Route path="SignUp" element={<ClientSignup />} />
