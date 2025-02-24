@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { UserDetailsContext } from "../../Context/UserDetailsContext.jsx";
+import { Link } from 'react-router-dom';
 
 export default function FreelancerMainJobs() {
 
@@ -12,9 +13,9 @@ export default function FreelancerMainJobs() {
 
     const toggleSaveJob = (job) => {
 
-        const isJobSaved = savedJobs.some(saved => saved.jobTtitle === job.jobTitle);
+        const isJobSaved = savedJobs.some(saved => saved.jobTitle === job.jobTitle);
         if (isJobSaved) {
-            setSavedJobs(savedJobs.filter(saved => saved.jobTtitle !== job.jobTtitle));
+            setSavedJobs(savedJobs.filter(saved => saved.jobTitle !== job.jobTitle));
             fetch(import.meta.env.VITE_APP_BACKEND_URL + "/savejob", {
                 method: "POST",
                 headers: {
@@ -143,18 +144,12 @@ export default function FreelancerMainJobs() {
                                     {job.verified && <i className="fas fa-check-circle"></i>}
                                     <span>Payment Verified</span>
                                 </div>
-                                <span>
-                                    ${job.spent}+ spent
-                                </span>
                             </div>
 
                             <div className="flex justify-between items-center mt-2 text-gray-600 text-sm">
-                                <span>
-                                    Proposals: {job.proposals}
-                                </span>
-                                <span>
-                                    <i className="fas fa-map-marker-alt"></i> {job.country}
-                                </span>
+                                <Link className=''>
+                                    Contect
+                                </Link>
                             </div>
 
 

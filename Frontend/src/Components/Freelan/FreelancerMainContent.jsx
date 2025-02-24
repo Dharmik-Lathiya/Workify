@@ -27,7 +27,7 @@ export default function FreelancerMainContent() {
 
                     <div className="slider-container text-amber-50 relative">
                         <Slider {...settings}>
-                            <div className="p-12 bg-[#13544e] rounded-xl">
+                            <div className="p-12 mx-1 bg-[#13544e] rounded-xl">
                                 <h2 className="text-3xl font-bold">
                                     Rise to the top of the client's list
                                 </h2>
@@ -38,7 +38,7 @@ export default function FreelancerMainContent() {
                                     Boost now
                                 </button>
                             </div>
-                            <div className="p-12 bg-[#14a800] rounded-xl">
+                            <div className="p-12 mx-1 bg-[#14a800] rounded-xl">
                                 <h2 className="text-3xl font-bold">Get more visibility</h2>
                                 <p className="text-lg mt-2">
                                     Stay ahead of the competition with a boosted profile.
@@ -47,7 +47,7 @@ export default function FreelancerMainContent() {
                                     Boost now
                                 </button>
                             </div>
-                            <div className="p-12 bg-[#13544e] rounded-xl">
+                            <div className="p-12 mx-1 bg-[#13544e] rounded-xl">
                                 <h2 className="text-3xl font-bold">Get more visibility</h2>
                                 <p className="text-lg mt-2">
                                     Stay ahead of the competition with a boosted profile.
@@ -69,7 +69,9 @@ export default function FreelancerMainContent() {
                     {/* Profile Section */}
                     <div className="bg-white p-4 rounded-xl shadow-md">
                         <div className="flex items-center space-x-3">
-                            <div className="w-12 h-12 bg-gray-300 rounded-full"></div>
+                            <div className="">
+                                <img src={userDetails.profileImage} className="w-12 h-12 bg-gray-300 rounded-full" alt="" />
+                            </div>
                             <div>
                                 <h3 className="font-bold">{userDetails.firstName}</h3>
                                 <p className="text-sm text-gray-600">{userDetails.professionalTitle}</p>
