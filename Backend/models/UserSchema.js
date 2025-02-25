@@ -20,7 +20,11 @@ const userSchema = new mongoose.Schema({
     },
     photo: { type: String },
     dob: { type: Date },
-    address: { type: String },
+    street: String,
+    apt: String,
+    city: String,
+    state: String,
+    zip: String,    
     country: { type: String },
     phone: { type: Number },
     languages: [{
@@ -54,8 +58,8 @@ const userSchema = new mongoose.Schema({
         title: String,
         role: String,
         desc: String,
-        urls: [{ type: String }],
-        thumbnail: { type: String }
+        urls:  String ,
+        thumbnail:String 
     }],
     completedProject: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Jobs' }],
     savedJobs:[{ type: mongoose.Schema.Types.ObjectId, ref: 'Jobs' }],

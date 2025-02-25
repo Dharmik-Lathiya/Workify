@@ -3,10 +3,10 @@ import { UserDetailsContext } from "../../Context/UserDetailsContext.jsx";
 import logo from "../../Assets/UserIcon.png";
 
 export default function StepNine() {
-  const { userDetails, setUserDetails,userId } = useContext(UserDetailsContext);
-  const [flag,setFlag] = useState(false)
-  
-  
+  const { userDetails, setUserDetails, userId } = useContext(UserDetailsContext);
+  const [flag, setFlag] = useState(false)
+
+
   const [formData, setFormData] = useState({
     bio: "",
     dob: "",
@@ -17,7 +17,7 @@ export default function StepNine() {
     state: "",
     zip: "",
     phone: "",
-    profileImage:"",
+    profileImage: "",
   });
 
   // Sync formData with userDetails when context updates
@@ -27,42 +27,47 @@ export default function StepNine() {
       ...userDetails,
     }));
 
-    if(flag){
-      fetch(import.meta.env.VITE_APP_BACKEND_URL+"/updateuser",{
-        method:"PUT",
-        headers:{
-          "Content-Type":"application/json"
+    if (flag) {
+      fetch(import.meta.env.VITE_APP_BACKEND_URL + "/updateuser", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json"
         },
-        body:JSON.stringify(
+        body: JSON.stringify(
           {
             id: userId,
-            update:{
-            type:"devloper",
-            skills:userDetails.selectedSkills,
-            title:userDetails.professionalTitle,
-            photo:userDetails.profileImage,
-            dob:userDetails.dob,
-            address:userDetails.street + " " + userDetails.apt + " " + userDetails.city + " " + userDetails.zip + " " + userDetails.state ,
-            country:userDetails.country,
-            phone:userDetails.phone,
-            languages:userDetails.languages,
-            bio:userDetails.bio,
-            price:215,
-            experience:userDetails.experiences,
-            educaton:userDetails.education
+            update: {
+              type: "devloper",
+              skills: userDetails.selectedSkills,
+              title: userDetails.professionalTitle,
+              photo: userDetails.profileImage,
+              dob: userDetails.dob,
+              street: userDetails.street,
+              apt: userDetails.apt,
+              city: userDetails.city,
+              state: userDetails.state,
+              zip: userDetails.zip,
+              address: userDetails.apt + " " + userDetails.street + " " + userDetails.city + " " + userDetails.zip + " " + userDetails.state,
+              country: userDetails.country,
+              phone: userDetails.phone,
+              languages: userDetails.languages,
+              bio: userDetails.bio,
+              price: 215,
+              experience: userDetails.experiences,
+              educaton: userDetails.education
             }
-        
-        }
+
+          }
         )
-      }).then((res)=>{
-        res.json().then(data=>{
+      }).then((res) => {
+        res.json().then(data => {
           console.log(data);
-          
+
         })
       })
-  
+
     }
-  }, [userDetails,flag]);
+  }, [userDetails, flag]);
 
   // Handle text inputs
   const handleChange = (e) => {
@@ -80,20 +85,20 @@ export default function StepNine() {
       };
     }
   };
-  
+
 
   // Save to context
   const handleSave = () => {
     setUserDetails((prev) => ({
       ...prev,
-      ...formData, 
+      ...formData,
     }));
     setFlag(true)
     console.log("Updated Profile Details:", formData.profileImage); // This should log the base64 image
 
-    
+
   };
-  
+
 
   return (
     <div className="bg-white p-6 rounded-lg shadow-md mb-[13dvh]">
