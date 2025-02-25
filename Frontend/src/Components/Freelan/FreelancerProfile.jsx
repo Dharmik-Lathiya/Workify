@@ -5,15 +5,12 @@ export default function FreelancerProfile() {
   const { userDetails, setUserDetails } = useContext(UserDetailsContext);
   const [title, setTitle] = useState(userDetails.title);
   const [isEditingTitle, setIsEditingTitle] = useState(false);
-
-  console.log(userDetails.languages);
-
-
-
-
+  const [updated,setUpdated] = useState(false)
   const [showProfilePopup, setShowProfilePopup] = useState(false);
   const [newTitle, setNewTitle] = useState(title);
   const [formData, setNewFormData] = useState({
+    title:"",
+    bio:"",
     username: "",
     email: "",
     dob: "",
@@ -22,8 +19,26 @@ export default function FreelancerProfile() {
     country: "",
   });
 
-  const setFormData = () => {
+  function saveChanges(){
+    console.log(formData);
 
+    fetch(import.meta.env.VITE_APP_BACKEND_URL + "/updateuser" ,{
+      method: "PUT",
+      headers:{
+        "Content-Type":"application/json"
+      },
+      body:JSON.stringify({
+        type:"user",
+        id:localStorage.getItem("userId"),
+        update:{...formData}
+      })
+    }).then(res =>{
+      res.json().then(data => {
+        setUpdated(!updated)
+        setShowProfilePopup(false)
+      })
+    })
+    
   }
 
 
@@ -65,19 +80,18 @@ export default function FreelancerProfile() {
           return {
             username: data.username || "",
             email: data.email || "",
+            bio: data.bio || "",
             dob: data.dob || "",
             phone: data.phone || "",
             city: city,
             country: data.country || "India",
-
+            title: data.title || "",
           }
         })
       })
     })
 
-  }, [])
-
-  console.log(userDetails);
+  }, [updated])
 
 
   return (
@@ -127,18 +141,37 @@ export default function FreelancerProfile() {
             <div className="fixed inset-0 flex flex-col items-center justify-center bg-gray-300/50 ">
               <div className="bg-white p-6 rounded-lg shadow-lg w-[60dvw] ">
                 <div className="flex justify-between">
-                  <h2 className="text-xl font-bold">Edit Profile Details</h2>
+                  <h2 className="font-bold">Edit Profile Details</h2>
                   <button
                     onClick={() => setShowProfilePopup(false)}
                     className="p-2 px-4 bg-red-500 text-white rounded-lg"
                   >X</button>
                 </div>
 
+                <label className="font-medium">Title</label>
+                <input
+                  type="text"
+                  name="username"
+                  value={formData.title}
+                  onChange={(e)=>{ setNewFormData((prevData)=>{ return {...prevData ,title:e.target.value } } ) }}
+                  className="w-full border px-3 py-2 rounded-md mt-1"
+                />
+
+                <label className="mt-3font-medium">Bio</label>
+                <input
+                  type="text"
+                  name="username"
+                  value={formData.bio}
+                  onChange={(e)=>{ setNewFormData((prevData)=>{ return {...prevData ,bio:e.target.value } } ) }}
+                  className="w-full border px-3 py-2 rounded-md mt-1"
+                />
+
                 <label className="block mt-3 font-medium">Username</label>
                 <input
                   type="text"
                   name="username"
                   value={formData.username}
+                  onChange={(e)=>{ setNewFormData((prevData)=>{ return {...prevData ,username:e.target.value } } ) }}
                   className="w-full border px-3 py-2 rounded-md mt-1"
                 />
 
@@ -147,24 +180,33 @@ export default function FreelancerProfile() {
                   type="email"
                   name="email"
                   value={formData.email}
+                  onChange={(e)=>{ setNewFormData((prevData)=>{ return {...prevData ,email:e.target.value } } ) }}
                   className="w-full border px-3 py-2 rounded-md mt-1"
                 />
 
-                <label className="block mt-3 font-medium">DOB</label>
-                <input
-                  type="date"
-                  name="dob"
-                  value={formData.dob}
-                  className="w-full border px-3 py-2 rounded-md mt-1"
-                />
+                <div className='flex justify-between'>
+                  <div className='w-[48%]'>
+                    <label className="block mt-3 font-medium">DOB</label>
+                    <input
+                      type="date"
+                      name="dob"
+                      value={formData.dob}
+                      onChange={(e)=>{ setNewFormData((prevData)=>{ return {...prevData ,dob:e.target.value } } ) }}
+                      className="w-full border px-3 py-2 rounded-md mt-1"
+                    />
+                  </div>
+                  <div className='w-[48%]'>
+                    <label className="block mt-3 font-medium">Phone</label>
+                    <input
+                      type="text"
+                      name="phone"
+                      value={formData.phone}
+                      onChange={(e)=>{ setNewFormData((prevData)=>{ return {...prevData ,phone:e.target.value } } ) }}
 
-                <label className="block mt-3 font-medium">Phone</label>
-                <input
-                  type="text"
-                  name="phone"
-                  value={formData.phone}
-                  className="w-full border px-3 py-2 rounded-md mt-1"
-                />
+                      className="w-full border px-3 py-2 rounded-md mt-1"
+                    /></div>
+
+                </div>
 
                 <div className="flex justify-between mt-3">
                   <div className='w-[48%]'>
@@ -174,6 +216,7 @@ export default function FreelancerProfile() {
                       type="text"
                       name="location"
                       value={formData.city}
+                      onChange={(e)=>{ setNewFormData((prevData)=>{ return {...prevData ,city:e.target.value } } ) }}
                       className="w-full border px-3 py-2 rounded-md mt-1"
                     />
                   </div>
@@ -184,6 +227,8 @@ export default function FreelancerProfile() {
                       type="text"
                       name="Country"
                       value={formData.country}
+                      onChange={(e)=>{ setNewFormData((prevData)=>{ return {...prevData ,country:e.target.value } } ) }}
+
                       className="w-full border px-3 py-2 rounded-md mt-1"
                     />
                   </div>
@@ -192,7 +237,7 @@ export default function FreelancerProfile() {
 
                 <button
                   className="mt-4 px-4 py-2 bg-green-500 text-white rounded-lg"
-                  onClick={setFormData} >
+                  onClick={saveChanges} >
                   Save Changes
                 </button>
               </div>
