@@ -1,55 +1,83 @@
-import React, { useContext, useState , useEffect } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import { UserDetailsContext } from '../../Context/UserDetailsContext'
 
 export default function FreelancerProfile() {
-    const { userDetails ,setUserDetails} = useContext(UserDetailsContext);
-    const [title, setTitle] = useState(userDetails.title);
-    const [isEditingTitle, setIsEditingTitle] = useState(false);
-    console.log(userDetails.languages);
+  const { userDetails, setUserDetails } = useContext(UserDetailsContext);
+  const [title, setTitle] = useState(userDetails.title);
+  const [isEditingTitle, setIsEditingTitle] = useState(false);
 
-    useEffect(()=>{
-          fetch(import.meta.env.VITE_APP_BACKEND_URL + `/getuser/devloper/${localStorage.getItem("userId")}`,{
-            method:"GET"
-          }).then((res)=>{
-              res.json().then((data)=>{
-                const addressParts = data.address ? data.address.split(" ") : [];
-                const zipCode = addressParts.pop() || "";
-                const state = addressParts.pop() || "";
-                const city = addressParts.slice(-2).join(" ") || "";
-                const street = addressParts.slice(0, -2).join(" ") || "";
-    
-                setUserDetails(prevState => ({
-                    ...prevState,
-                    firstName: data.firstName || "",
-                    lastName: data.lastName || "",
-                    username: data.username || "",
-                    email: data.email || "",
-                    password: data.password || "",
-                    country: data.country || "India",
-                    bio: data.bio || "",
-                    dob: data.dob || "",
-                    street: street,
-                    city: city,
-                    state: state,
-                    zip: zipCode,
-                    phone: data.phone || "",
-                    profileImage: data.photo || "",
-                    selectedSkills: data.skills || [],
-                    professionalTitle: data.title || "",
-                    experiences: data.experience || [],
-                    education: data.educaton || [],
-                }));
-              })
-          })
-            
-        },[])
+  console.log(userDetails.languages);
+
+
 
 
   const [showProfilePopup, setShowProfilePopup] = useState(false);
   const [newTitle, setNewTitle] = useState(title);
-  // const [formData,setNewFormData] = useState(
-  // );  
+  const [formData, setNewFormData] = useState({
+    username: "",
+    email: "",
+    dob: "",
+    phone: "",
+    city: "",
+    country: "",
+  });
 
+  const setFormData = () => {
+
+  }
+
+
+  useEffect(() => {
+    fetch(import.meta.env.VITE_APP_BACKEND_URL + `/getuser/devloper/${localStorage.getItem("userId")}`, {
+      method: "GET"
+    }).then((res) => {
+      res.json().then((data) => {
+        const addressParts = data.address ? data.address.split(" ") : [];
+        const zipCode = addressParts.pop() || "";
+        const state = addressParts.pop() || "";
+        const city = addressParts.slice(-2).join(" ") || "";
+        const street = addressParts.slice(0, -2).join(" ") || "";
+
+        setUserDetails(prevState => ({
+          ...prevState,
+          firstName: data.firstName || "",
+          lastName: data.lastName || "",
+          username: data.username || "",
+          email: data.email || "",
+          password: data.password || "",
+          country: data.country || "India",
+          bio: data.bio || "",
+          dob: data.dob || "",
+          street: street,
+          city: city,
+          state: state,
+          zip: zipCode,
+          phone: data.phone || "",
+          profileImage: data.photo || "",
+          selectedSkills: data.skills || [],
+          professionalTitle: data.title || "",
+          experiences: data.experience || [],
+          education: data.educaton || [],
+          languages: data.languages || [],
+
+        }));
+        setNewFormData(() => {
+          return {
+            username: data.username || "",
+            email: data.email || "",
+            dob: data.dob || "",
+            phone: data.phone || "",
+            city: city,
+            country: data.country || "India",
+
+          }
+        })
+      })
+    })
+
+  }, [])
+
+  console.log(userDetails);
 
 
   return (
@@ -89,13 +117,15 @@ export default function FreelancerProfile() {
                 <li><strong>Email:</strong> {userDetails.email}</li>
                 <li><strong>DOB:</strong> {userDetails.dob.slice(0, 10)}</li>
                 <li><strong>Phone:</strong> {userDetails.phone}</li>
-                <li><strong>Location:</strong> {userDetails.street + userDetails.city + userDetails.state}</li>
+                <li><strong>City:</strong> {userDetails.city}</li>
+                <li><strong>Country:</strong> {userDetails.country}</li>
+
               </ul>
             </div>
           </div>
           {showProfilePopup && (
-            <div className="fixed inset-0 flex items-center justify-center bg-gray-300/50">
-              <div className="bg-white p-6 rounded-lg shadow-lg w-[60dvw]">
+            <div className="fixed inset-0 flex flex-col items-center justify-center bg-gray-300/50 ">
+              <div className="bg-white p-6 rounded-lg shadow-lg w-[60dvw] ">
                 <div className="flex justify-between">
                   <h2 className="text-xl font-bold">Edit Profile Details</h2>
                   <button
@@ -108,7 +138,7 @@ export default function FreelancerProfile() {
                 <input
                   type="text"
                   name="username"
-                  value={userDetails.username}
+                  value={formData.username}
                   className="w-full border px-3 py-2 rounded-md mt-1"
                 />
 
@@ -116,7 +146,7 @@ export default function FreelancerProfile() {
                 <input
                   type="email"
                   name="email"
-                  value={userDetails.email}
+                  value={formData.email}
                   className="w-full border px-3 py-2 rounded-md mt-1"
                 />
 
@@ -124,7 +154,7 @@ export default function FreelancerProfile() {
                 <input
                   type="date"
                   name="dob"
-                  value={userDetails.dob}
+                  value={formData.dob}
                   className="w-full border px-3 py-2 rounded-md mt-1"
                 />
 
@@ -132,29 +162,37 @@ export default function FreelancerProfile() {
                 <input
                   type="text"
                   name="phone"
-                  value={userDetails.phone}
+                  value={formData.phone}
                   className="w-full border px-3 py-2 rounded-md mt-1"
                 />
 
-                <label className="block mt-3 font-medium">Languages</label>
-                <input
-                  type="text"
-                  name="languages"
-                  value={userDetails.languages}
-                  className="w-full border px-3 py-2 rounded-md mt-1"
-                />
+                <div className="flex justify-between mt-3">
+                  <div className='w-[48%]'>
 
-                <label className="block mt-3 font-medium">Location</label>
-                <input
-                  type="text"
-                  name="location"
-                  value= {userDetails.street + userDetails.city + userDetails.state}
-                  className="w-full border px-3 py-2 rounded-md mt-1"
-                />
+                    <label className=" mt-3 font-medium">Location</label>
+                    <input
+                      type="text"
+                      name="location"
+                      value={formData.city}
+                      className="w-full border px-3 py-2 rounded-md mt-1"
+                    />
+                  </div>
+
+                  <div className='w-[48%]'>
+                    <label className="mt-3 font-medium">Country:</label>
+                    <input
+                      type="text"
+                      name="Country"
+                      value={formData.country}
+                      className="w-full border px-3 py-2 rounded-md mt-1"
+                    />
+                  </div>
+
+                </div>
 
                 <button
                   className="mt-4 px-4 py-2 bg-green-500 text-white rounded-lg"
-                >
+                  onClick={setFormData} >
                   Save Changes
                 </button>
               </div>

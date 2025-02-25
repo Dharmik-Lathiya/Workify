@@ -24,16 +24,12 @@ export default function FreelancerHeader() {
 
     const [isOpn, SetIsOpen] = useState(false);
     const [newNoti, SetNewNoti] = useState(false);
-    //    const socket = io("http://localhost:3000");
+       const socket = io("http://localhost:3000");
 
     socket.emit("join", localStorage.getItem("userId"));
     socket.on("notification", (data) => {
         SetNewNoti(true)
     })
-    // socket.emit("join", "67b62ec3e4a7216330c0307d");
-    // socket.on("notification", (data) => {
-    //     SetNewNoti(true)
-    // })
 
     const [query, setQuery] = useState("");
     const [searchType, setSearchType] = useState("Jobs");
