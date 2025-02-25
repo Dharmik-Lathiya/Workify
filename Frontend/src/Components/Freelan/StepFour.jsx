@@ -12,9 +12,7 @@ const initialSkillsOptions = [
   "IT Support",
 ];
 
-
-
-export default function StepFour() {
+export default function StepFour({ nextStep }) {
   const { userDetails, setUserDetails } = useContext(UserDetailsContext);
   const [skillsOptions, setSkillsOptions] = useState(initialSkillsOptions);
   const [newSkill, setNewSkill] = useState("");
@@ -39,7 +37,7 @@ export default function StepFour() {
     }
   };
 
-  console.log(userDetails.selectedSkills);
+  const isNextEnabled = userDetails.selectedSkills.length > 0;
 
   return (
     <div className="max-w-3xl mx-auto h-[57dvh]">
@@ -74,6 +72,17 @@ export default function StepFour() {
           Add
         </button>
       </div>
+
+      {/* Next Button */}
+      <button
+        onClick={nextStep}
+        disabled={!isNextEnabled}
+        className={`mt-6 px-6 py-2 rounded-lg text-white ${
+          isNextEnabled ? "bg-green-600" : "bg-gray-400 cursor-not-allowed"
+        }`}
+      >
+        Next
+      </button>
     </div>
   );
 }
