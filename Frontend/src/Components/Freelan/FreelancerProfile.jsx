@@ -127,12 +127,28 @@ export default function FreelancerProfile() {
             <div className="fixed inset-0 flex flex-col items-center justify-center bg-gray-300/50 ">
               <div className="bg-white p-6 rounded-lg shadow-lg w-[60dvw] ">
                 <div className="flex justify-between">
-                  <h2 className="text-xl font-bold">Edit Profile Details</h2>
+                  <h2 className="font-bold">Edit Profile Details</h2>
                   <button
                     onClick={() => setShowProfilePopup(false)}
                     className="p-2 px-4 bg-red-500 text-white rounded-lg"
                   >X</button>
                 </div>
+
+                <label className="font-medium">Title</label>
+                <input
+                  type="text"
+                  name="username"
+                  value={formData.firstName}
+                  className="w-full border px-3 py-2 rounded-md mt-1"
+                />
+
+                <label className="mt-3font-medium">Bio</label>
+                <input
+                  type="text"
+                  name="username"
+                  value={formData.bio}
+                  className="w-full border px-3 py-2 rounded-md mt-1"
+                />
 
                 <label className="block mt-3 font-medium">Username</label>
                 <input
@@ -150,21 +166,26 @@ export default function FreelancerProfile() {
                   className="w-full border px-3 py-2 rounded-md mt-1"
                 />
 
-                <label className="block mt-3 font-medium">DOB</label>
-                <input
-                  type="date"
-                  name="dob"
-                  value={formData.dob}
-                  className="w-full border px-3 py-2 rounded-md mt-1"
-                />
+                <div className='flex justify-between'>
+                  <div className='w-[48%]'>
+                    <label className="block mt-3 font-medium">DOB</label>
+                    <input
+                      type="date"
+                      name="dob"
+                      value={formData.dob}
+                      className="w-full border px-3 py-2 rounded-md mt-1"
+                    />
+                  </div>
+                  <div className='w-[48%]'>
+                    <label className="block mt-3 font-medium">Phone</label>
+                    <input
+                      type="text"
+                      name="phone"
+                      value={formData.phone}
+                      className="w-full border px-3 py-2 rounded-md mt-1"
+                    /></div>
 
-                <label className="block mt-3 font-medium">Phone</label>
-                <input
-                  type="text"
-                  name="phone"
-                  value={formData.phone}
-                  className="w-full border px-3 py-2 rounded-md mt-1"
-                />
+                </div>
 
                 <div className="flex justify-between mt-3">
                   <div className='w-[48%]'>
