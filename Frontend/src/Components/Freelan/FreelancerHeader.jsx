@@ -26,7 +26,7 @@ export default function FreelancerHeader() {
     const [newNoti, SetNewNoti] = useState(false);
     const socket = io("http://localhost:3000");
 
-    socket.emit("join", "67b62ec3e4a7216330c0307d");
+    socket.emit("join", localStorage.getItem("userId"));
     socket.on("notification", (data) => {
         SetNewNoti(true)
     })
@@ -39,7 +39,7 @@ export default function FreelancerHeader() {
         if (e.key === "Enter") {
             e.preventDefault();
             
-            let url = searchType === "Talent" ?  "searchjobs" : "searchusers";
+            let url = searchType === "Talent" ? "searchusers": "searchjobs" ;
              fetch(import.meta.env.VITE_APP_BACKEND_URL+"/" + url,{
                 method:"POST",
                 headers:{

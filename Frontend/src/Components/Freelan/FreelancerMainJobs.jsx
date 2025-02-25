@@ -55,6 +55,32 @@ export default function FreelancerMainJobs() {
         }
     };
 
+    
+  function createChat(job) {
+
+    console.log(job);
+    
+    let chatId = `${Date.now()}-${Math.floor(Math.random() * 10000)}`
+    fetch(import.meta.env.VITE_APP_BACKEND_URL + "/addchat", {
+      method: "PUT",
+      headers: {
+          "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+          userId: userId,
+          reciverid: job.clientId,
+          recivermodel: "client",
+          model: "users",
+          role: "sender",
+          chatId:chatId
+      })
+  }).then(()=>{
+
+     
+  })
+    
+  }
+
     useEffect(() => {
 
         fetch(import.meta.env.VITE_APP_BACKEND_URL + "/" + selectedTab, {
@@ -147,9 +173,9 @@ export default function FreelancerMainJobs() {
                             </div>
 
                             <div className="flex justify-between items-center mt-2 text-gray-600 text-sm">
-                                <Link className=''>
+                                <button className='' onClick={()=>{createChat(job)}}>
                                     Contect
-                                </Link>
+                                </button>
                             </div>
 
 
