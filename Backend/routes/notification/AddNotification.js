@@ -8,6 +8,9 @@ const addNotification = async (req, res) => {
 
 
     // "userId/clientId reciverid  model recivermodel chatid"
+
+    console.log(req.body);
+    
     let sender;
     if (req.body.userId) {
 

@@ -21,14 +21,18 @@ export default function Dashboard() {
       desc: "",
     },
   });
-
+  let [allJobs,setAllJobs] = useState([]);
   useEffect(()=>{
     
         fetch(import.meta.env.VITE_APP_BACKEND_URL + `/getuser/client/${localStorage.getItem("clientId")}`,{
           method:"GET"
         }).then((res)=>{
             res.json().then((data)=>{
-              console.log(data);
+             
+
+              
+              setAllJobs(()=>{return data.postedJobs});
+              
               setClientDetails(prevState => ({
                 ...prevState,
                 firstName: data.firstName || "",
@@ -40,8 +44,10 @@ export default function Dashboard() {
                 address: data.address || "",
                 phone: data.phone || "",
                 jobs: data.postedJobs || [], 
+              
             }));
               console.log(clientDetails);
+             
 
               
             })
@@ -171,7 +177,7 @@ export default function Dashboard() {
     slidesToScroll: 3,
   };
 
-  let allJobs = [...clientDetails.jobs, clientDetails.job];
+ 
 
   return (
     <div className="p-6 min-h-screen mx-auto">
@@ -341,7 +347,11 @@ export default function Dashboard() {
       {/* Overview Section */}
       <p className="mx-10 mb-4 text-2xl font-medium ">Overview</p>
       <div className="grid grid-cols-1 md:grid-cols-2 bg-slate-100 rounded-xl p-4 lg:grid-cols-3 gap-4">
-        { allJobs.map((job, index) => (
+        { allJobs.map((job, index) =>{
+
+          console.log("lodo");
+          
+           return (
           <div key={index} className="bg-slate-100 p-4 rounded-2xl shadow-lg border-2 border-slate-200">
             <span className="text-[16px] font-bold">Job Title:</span>
             <span className="text-xxl ml-2">{job.jobTitle}</span>
@@ -360,13 +370,14 @@ export default function Dashboard() {
             <p className="mt-4 font-semibold">Project Type</p>
             <ul className="text-[15px] mt-2 ml-2">
               <li><strong>Size:</strong> {job.type.size}</li>
-              <li><strong>Time:</strong> {job.type.time}</li>
-              <li><strong>Experience:</strong> {job.type.exp}</li>
-              <li><strong>Price:</strong> {job.type.price}</li>
+              <li><strong>Time:</strong>{job.type.time} </li>
+              <li><strong>Experience:</strong>{job.type.exp} </li>
+              <li><strong>Price:</strong>{job.type.price} </li>
               <li><strong>Description:</strong> <p>{job.type.desc.slice(0, 40)}</p></li>
             </ul>
           </div>
-        ))}
+      
+        )})}
       </div>
 
 

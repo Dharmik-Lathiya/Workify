@@ -26,13 +26,15 @@ export default function ChatSide({ db }) {
     useEffect(() => {
 
         if (id) {
+            console.log(id);
+            
             onValue(ref(db, 'chats/' + id), (snapshot) => {
                 const data = snapshot.val();
                 console.log(data);
                 if (data) {
-                    setChats(data)
+                    console.log(data);
                     
-                    
+                    setChats(data) 
                     setIsDisabled(false)
                 }else{
                     setIsDisabled(false)
@@ -45,13 +47,13 @@ export default function ChatSide({ db }) {
     }, [])
 
     function addChat() {
+
         setChats(prevChats => {
             const updatedChats = [...prevChats, message];
             set(ref(db, 'chats/' + id), updatedChats);
             return updatedChats;
         });
 
-        set(ref(db, 'chats/' + id), chats);
         
         fetch(import.meta.env.VITE_APP_BACKEND_URL + "/addnotification", {
             method: "PUT",
@@ -59,7 +61,7 @@ export default function ChatSide({ db }) {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                senderid,
+                ...senderid,
                 reciverid: chat.reciverid._id,
                 recivermodel: chat.reciverModel,
                 notificationType:"message",

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import logo from '../../Assets/logo.png'
 import ClientStepIntro from '../../Components/Client/ClientStepIntro';
 import ClientStepOne from '../../Components/Client/ClientStepOne';
@@ -6,14 +6,34 @@ import ClientStepTwo from '../../Components/Client/ClientStepTwo';
 import ClientStepThree from '../../Components/Client/ClientStepThree';
 import ClientStepFour from '../../Components/Client/ClientStepFour';
 import ClientStepFive from '../../Components/Client/ClientStepFive';
+import { ClientDetailsContext } from '../../Context/ClientDetailsContext';
 import { Link } from 'react-router-dom';
 
 export default function ClientCreateProfile() {
     const [step, setStep] = useState(0);
-
+    const { clientDetails} = useContext(ClientDetailsContext);
+    
     const nextStep = () => setStep((prev) => (prev === 0 ? 1 : Math.min(prev + 1, 5)));
     const prevStep = () => setStep((prev) => Math.max(prev - 1, 0));
     let name = 'Dharmik';
+
+    function savePost(){
+        fetch(import.meta.env.VITE_APP_BACKEND_URL + "/postjob", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body:JSON.stringify({
+                    clientId:localStorage.getItem("clientId"),
+                    ...clientDetails.job
+            })
+        }).then(res =>{
+            res.json().then(data =>{
+                console.log(data);
+                
+            })
+        })
+    }
 
     return (
         <div className='z-50'>
@@ -61,7 +81,7 @@ export default function ClientCreateProfile() {
                             <button onClick={nextStep} className="bg-green-600 text-white py-2 px-4 rounded-lg">Next</button>
                         )}
                         {step === 5 && (
-                            <Link to='/client/home' onClick={nextStep} className="bg-green-600 text-white py-2 px-4 rounded-lg">Submit</Link>
+                            <Link to='/client/home' onClick={()=>{savePost(); nextStep()}} className="bg-green-600 text-white py-2 px-4 rounded-lg">Submit</Link>
                         )}
                     </div>
                 </div>

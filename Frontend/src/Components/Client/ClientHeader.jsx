@@ -2,6 +2,7 @@ import React, { useEffect, useContext, useState } from 'react'
 import { Link } from 'react-router-dom';
 import logo from '../../Assets/logo.png'
 import { UserDetailsContext } from '../../Context/UserDetailsContext';
+import { ClientDetailsContext } from '../../Context/ClientDetailsContext';
 import Notification from '../Freelan/Notification'
 import { io } from 'socket.io-client';
 import { useLocation,useNavigate  } from 'react-router-dom';
@@ -19,7 +20,9 @@ export default function ClientHeader() {
     }, [location.pathname]);
 
     const { userDetails } = useContext(UserDetailsContext);
-
+    const {clientDetails} = useContext(ClientDetailsContext);
+    console.log(clientDetails);
+    
 
     const [isOpn, SetIsOpen] = useState(false);
     const [newNoti, SetNewNoti] = useState(false);
@@ -128,7 +131,7 @@ export default function ClientHeader() {
                     {isOpn && <Notification set={SetNewNoti} />}
                 </div>
                 <Link to='/client/profile'>
-                    <img src={userDetails.profileImage} alt="" className='h-9 w-9 rounded-full' />
+                    <img src={clientDetails.photo} alt="" className='h-9 w-9 rounded-full' />
                 </Link>
 
 

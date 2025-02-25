@@ -29,14 +29,14 @@ const addChat = async (req, res) => {
     if(req.body.recivermodel == 'users'){
         await UserSchema.updateOne({ _id: req.body.reciverid }, { $push: { chats: { reciverid:sender, reciverModel: req.body.model, chatid: req.body.chatId } } }).then(() => {
 
-            res.status(400).json({ success: true, message: "chat added" })
+            res.status(200).json({ success: true, message: "chat added" })
 
         }).catch(() => {
             res.status(400).json({ success: false, message: "something went wrong" })
         })
     }else{
         await ClientSchema.updateOne({ _id: req.body.reciverid }, { $push: { chats: { reciverid:sender, reciverModel: req.body.model, chatid: req.body.chatId } } }).then(()=>{
-            res.status(400).json({ success: true, message: "chat added" })
+            res.status(200).json({ success: true, message: "chat added" })
 
         }).catch(() => {
             res.status(400).json({ success: false, message: "something went wrong" })

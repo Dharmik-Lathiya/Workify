@@ -24,8 +24,12 @@ export default function FreelancerHeader() {
 
     const [isOpn, SetIsOpen] = useState(false);
     const [newNoti, SetNewNoti] = useState(false);
-//    const socket = io("http://localhost:3000");
+    //    const socket = io("http://localhost:3000");
 
+    socket.emit("join", localStorage.getItem("userId"));
+    socket.on("notification", (data) => {
+        SetNewNoti(true)
+    })
     // socket.emit("join", "67b62ec3e4a7216330c0307d");
     // socket.on("notification", (data) => {
     //     SetNewNoti(true)
@@ -38,12 +42,10 @@ export default function FreelancerHeader() {
     const handleKeyDown = (e) => {
         if (e.key === "Enter") {
             e.preventDefault();
-            
             const searchQuery = e.target.value.trim();
             if (!searchQuery) return;
-    
+
             let url = searchType === "Talent" ? "searchusers" : "searchjobs";
-    
             fetch(import.meta.env.VITE_APP_BACKEND_URL + "/" + url, {
                 method: "POST",
                 headers: {
@@ -51,19 +53,19 @@ export default function FreelancerHeader() {
                 },
                 body: JSON.stringify({ query: searchQuery })
             })
-            .then((res) => res.json())
-            .then((data) => {
-                console.log(data);
-                const route = searchType === "Talent"
-                    ? `/freelancer/find-developer/${encodeURIComponent(searchQuery)}`
-                    : `/freelancer/find-jobs/${encodeURIComponent(searchQuery)}`;
-                
-                navigate(route);
-            })
-            .catch(err => console.error("Error:", err));
+                .then((res) => res.json())
+                .then((data) => {
+                    console.log(data);
+                    const route = searchType === "Talent"
+                        ? `/freelancer/find-developer/${encodeURIComponent(searchQuery)}`
+                        : `/freelancer/find-jobs/${encodeURIComponent(searchQuery)}`;
+
+                    navigate(route);
+                })
+                .catch(err => console.error("Error:", err));
         }
     };
-    
+
 
     return (
         <>
@@ -90,9 +92,9 @@ export default function FreelancerHeader() {
                                 What’s new
                             </li>
                             <Link to='/chat'>
-                            <li className="relative group cursor-pointer flex items-center gap-1">
-                                Message
-                            </li>
+                                <li className="relative group cursor-pointer flex items-center gap-1">
+                                    Message
+                                </li>
                             </Link>
                         </ul>
                     </nav>

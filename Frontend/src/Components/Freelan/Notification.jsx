@@ -18,8 +18,8 @@ export default function Notification() {
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        
-        id: "67b62f0fe4a7216330c03080"
+        type:"devloper",
+        id: localStorage.getItem("userId")
       })
     }).then((res) => {
       res.json().then(data => {
