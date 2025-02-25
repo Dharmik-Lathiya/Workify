@@ -12,6 +12,9 @@ export default function FreeLancerHome() {
         method:"GET"
       }).then((res)=>{
           res.json().then((data)=>{
+
+            console.log(data);
+            
             const addressParts = data.address ? data.address.split(" ") : [];
             const zipCode = addressParts.pop() || "";
             const state = addressParts.pop() || "";
@@ -38,6 +41,7 @@ export default function FreeLancerHome() {
                 professionalTitle: data.title || "",
                 experiences: data.experience || [],
                 education: data.educaton || [],
+                languages:data.languages || []
             }));
           })
       })
