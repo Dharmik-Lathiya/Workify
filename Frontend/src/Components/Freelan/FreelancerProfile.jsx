@@ -10,10 +10,11 @@ export default function FreelancerProfile() {
 
 
 
-
   const [showProfilePopup, setShowProfilePopup] = useState(false);
   const [newTitle, setNewTitle] = useState(title);
   const [formData, setNewFormData] = useState({
+    title:"",
+    bio:"",
     username: "",
     email: "",
     dob: "",
