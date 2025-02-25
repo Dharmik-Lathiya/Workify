@@ -1,21 +1,13 @@
 import React, { useContext, useState, useEffect } from 'react'
 import { UserDetailsContext } from '../../Context/UserDetailsContext'
+import FreelancerProfilePortfolio from './FreelancerProfilePortfolio.jsx';
+import FreelancerProfileEducation from './FreelancerProfileEducation.jsx';
+import FreelancerProfileExperence from './FreelancerProfileExperence.jsx';
 
 export default function FreelancerProfile() {
   const { userDetails, setUserDetails } = useContext(UserDetailsContext);
   const [title, setTitle] = useState(userDetails.title);
-  const [isEditingTitle, setIsEditingTitle] = useState(false);
-  const [showPortfolioPopup, setShowPortfolioPopup] = useState(false);
-  const [portfolioData, setPortfolioData] = useState({
-    title: '',
-    role: '',
-    urls: '',
-    thumbnail: '',
-    desc: ''
-  });
-
-
-
+  
   console.log(userDetails.languages);
 
   // title,role,urls,thumbnail,desc
@@ -24,6 +16,7 @@ export default function FreelancerProfile() {
   const [updated,setUpdated] = useState(false)
   const [showProfilePopup, setShowProfilePopup] = useState(false);
   const [newTitle, setNewTitle] = useState(title);
+  
   const [formData, setNewFormData] = useState({
     title: "",
     bio: "",
@@ -57,39 +50,9 @@ export default function FreelancerProfile() {
     
   }
 
-  const handlePortfolioChange = (e) => {
-    const { name, value } = e.target;
-    setPortfolioData((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const handleThumbnailUpload = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setPortfolioData((prev) => ({ ...prev, thumbnail: reader.result }));
-      };
-      reader.readAsDataURL(file);
-    }
-  };
-
-  const addPortfolioEntry = () => {
-    setUserDetails((prev) => ({
-      ...prev,
-      portfolio: [...prev.portfolio, portfolioData]
-    }));
-    setShowPortfolioPopup(false);
-    setPortfolioData({ title: '', role: '', urls: '', thumbnail: '', desc: '' });
-  };
-
-  const deletePortfolioEntry = (index) => {
-    setUserDetails((prev) => ({
-      ...prev,
-      portfolio: prev.portfolio.filter((_, i) => i !== index)
-    }));
-  };
-
-
+  console.log(userDetails.education);
+  
+  
 
   useEffect(() => {
     fetch(import.meta.env.VITE_APP_BACKEND_URL + `/getuser/devloper/${localStorage.getItem("userId")}`, {
@@ -141,11 +104,6 @@ export default function FreelancerProfile() {
     })
 
   }, [updated])
-
-
-
-  console.log(userDetails);
-  
 
 
   return (
@@ -314,67 +272,7 @@ export default function FreelancerProfile() {
             </div>
 
             {/* Portfolio */}
-            <div className="bg-white p-4 shadow-md rounded-lg">
-              <div className='flex justify-between'>
-                <h2 className="text-lg font-semibold">Portfolio</h2>
-                <button className="" onClick={() => setShowPortfolioPopup(true)}>
-                  <i className="fas fa-plus-circle text-2xl hover:text-green-600 mr-2"></i>
-                </button>
-              </div>
-              <div className="grid grid-cols-2 gap-10">
-              {userDetails.portfolio.length > 0 ? (
-                userDetails.portfolio.map((item, index) => (
-                  
-                    <div key={index} className=" py-3">
-                      <img src={item.thumbnail} alt={item.title} className="h-auto w-full rounded-md" />
-                      
-                      <div className='flex mt-2 justify-between'>
-                      <h3 className="text-md font-bold">{item.title}</h3>  
-                        <i className="fas fa-trash p-2 h-8 bg-red-500 text-white rounded-lg" onClick={() => deletePortfolioEntry(index)}></i>
-                      </div>
-                      
-                      <p className="text-gray-600">{item.role}</p>
-                      <a href={item.urls} className="text-blue-500" target="_blank" rel="noopener noreferrer">View Project</a>
-                      <p className="text-gray-700 ">{item.desc}</p>
-                    </div>
-                  
-                ))
-              ) : (
-                <p className="h-32 mt-2 bg-gray-200 rounded-lg flex items-center justify-center w-full">No portfolio entries yet.</p>
-              )}
-              </div>
-
-              {showPortfolioPopup && (
-                <div className="fixed inset-0 flex flex-col items-center justify-center bg-gray-300/50">
-                  <div className="bg-white p-6 rounded-lg shadow-lg w-[60dvw]">
-                    <div className="flex justify-between">
-                      <h2 className="font-bold">Add Portfolio Entry</h2>
-                      <button
-                        onClick={() => setShowPortfolioPopup(false)}
-                        className="p-2 px-4 bg-red-500 text-white rounded-lg"
-                      >X</button>
-                    </div>
-                    <label className="font-medium">Title</label>
-                    <input type="text" name="title" value={portfolioData.title} onChange={handlePortfolioChange} className="w-full border px-3 py-2 rounded-md mt-1" placeholder='Enter Title' />
-                    <label className="mt-3 font-medium">Role</label>
-                    <input type="text" name="role" value={portfolioData.role} onChange={handlePortfolioChange} className="w-full border px-3 py-2 rounded-md mt-1" placeholder='Enter Role'/>
-                    <label className="mt-3 font-medium">Project URL</label>
-                    <input type="url" name="urls" value={portfolioData.urls} onChange={handlePortfolioChange} className="w-full border px-3 py-2 rounded-md mt-1"
-                      placeholder="https://example.com"
-                      pattern="https://.*"
-                      size="30" />
-                    <label className="mt-3 font-medium">Thumbnail</label>
-                    <input type="file" accept="image/*" onChange={handleThumbnailUpload} className="w-full border px-3 py-2 rounded-md mt-1" />
-                    {portfolioData.thumbnail && <img src={portfolioData.thumbnail} alt="Preview" className="h-20 w-20 mt-2" />}
-                    <label className="mt-3 font-medium">Description</label>
-                    <textarea name="desc" value={portfolioData.desc} onChange={handlePortfolioChange} className="w-full border px-3 py-2 rounded-md mt-1" placeholder='Enter Description'></textarea>
-                    <button className="mt-4 px-4 py-2 bg-green-500 text-white rounded-lg" onClick={addPortfolioEntry}>
-                      Save Portfolio Entry
-                    </button>
-                  </div>
-                </div>
-              )}
-            </div>
+            <FreelancerProfilePortfolio/>
             {/* Skills */}
             <div className="bg-white p-4 shadow-md rounded-lg">
               <h2 className="text-lg font-semibold mb-2">Selected Skills</h2>
@@ -395,43 +293,10 @@ export default function FreelancerProfile() {
             </div>
 
             {/* Education */}
-            <div className="bg-white p-4 shadow-md rounded-lg">
-              <h2 className="text-lg font-semibold mb-2">Education</h2>
-              {userDetails.education.length > 0 ? (
-                userDetails.education.map((edu, index) => (
-                  <div key={index} className="border-b py-3">
-                    <h3 className="text-md font-bold">{edu.degree} in {edu.field}</h3>
-                    <p className="text-gray-600">{edu.school}, {edu.location}, {edu.country}</p>
-                    <p className="text-sm text-gray-500">
-                      {edu.startDate.month} {edu.startDate.year} - {edu.endDate ? `${edu.endDate.month} ${edu.endDate.year}` : "Present"}
-                    </p>
-                    <p className="text-gray-700 mt-2">{edu.description}</p>
-                  </div>
-                ))
-              ) : (
-                <p className="text-gray-500">No education records added yet.</p>
-              )}
-            </div>
+            <FreelancerProfileEducation/>
 
             {/* Other Experiences */}
-            <div className="bg-white p-4 shadow-md rounded-lg">
-              <h2 className="text-lg font-semibold mb-2">Experiences</h2>
-              {userDetails.experiences.length > 0 ? (
-                userDetails.experiences.map((experience, index) => (
-                  <div key={index} className="border-b py-3">
-                    <h3 className="text-md font-bold">{experience.title} at {experience.company}</h3>
-                    <p className="text-gray-600">{experience.location}, {experience.country}</p>
-                    <p className="text-sm text-gray-500">
-                      {experience.startDate.month} {experience.startDate.year} -{" "}
-                      {experience.currentRole ? "Present" : `${experience.endDate?.month} ${experience.endDate?.year}`}
-                    </p>
-                    <p className="text-gray-700 mt-2">{experience.description}</p>
-                  </div>
-                ))
-              ) : (
-                <p className="text-gray-500">No experiences added yet.</p>
-              )}
-            </div>
+            <FreelancerProfileExperence/>
 
           </div>
         </div>
