@@ -6,9 +6,7 @@ const JobSchema = mongoose.Schema({
     jobTitle:String,
     skills:[{type:String}],
     curtime:Date,
-    type:{size:String,months:String,exp:String},
-    price:{type:Number},
-    desc:String,
+    type:{size:String,time:String,exp:String,price:Number,desc:String}
 });
 
 
