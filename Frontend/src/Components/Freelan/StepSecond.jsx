@@ -8,18 +8,15 @@ const options = [
   { id: "no_goal", label: "I don't have a goal in mind yet", image: "📱" },
 ];
 
-export default function StepSecond() {
+export default function StepSecond({ nextStep }) {
   const { userDetails, setUserDetails } = useContext(UserDetailsContext);
 
   const handleSelection = (id, label) => {
     setUserDetails((prev) => ({
       ...prev,
-      freelancingGoal: label, // Store label instead of ID
+      freelancingGoal: label,
     }));
   };
-
-  console.log(userDetails.freelancingGoal);
-  
 
   return (
     <div className="max-w-3xl mx-auto p-6 h-[62dvh]">

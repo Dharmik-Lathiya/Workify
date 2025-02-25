@@ -6,8 +6,8 @@ export default function StepEight() {
 
   // Initialize languages from context or set a default value
   const [languages, setLanguages] = useState(
-    userDetails.languages || [{ name: "English", proficiency: "Basic" }]
-  );
+    userDetails.languages.length > 0 ? userDetails.languages : [{ name: "English", proficiency: "Basic" }]
+  );  
 
   // Function to add a new language input
   const addLanguage = () => {
@@ -34,8 +34,10 @@ export default function StepEight() {
       ...prevDetails, // Preserve other user details
       languages, // Update languages
     }));
-    console.log("Updated User Languages:", languages);
   };
+
+  
+  console.log("Updated User Languages:", userDetails.languages);
 
   return (
     <div className="mb-5 flex flex-col justify-center items-center min-h-80 mt-[2.3dvh]">

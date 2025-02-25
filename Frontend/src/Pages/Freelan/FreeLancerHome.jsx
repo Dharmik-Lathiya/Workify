@@ -38,6 +38,7 @@ export default function FreeLancerHome() {
                 professionalTitle: data.title || "",
                 experiences: data.experience || [],
                 education: data.educaton || [],
+                languages:data.languages || [],
             }));
           })
       })

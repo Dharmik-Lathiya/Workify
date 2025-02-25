@@ -7,13 +7,13 @@ const options = [
   { id: "expert", label: "I am an expert", image: "💻" },
 ];
 
-export default function StepFirst() {
+export default function StepFirst({ nextStep }) {
   const { userDetails, setUserDetails } = useContext(UserDetailsContext);
 
-  const handleSelection = (id, label) => {
+  const handleSelection = (label) => {
     setUserDetails((prev) => ({
       ...prev,
-      experienceLevel: label, // Store the label instead of ID
+      experienceLevel: label,
     }));
   };
 
@@ -35,7 +35,7 @@ export default function StepFirst() {
                 ? "border-green-500 shadow-md"
                 : "border-gray-300 hover:shadow"
             }`}
-            onClick={() => handleSelection(option.id, option.label)}
+            onClick={() => handleSelection(option.label)}
           >
             <span className="text-4xl">{option.image}</span>
             <p className="mt-3 text-center font-medium text-gray-700">
@@ -44,6 +44,7 @@ export default function StepFirst() {
           </div>
         ))}
       </div>
+
     </div>
   );
 }

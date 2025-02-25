@@ -24,12 +24,12 @@ export default function FreelancerHeader() {
 
     const [isOpn, SetIsOpen] = useState(false);
     const [newNoti, SetNewNoti] = useState(false);
-    const socket = io("http://localhost:3000");
+//    const socket = io("http://localhost:3000");
 
-    socket.emit("join", "67b62ec3e4a7216330c0307d");
-    socket.on("notification", (data) => {
-        SetNewNoti(true)
-    })
+    // socket.emit("join", "67b62ec3e4a7216330c0307d");
+    // socket.on("notification", (data) => {
+    //     SetNewNoti(true)
+    // })
 
     const [query, setQuery] = useState("");
     const [searchType, setSearchType] = useState("Jobs");
@@ -39,26 +39,31 @@ export default function FreelancerHeader() {
         if (e.key === "Enter") {
             e.preventDefault();
             
-            let url = searchType === "Talent" ?  "searchjobs" : "searchusers";
-             fetch(import.meta.env.VITE_APP_BACKEND_URL+"/" + url,{
-                method:"POST",
-                headers:{
-                  "Content-Type":"application/json"
+            const searchQuery = e.target.value.trim();
+            if (!searchQuery) return;
+    
+            let url = searchType === "Talent" ? "searchusers" : "searchjobs";
+    
+            fetch(import.meta.env.VITE_APP_BACKEND_URL + "/" + url, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
                 },
-                body:JSON.stringify({
-                    query:e.target.value
-                })
-             }).then((res)=>{
-                    res.json().then(data => {
-                        console.log(data);
-                        const route = searchType === "Talent" ? "/freelancer/find-developer" : "/freelancer/find-jobs" ;
-                        navigate(route);
-                    })
-             })
-
-         ;
+                body: JSON.stringify({ query: searchQuery })
+            })
+            .then((res) => res.json())
+            .then((data) => {
+                console.log(data);
+                const route = searchType === "Talent"
+                    ? `/freelancer/find-developer/${encodeURIComponent(searchQuery)}`
+                    : `/freelancer/find-jobs/${encodeURIComponent(searchQuery)}`;
+                
+                navigate(route);
+            })
+            .catch(err => console.error("Error:", err));
         }
     };
+    
 
     return (
         <>
