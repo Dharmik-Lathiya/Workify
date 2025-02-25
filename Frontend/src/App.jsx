@@ -32,9 +32,8 @@ function App() {
   const { clinetId , setClientId} = useContext(ClientDetailsContext);
 
   useEffect(()=>{
-    SetUserId( () => localStorage.getItem("userId"));
-    setClientId(() => localStorage.getItem("clientId"));
-    console.log(userId , clinetId);
+    SetUserId(localStorage.getItem("userId"));
+    setClientId(localStorage.getItem("clientId"));
     
 
   })
