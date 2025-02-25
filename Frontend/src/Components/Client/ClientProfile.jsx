@@ -12,7 +12,33 @@ export default function ClientProfile() {
   // Sync formData with clientDetails when context updates
   useEffect(() => {
     setFormData(clientDetails);
-  }, [clientDetails]);
+
+    fetch(import.meta.env.VITE_APP_BACKEND_URL + `/getuser/client/${localStorage.getItem("clientId")}`,{
+      method:"GET"
+    }).then((res)=>{
+        res.json().then((data)=>{
+
+          setClientDetails(prevState => ({
+            ...prevState,
+            firstName: data.firstName || "",
+            lastName: data.lastName || "",
+            email: data.email || "",
+            password: data.password || "",
+            country: data.country || "India",
+            photo: data.photo || "",
+            address: data.address || "",
+            phone: data.phone || "",
+            jobs: data.postedJobs || [], 
+          
+        }));
+          console.log(clientDetails);
+         
+
+          
+        })
+    })
+
+  }, []);
 
   // Handle input change
   const handleChange = (e) => {
