@@ -21,6 +21,7 @@ export default function FreelancerProfile() {
   // title,role,urls,thumbnail,desc
 
 
+  const [updated,setUpdated] = useState(false)
   const [showProfilePopup, setShowProfilePopup] = useState(false);
   const [newTitle, setNewTitle] = useState(title);
   const [formData, setNewFormData] = useState({
@@ -34,8 +35,26 @@ export default function FreelancerProfile() {
     country: "",
   });
 
-  const setFormData = () => {
+  function saveChanges(){
+    console.log(formData);
 
+    fetch(import.meta.env.VITE_APP_BACKEND_URL + "/updateuser" ,{
+      method: "PUT",
+      headers:{
+        "Content-Type":"application/json"
+      },
+      body:JSON.stringify({
+        type:"user",
+        id:localStorage.getItem("userId"),
+        update:{...formData}
+      })
+    }).then(res =>{
+      res.json().then(data => {
+        setUpdated(!updated)
+        setShowProfilePopup(false)
+      })
+    })
+    
   }
 
   const handlePortfolioChange = (e) => {
@@ -110,21 +129,23 @@ export default function FreelancerProfile() {
           return {
             username: data.username || "",
             email: data.email || "",
+            bio: data.bio || "",
             dob: data.dob || "",
             phone: data.phone || "",
             city: city,
             country: data.country || "India",
-
+            title: data.title || "",
           }
         })
       })
     })
 
-  }, [])
+  }, [updated])
 
 
 
   console.log(userDetails);
+  
 
 
   return (
@@ -185,7 +206,8 @@ export default function FreelancerProfile() {
                 <input
                   type="text"
                   name="username"
-                  value={formData.firstName}
+                  value={formData.title}
+                  onChange={(e)=>{ setNewFormData((prevData)=>{ return {...prevData ,title:e.target.value } } ) }}
                   className="w-full border px-3 py-2 rounded-md mt-1"
                 />
 
@@ -194,6 +216,7 @@ export default function FreelancerProfile() {
                   type="text"
                   name="username"
                   value={formData.bio}
+                  onChange={(e)=>{ setNewFormData((prevData)=>{ return {...prevData ,bio:e.target.value } } ) }}
                   className="w-full border px-3 py-2 rounded-md mt-1"
                 />
 
@@ -202,6 +225,7 @@ export default function FreelancerProfile() {
                   type="text"
                   name="username"
                   value={formData.username}
+                  onChange={(e)=>{ setNewFormData((prevData)=>{ return {...prevData ,username:e.target.value } } ) }}
                   className="w-full border px-3 py-2 rounded-md mt-1"
                 />
 
@@ -210,6 +234,7 @@ export default function FreelancerProfile() {
                   type="email"
                   name="email"
                   value={formData.email}
+                  onChange={(e)=>{ setNewFormData((prevData)=>{ return {...prevData ,email:e.target.value } } ) }}
                   className="w-full border px-3 py-2 rounded-md mt-1"
                 />
 
@@ -220,6 +245,7 @@ export default function FreelancerProfile() {
                       type="date"
                       name="dob"
                       value={formData.dob}
+                      onChange={(e)=>{ setNewFormData((prevData)=>{ return {...prevData ,dob:e.target.value } } ) }}
                       className="w-full border px-3 py-2 rounded-md mt-1"
                     />
                   </div>
@@ -229,6 +255,8 @@ export default function FreelancerProfile() {
                       type="text"
                       name="phone"
                       value={formData.phone}
+                      onChange={(e)=>{ setNewFormData((prevData)=>{ return {...prevData ,phone:e.target.value } } ) }}
+
                       className="w-full border px-3 py-2 rounded-md mt-1"
                     /></div>
 
@@ -242,6 +270,7 @@ export default function FreelancerProfile() {
                       type="text"
                       name="location"
                       value={formData.city}
+                      onChange={(e)=>{ setNewFormData((prevData)=>{ return {...prevData ,city:e.target.value } } ) }}
                       className="w-full border px-3 py-2 rounded-md mt-1"
                     />
                   </div>
@@ -252,6 +281,8 @@ export default function FreelancerProfile() {
                       type="text"
                       name="Country"
                       value={formData.country}
+                      onChange={(e)=>{ setNewFormData((prevData)=>{ return {...prevData ,country:e.target.value } } ) }}
+
                       className="w-full border px-3 py-2 rounded-md mt-1"
                     />
                   </div>
@@ -260,7 +291,7 @@ export default function FreelancerProfile() {
 
                 <button
                   className="mt-4 px-4 py-2 bg-green-500 text-white rounded-lg"
-                  onClick={setFormData} >
+                  onClick={saveChanges} >
                   Save Changes
                 </button>
               </div>
