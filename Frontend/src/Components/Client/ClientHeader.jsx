@@ -55,10 +55,8 @@ export default function ClientHeader() {
              }).then((res)=>{
                     res.json().then(data => {
                         console.log(data);
-                        
                         const route = searchType === "Talent" ? "/client/find-developer" : "/client/find-jobs";
                          navigate(route)
-                    
                     })
              })
 

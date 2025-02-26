@@ -1,16 +1,25 @@
 import React, { useContext, useState, useEffect } from 'react'
 import { UserDetailsContext } from '../../Context/UserDetailsContext'
+import FreelancerProfilePortfolio from './FreelancerProfilePortfolio.jsx';
+import FreelancerProfileEducation from './FreelancerProfileEducation.jsx';
+import FreelancerProfileExperence from './FreelancerProfileExperence.jsx';
 
 export default function FreelancerProfile() {
   const { userDetails, setUserDetails } = useContext(UserDetailsContext);
   const [title, setTitle] = useState(userDetails.title);
-  const [isEditingTitle, setIsEditingTitle] = useState(false);
+  
+  console.log(userDetails.languages);
+
+  // title,role,urls,thumbnail,desc
+
+
   const [updated,setUpdated] = useState(false)
   const [showProfilePopup, setShowProfilePopup] = useState(false);
   const [newTitle, setNewTitle] = useState(title);
+  
   const [formData, setNewFormData] = useState({
-    title:"",
-    bio:"",
+    title: "",
+    bio: "",
     username: "",
     email: "",
     dob: "",
@@ -41,6 +50,9 @@ export default function FreelancerProfile() {
     
   }
 
+  console.log(userDetails.education);
+  
+  
 
   useEffect(() => {
     fetch(import.meta.env.VITE_APP_BACKEND_URL + `/getuser/devloper/${localStorage.getItem("userId")}`, {
@@ -105,7 +117,7 @@ export default function FreelancerProfile() {
             </div>
             <div className='flex-col ml-10'>
               <h1 class="font-semibold text-4xl">{userDetails.firstName}</h1>
-              <p class="text-gray-500 mt-3">📍{userDetails.bio}</p>
+              <p class="text-gray-500 mt-3">📍{userDetails.city + ", " + userDetails.country}</p>
             </div>
           </div>
           <div className='flex gap-5'>
@@ -247,47 +259,20 @@ export default function FreelancerProfile() {
           <div className="md:col-span-2 space-y-6">
             {/* Service */}
             <div className="bg-white p-4 shadow-md rounded-lg flex justify-between items-center">
-              {isEditingTitle ? (
-                <input
-                  type="text"
-                  className="border p-1 rounded"
-                  value={newTitle}
-                  onChange={(e) => setNewTitle(e.target.value)}
-                  onBlur={() => { setTitle(newTitle); setIsEditingTitle(false); }}
-                  autoFocus
-                />
-              ) : (
-                <h2 className="text-lg font-normal">Title:
-                  <p className='font-medium'>{userDetails.professionalTitle}</p>
-                </h2>
-              )}
-              <i className="fa fa-pencil-alt text-gray-500 cursor-pointer" onClick={() => setIsEditingTitle(true)}></i>
+              <h2 className="text-lg font-normal">Title:
+                <p className='font-medium'>{userDetails.professionalTitle}</p>
+              </h2>
             </div>
             <div className="bg-white p-4 shadow-md rounded-lg flex justify-between items-center">
-              {isEditingTitle ? (
-                <input
-                  type="text"
-                  className="border p-1 rounded"
-                  value={newTitle}
-                  onChange={(e) => setNewTitle(e.target.value)}
-                  onBlur={() => { setTitle(newTitle); setIsEditingTitle(false); }}
-                  autoFocus
-                />
-              ) : (
-                <h2 className="text-lg font-normal">Bio:
-                  <p className='font-medium'>{userDetails.bio}</p>
-                </h2>
-              )}
-              <i className="fa fa-pencil-alt text-gray-500 cursor-pointer" onClick={() => setIsEditingTitle(true)}></i>
+
+              <h2 className="text-lg font-normal">Bio:
+                <p className='font-medium'>{userDetails.bio}</p>
+              </h2>
+
             </div>
 
             {/* Portfolio */}
-            <div className="bg-white p-4 shadow-md rounded-lg">
-              <h2 className="text-lg font-semibold">Portfolio</h2>
-              <div className="h-32 bg-gray-200 rounded-lg flex items-center justify-center">
-                <span className="text-gray-500">[Image Placeholder]</span>
-              </div>
-            </div>
+            <FreelancerProfilePortfolio/>
             {/* Skills */}
             <div className="bg-white p-4 shadow-md rounded-lg">
               <h2 className="text-lg font-semibold mb-2">Selected Skills</h2>
@@ -308,43 +293,10 @@ export default function FreelancerProfile() {
             </div>
 
             {/* Education */}
-            <div className="bg-white p-4 shadow-md rounded-lg">
-              <h2 className="text-lg font-semibold mb-2">Education</h2>
-              {userDetails.education.length > 0 ? (
-                userDetails.education.map((edu, index) => (
-                  <div key={index} className="border-b py-3">
-                    <h3 className="text-md font-bold">{edu.degree} in {edu.field}</h3>
-                    <p className="text-gray-600">{edu.school}, {edu.location}, {edu.country}</p>
-                    <p className="text-sm text-gray-500">
-                      {edu.startDate.month} {edu.startDate.year} - {edu.endDate ? `${edu.endDate.month} ${edu.endDate.year}` : "Present"}
-                    </p>
-                    <p className="text-gray-700 mt-2">{edu.description}</p>
-                  </div>
-                ))
-              ) : (
-                <p className="text-gray-500">No education records added yet.</p>
-              )}
-            </div>
+            <FreelancerProfileEducation/>
 
             {/* Other Experiences */}
-            <div className="bg-white p-4 shadow-md rounded-lg">
-              <h2 className="text-lg font-semibold mb-2">Experiences</h2>
-              {userDetails.experiences.length > 0 ? (
-                userDetails.experiences.map((experience, index) => (
-                  <div key={index} className="border-b py-3">
-                    <h3 className="text-md font-bold">{experience.title} at {experience.company}</h3>
-                    <p className="text-gray-600">{experience.location}, {experience.country}</p>
-                    <p className="text-sm text-gray-500">
-                      {experience.startDate.month} {experience.startDate.year} -{" "}
-                      {experience.currentRole ? "Present" : `${experience.endDate?.month} ${experience.endDate?.year}`}
-                    </p>
-                    <p className="text-gray-700 mt-2">{experience.description}</p>
-                  </div>
-                ))
-              ) : (
-                <p className="text-gray-500">No experiences added yet.</p>
-              )}
-            </div>
+            <FreelancerProfileExperence/>
 
           </div>
         </div>
