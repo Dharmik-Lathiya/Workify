@@ -24,10 +24,9 @@ import ClientDevelperSearch from './Components/Client/ClientDevelperSearch.jsx';
 import DeveloperProfile from './Components/Client/DeveloperProfile.jsx';
 import { UserDetailsContext } from "./Context/UserDetailsContext";
 import { ClientDetailsContext } from './Context/ClientDetailsContext';
-import FreelancerFindJobs from './Components/FindJobs.jsx';
+// import FreelancerFindJobs from './Components/FindJobs.jsx';
 import FindJobs from './Components/FindJobs.jsx';
 import FIndDevelopers from './Components/FIndDevelopers.jsx';
-import FreelancerFindJobs from './Components/Freelan/FreelancerFindJobs.jsx';
 import PaymentForm from './Components/PaymentForm';
 
 import { Elements } from "@stripe/react-stripe-js";

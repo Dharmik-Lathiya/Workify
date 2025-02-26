@@ -42,6 +42,7 @@ export default function FreeLancerHome() {
                 experiences: data.experience || [],
                 education: data.educaton || [],
                 languages:data.languages || [],
+                portfolio:data.portfolio || [],
             }));
           })
       })

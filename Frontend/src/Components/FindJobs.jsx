@@ -1,7 +1,26 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Footer from './Footer'
+import { useParams } from 'react-router-dom';
 
 export default function FindJobs() {
+
+      const {searchQuery} = useParams()
+  
+    useEffect(()=>{
+      fetch(import.meta.env.VITE_APP_BACKEND_URL + "/searchjobs", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ query: searchQuery })
+    })
+        .then((res) => res.json())
+        .then((data) => {
+            console.log(data);
+         
+        })
+        .catch(err => console.error("Error:", err));
+    },[])
   return (
     <>
       <div className="max-w-6xl mx-auto mt-10 flex gap-6">

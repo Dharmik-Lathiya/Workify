@@ -86,6 +86,7 @@ export default function FreelancerProfile() {
           experiences: data.experience || [],
           education: data.educaton || [],
           languages: data.languages || [],
+          portfolio:data.portfolio || []
 
         }));
         setNewFormData(() => {
@@ -103,7 +104,7 @@ export default function FreelancerProfile() {
       })
     })
 
-  }, [updated])
+  }, [])
 
 
   return (

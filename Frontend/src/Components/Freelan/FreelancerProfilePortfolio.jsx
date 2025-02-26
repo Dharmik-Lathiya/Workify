@@ -50,20 +50,55 @@ export default function FreelancerProfilePortfolio() {
     
         return { ...prev, portfolio: updatedPortfolio };
       });
-    
-      closePopup();
+      
+      let portfolioId = isEditing  ? {portfolioId:userDetails.portfolio[editIndex]._id } : { }
+      fetch(import.meta.env.VITE_APP_BACKEND_URL + "/addportfolio" ,{
+        method: "PUT",
+        headers:{
+          "Content-Type":"application/json"
+        },
+        body:JSON.stringify({
+          ...portfolioId,
+          id:localStorage.getItem("userId"),
+          update:{...portfolioData}
+        })
+      }).then(res =>{
+        res.json().then(data => {
+          console.log(data);
+          
+          closePopup();
+        })
+      })
     };
     
     
     
   
     const deletePortfolioEntry = (index) => {
+
+      fetch(import.meta.env.VITE_APP_BACKEND_URL + "/deleteportfolio" ,{
+        method: "DELETE",
+        headers:{
+          "Content-Type":"application/json"
+        },
+        body:JSON.stringify({
+          portfolioId:userDetails.portfolio[index]._id,
+          id:localStorage.getItem("userId"),
+          
+        })
+      }).then(res =>{
+        res.json().then(data => {
+          console.log(data);
+          
+          closePopup();
+        })
+      })
       const updatedPortfolio = userDetails.portfolio.filter((_, i) => i !== index);
       setUserDetails((prev) => ({ ...prev, portfolio: updatedPortfolio }));
     };
   
     const editPortfolioEntry = (index) => {
-      setPortfolioData(userDetails.portfolio[index]);
+      setPortfolioData(userDetails.portfolio[index])
       setIsEditing(true);
       setEditIndex(index);
       setShowPortfolioPopup(true);
@@ -90,7 +125,9 @@ export default function FreelancerProfilePortfolio() {
       <div className="grid grid-cols-2 gap-10">
         {userDetails.portfolio.length > 0 ? (
           userDetails.portfolio.map((item, index) => (
-            <div key={index} className="py-3">
+            
+            
+            <div key={item._id} className="py-3">
               <img src={item.thumbnail} alt={item.title} className="h-auto w-full rounded-md" />
               <div className='flex mt-2 justify-between'>
                 <h3 className="text-md font-bold">{item.title}</h3>

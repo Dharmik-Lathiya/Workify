@@ -41,24 +41,13 @@ export default function FreelancerHeader() {
             const searchQuery = e.target.value.trim();
             if (!searchQuery) return;
 
-            let url = searchType === "Talent" ? "searchusers" : "searchjobs";
-            fetch(import.meta.env.VITE_APP_BACKEND_URL + "/" + url, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({ query: searchQuery })
-            })
-                .then((res) => res.json())
-                .then((data) => {
-                    console.log(data);
+         
                     const route = searchType === "Talent"
                         ? `/freelancer/find-developer/${encodeURIComponent(searchQuery)}`
                         : `/freelancer/find-jobs/${encodeURIComponent(searchQuery)}`;
 
                     navigate(route);
-                })
-                .catch(err => console.error("Error:", err));
+               
         }
     };
 
