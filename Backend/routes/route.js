@@ -27,7 +27,12 @@ const searchUser = require('./Search/SearchUser');
 
 
 
+
+
 routes.get("/getuser/:type/:id",getUser);
+routes.get("/",(req,res)=>{
+            res.send("hii")
+});     
 
 routes.post("/verification",Verification);
 routes.post("/getsavedpost",getSavedJobs);
