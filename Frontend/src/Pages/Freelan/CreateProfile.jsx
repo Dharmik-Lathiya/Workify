@@ -90,7 +90,7 @@ export default function CreateProfile() {
                     : "bg-green-600 text-white"
                   }`}
               >
-                Next
+                Next 
               </button>
             )}
             {step === 10 && (

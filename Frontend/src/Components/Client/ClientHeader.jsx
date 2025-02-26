@@ -39,30 +39,58 @@ export default function ClientHeader() {
 
     const handleKeyDown = (e) => {
         if (e.key === "Enter") {
-            e.preventDefault(); // Prevents page reload
+            e.preventDefault();
+            const searchQuery = e.target.value.trim();
+            if (!searchQuery) return;
 
-            console.log(e.target.value);
-            
             let url = searchType === "Talent" ? "searchusers" : "searchjobs";
-             fetch(import.meta.env.VITE_APP_BACKEND_URL+"/" + url,{
-                method:"POST",
-                headers:{
-                  "Content-Type":"application/json"
+            fetch(import.meta.env.VITE_APP_BACKEND_URL + "/" + url, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
                 },
-                body:JSON.stringify({
-                    query:e.target.value
-                })
-             }).then((res)=>{
-                    res.json().then(data => {
-                        console.log(data);
-                        const route = searchType === "Talent" ? "/client/find-developer" : "/client/find-jobs";
-                         navigate(route)
-                    })
-             })
+                body: JSON.stringify({ query: searchQuery })
+            })
+                .then((res) => res.json())
+                .then((data) => {
+                    console.log(data);
+                    const route = searchType === "Talent"
+                        ? `/client/find-developer/${encodeURIComponent(searchQuery)}`
+                        : `/client/find-jobs/${encodeURIComponent(searchQuery)}`;
 
-         ;
+                    navigate(route);
+                })
+                .catch(err => console.error("Error:", err));
         }
     };
+    
+    //  const handleKeyDown = (e) => {
+    //     if (e.key === "Enter") {
+    //         e.preventDefault(); // Prevents page reload
+
+    //         console.log(e.target.value);
+            
+    //         let url = searchType === "Talent" ? "searchusers" : "searchjobs";
+    //          fetch(import.meta.env.VITE_APP_BACKEND_URL+"/" + url,{
+    //             method:"POST",
+    //             headers:{
+    //               "Content-Type":"application/json"
+    //             },
+    //             body:JSON.stringify({
+    //                 query:e.target.value
+    //             })
+    //          }).then((res)=>{
+    //                 res.json().then(data => {
+    //                     console.log(data);
+    //                     const route = searchType === "Talent" ? "/client/find-developer" : "/client/find-jobs";
+    //                      navigate(route)
+    //                 })
+    //          })
+
+    //      ;
+    //     }
+    // };
+
     return (
         <header className="flex items-center justify-between px-6 py-3 shadow-md bg-white">
             <div className="flex items-center gap-6">
