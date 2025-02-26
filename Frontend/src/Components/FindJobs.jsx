@@ -112,7 +112,7 @@ export default function FindJobs() {
               <p className="text-center text-gray-500">No jobs found.</p>
             ) : (
               jobsList.map((job, index) => (
-                <div key={index} className="bg-white p-6 rounded-xl shadow-md border">
+                <div key={index} className="bg-white p-6 rounded-xl shadow-md border my-4">
                   <p className="text-gray-500 text-sm">{job.date}</p>
                   <h3 className="font-bold text-xl text-gray-800">{job.jobTitle}</h3>
                   <p className="text-gray-600 text-sm mt-2">{job.desc}</p>
