@@ -60,10 +60,7 @@ export default function FreelancerProfile() {
     }).then((res) => {
       res.json().then((data) => {
         const addressParts = data.address ? data.address.split(" ") : [];
-        const zipCode = addressParts.pop() || "";
-        const state = addressParts.pop() || "";
-        const city = addressParts.slice(-2).join(" ") || "";
-        const street = addressParts.slice(0, -2).join(" ") || "";
+       
 
         setUserDetails(prevState => ({
           ...prevState,
@@ -75,10 +72,10 @@ export default function FreelancerProfile() {
           country: data.country || "India",
           bio: data.bio || "",
           dob: data.dob || "",
-          street: street,
-          city: city,
-          state: state,
-          zip: zipCode,
+          street: data.street,
+          city: data.city,
+          state: data.state,
+          zip: data.zipCode,
           phone: data.phone || "",
           profileImage: data.photo || "",
           selectedSkills: data.skills || [],
@@ -96,7 +93,7 @@ export default function FreelancerProfile() {
             bio: data.bio || "",
             dob: data.dob || "",
             phone: data.phone || "",
-            city: city,
+            city: data.city,
             country: data.country || "India",
             title: data.title || "",
           }
@@ -106,6 +103,8 @@ export default function FreelancerProfile() {
 
   }, [updated])
 
+  console.log(userDetails.city);
+  
 
   return (
     <>

@@ -132,7 +132,7 @@ export default function FreelancerProfileExperience() {
 
                                 <div className='flex justify-between'>
                                     <h3 className="text-md font-bold">{experience.title} at {experience.company}</h3>
-                                    <div>
+                                    <div className='flex h-8'>
                                         <i className="fas fa-pen p-2 bg-green-500 text-white rounded-lg cursor-pointer"
                                             onClick={() => editExperienceEntry(index)}></i>
                                         <i className="fas fa-trash p-2 ml-2 bg-red-500 text-white rounded-lg cursor-pointer"

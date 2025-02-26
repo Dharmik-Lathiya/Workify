@@ -72,17 +72,6 @@ export default function StepFour({ nextStep }) {
           Add
         </button>
       </div>
-
-      {/* Next Button */}
-      <button
-        onClick={nextStep}
-        disabled={!isNextEnabled}
-        className={`mt-6 px-6 py-2 rounded-lg text-white ${
-          isNextEnabled ? "bg-green-600" : "bg-gray-400 cursor-not-allowed"
-        }`}
-      >
-        Next
-      </button>
     </div>
   );
 }

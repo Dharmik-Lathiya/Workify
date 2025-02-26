@@ -220,6 +220,8 @@ export default function StepSeven() {
                                             })
                                         }
                                         className="w-1/2 border px-2 py-1 rounded-md"
+                                        min={2000}
+                                        max={2025}
                                     />
                                 </div>
                             </div>
@@ -264,6 +266,8 @@ export default function StepSeven() {
                                             })
                                         }
                                         className="w-1/2 border px-2 py-1 rounded-md"
+                                        min={2000}
+                                        max={2025}
                                     />
                                 </div>
                             </div>

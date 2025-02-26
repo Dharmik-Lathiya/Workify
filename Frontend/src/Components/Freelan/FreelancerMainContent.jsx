@@ -27,7 +27,7 @@ export default function FreelancerMainContent() {
 
                     <div className="slider-container text-amber-50 relative">
                         <Slider {...settings}>
-                            <div className="p-12 mx-1 bg-[#13544e] rounded-xl">
+                            <div className="p-12 w-[90%] bg-[#13544e] rounded-xl">
                                 <h2 className="text-3xl font-bold">
                                     Rise to the top of the client's list
                                 </h2>
@@ -38,7 +38,7 @@ export default function FreelancerMainContent() {
                                     Boost now
                                 </button>
                             </div>
-                            <div className="p-12 mx-1 bg-[#14a800] rounded-xl">
+                            <div className="p-12 w-[90%] bg-[#14a800] rounded-xl">
                                 <h2 className="text-3xl font-bold">Get more visibility</h2>
                                 <p className="text-lg mt-2">
                                     Stay ahead of the competition with a boosted profile.
@@ -47,7 +47,7 @@ export default function FreelancerMainContent() {
                                     Boost now
                                 </button>
                             </div>
-                            <div className="p-12 mx-1 bg-[#13544e] rounded-xl">
+                            <div className="p-12 w-[90%] bg-[#13544e] rounded-xl">
                                 <h2 className="text-3xl font-bold">Get more visibility</h2>
                                 <p className="text-lg mt-2">
                                     Stay ahead of the competition with a boosted profile.
