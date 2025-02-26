@@ -55,31 +55,31 @@ export default function FreelancerMainJobs() {
         }
     };
 
-    
-  function createChat(job) {
 
-    console.log(job);
-    
-    let chatId = `${Date.now()}-${Math.floor(Math.random() * 10000)}`
-    fetch(import.meta.env.VITE_APP_BACKEND_URL + "/addchat", {
-      method: "PUT",
-      headers: {
-          "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-          userId: userId,
-          reciverid: job.clientId,
-          recivermodel: "client",
-          model: "users",
-          role: "sender",
-          chatId:chatId
-      })
-  }).then(()=>{
+    function createChat(job) {
 
-     
-  })
-    
-  }
+        console.log(job);
+
+        let chatId = `${Date.now()}-${Math.floor(Math.random() * 10000)}`
+        fetch(import.meta.env.VITE_APP_BACKEND_URL + "/addchat", {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                userId: userId,
+                reciverid: job.clientId,
+                recivermodel: "client",
+                model: "users",
+                role: "sender",
+                chatId: chatId
+            })
+        }).then(() => {
+
+
+        })
+
+    }
 
     useEffect(() => {
 
@@ -106,7 +106,9 @@ export default function FreelancerMainJobs() {
 
     }, [selectedTab])
 
-    
+    console.log(jobsList);
+
+
 
     return (
         <>
@@ -167,20 +169,31 @@ export default function FreelancerMainJobs() {
                                 ))}
                             </div>
 
-                            <div className="flex items-center justify-between mt-4 text-gray-600 text-sm">
-                                <div className="flex items-center gap-2">
-                                    
+                            <div className="flex items-center justify-between mt-4 text-gray-600 text-sm text-[15px]">
+                                <div>
+                                    <p className='font-medium'>Experence Requried: <span className='font-bold'>{job.type.exp}</span></p>
+                                </div>
+                                <div>
+                                    <p className='font-medium'>Project Sized: <span className='font-bold'>{job.type.size}</span></p>
                                 </div>
                             </div>
 
-                            <div className="flex justify-between items-center mt-2 text-gray-600 text-sm">
-                                <button className='' onClick={()=>{createChat(job)}}>
-                                    Contect
+                            <div className="flex justify-between items-center mt-2 text-gray-600 text-sm text-[15px]">
+                                <div>
+                                    <p className='font-medium'>Project Price: <span className='font-bold '>₹{job.type.price}</span></p>
+                                </div>
+                                <div>
+                                    <p className='font-medium'>Project Completion Time: <span className='font-bold'>{job.type.time}</span></p>
+                                </div>
+                                <button className=' bg-green-600 text-white p-2 rounded' onClick={() => { createChat(job) }}>
+                                    Message
                                 </button>
                             </div>
 
 
                         </div>
+
+
                     ))}
                 </div>
             </div>

@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react'
-import Footer from './Footer'
 import { useParams } from 'react-router-dom';
 
 export default function FIndDevelopers() {

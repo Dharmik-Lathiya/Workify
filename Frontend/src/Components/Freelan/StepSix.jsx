@@ -86,7 +86,7 @@ export default function StepSix() {
                     </button>
                     {experiences.length > 0 && experiences.map((exp, index)=> (
                         <div className='border-dotted border-2 w-[30vw] box-content overflow-hidden mt-5 rounded-[2vw] ml-5 flex p-5 '>
-                            <i class="fas fa-graduation-cap text-3xl"></i>
+                            <i class="fas fa-briefcase text-3xl mr-2"></i>
                             
                             <div className='ml-2'>
                                 <p className='font-bold'>{exp.title}</p>
@@ -189,6 +189,7 @@ export default function StepSix() {
                                                 startDate: { ...formData.startDate, month: e.target.value },
                                             })
                                         }
+                                        
                                         className="w-1/2 border px-2 py-1 rounded-md"
                                     >
                                         <option value="">Month</option>
@@ -216,6 +217,8 @@ export default function StepSix() {
                                                 startDate: { ...formData.startDate, year: e.target.value },
                                             })
                                         }
+                                        min={2000}
+                                        max={2025}
                                         className="w-1/2 border px-2 py-1 rounded-md"
                                     />
                                 </div>
@@ -260,6 +263,8 @@ export default function StepSix() {
                                                 endDate: { ...formData.endDate, year: e.target.value },
                                             })
                                         }
+                                        min={2000}
+                                        max={2025}
                                         className="w-1/2 border px-2 py-1 rounded-md"
                                     />
                                 </div>
