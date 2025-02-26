@@ -5,7 +5,7 @@ const Fuse = require("fuse.js");
 const searchJobs = async (req,res) =>{
     const jobs = await JobSchema.find({});
     const options = {
-        keys: ["title", "skills"], 
+        keys: ["jobTitle", "skills"], 
         threshold: 0.5, 
         distance: 100, 
       };

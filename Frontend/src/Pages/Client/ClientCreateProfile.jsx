@@ -35,7 +35,6 @@ export default function ClientCreateProfile() {
         })
     }
 
-    console.log(clientDetails);
 
 
     return (

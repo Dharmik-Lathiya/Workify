@@ -21,7 +21,7 @@ export default function ChatSide({ db }) {
     const [chats, setChats] = useState([]);
     const [isDisabled, setIsDisabled] = useState(true);
     
-    const senderid = userId ? {userId:userId ,  model: "users"} : {clinetId:clinetId , model: "client"} 
+    const senderid = localStorage.getItem("userId") ? {userId: localStorage.getItem("userId") ,  model: "users"} : {clientId: localStorage.getItem("clientId") , model: "client"} 
     
     useEffect(() => {
 
@@ -38,13 +38,13 @@ export default function ChatSide({ db }) {
                     setIsDisabled(false)
                 }else{
                     setIsDisabled(false)
-                   
+                    setChats([]) 
                 }
 
             });
 
         }
-    }, [])
+    }, [id])
 
     function addChat() {
 
@@ -69,7 +69,8 @@ export default function ChatSide({ db }) {
                 content:message
             })
         }).then(()=>{
-
+            console.log("fghjk");
+            
             setMessage('');
         })
     }

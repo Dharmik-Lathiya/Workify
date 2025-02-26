@@ -75,7 +75,7 @@ export default function FreelancerMainJobs() {
           chatId:chatId
       })
   }).then(()=>{
-
+        
      
   })
     

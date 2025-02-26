@@ -11,6 +11,8 @@ export default function Notification() {
   const [data, SetData] = useState([]);
   let i = 0;
   useEffect(() => {
+    const UserData = localStorage.getItem("userId") ? {type:"devloper",id: localStorage.getItem("userId") ,  model: "users"} : {id: localStorage.getItem("clientId") , model: "client"} 
+
     console.log("ghjkl");
     fetch("http://localhost:3000" + "/getnotification", {
       method: "POST",
@@ -18,27 +20,31 @@ export default function Notification() {
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        type:"devloper",
-        id: localStorage.getItem("userId")
+       ...UserData
       })
     }).then((res) => {
       res.json().then(data => {
-        console.log(data);
+      
+      
+        if(!data.message){
 
-        SetData(data)
+          SetData((prev) => data)
+        }
+        
       })
     })
 
-  }, [])
+  },[])
+
+  console.log(data);
+  
   return (
     <div className='bg-blue-50 absolute left-[-10rem] p-10 rounded-xl '>
 
       {
         
-        data && data.slice().reverse().map((node,index) => {
-          i++
-          if(!node.role )
-            if(i < 5)
+        data && data.map((node,index) => {
+        
           return (<div key={index}>
             <p>{node.notificationType}</p>
             <div className='flex items-center justify-between'>

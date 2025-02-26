@@ -20,7 +20,7 @@ export default function FIndDevelopers() {
        
       })
       .catch(err => console.error("Error:", err));
-  },[])
+  },[searchQuery])
 
   return (
     <>

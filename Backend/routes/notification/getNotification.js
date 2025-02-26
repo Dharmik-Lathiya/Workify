@@ -4,6 +4,8 @@ const ClientSchema = require('../../models/ClientSchema');
 
 const getNotification = async (req,res) => {
 
+        console.log(req.body)
+        
         if(req.body.type){
             try {
                 const user = await UserSchema.findById(req.body.id)
