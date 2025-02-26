@@ -36,24 +36,24 @@ export default function FreelancerProfileExperience() {
     const handleSave = () => {
 
 
-        // let expId = editingIndex  ? {expId:userDetails.experiences[editingIndex]._id } : { }
-        // fetch(import.meta.env.VITE_APP_BACKEND_URL + "/addexperience" ,{
-        //   method: "PUT",
-        //   headers:{
-        //     "Content-Type":"application/json"
-        //   },
-        //   body:JSON.stringify({
-        //     ...expId,
-        //     id:localStorage.getItem("userId"),
-        //     update:{...formData}
-        //   })
-        // }).then(res =>{
-        //   res.json().then(data => {
-        //     console.log(data);
+        let expId = editingIndex  ? {expId:userDetails.experiences[editingIndex]._id } : { }
+        fetch(import.meta.env.VITE_APP_BACKEND_URL + "/addexperience" ,{
+          method: "PUT",
+          headers:{
+            "Content-Type":"application/json"
+          },
+          body:JSON.stringify({
+            ...expId,
+            id:localStorage.getItem("userId"),
+            update:{...formData}
+          })
+        }).then(res =>{
+          res.json().then(data => {
+            console.log(data);
             
            
-        //   })
-        // })
+          })
+        })
         
         let updatedExperiences = [...userDetails.experiences];
         if (editingIndex !== null) {
@@ -79,26 +79,30 @@ export default function FreelancerProfileExperience() {
 
     const deleteExperienceEntry = (index) => {
 
-        // fetch(import.meta.env.VITE_APP_BACKEND_URL + "/deleteexperience" ,{
-        //     method: "DELETE",
-        //     headers:{
-        //       "Content-Type":"application/json"
-        //     },
-        //     body:JSON.stringify({
-        //       expId:userDetails.experiences[index]._id,
-        //       id:localStorage.getItem("userId"),
+        fetch(import.meta.env.VITE_APP_BACKEND_URL + "/deleteexperience" ,{
+            method: "DELETE",
+            headers:{
+              "Content-Type":"application/json"
+            },
+            body:JSON.stringify({
+              expId:userDetails.experiences[index]._id,
+              id:localStorage.getItem("userId"),
               
-        //     })
-        //   }).then(res =>{
-        //     res.json().then(data => {
-        //       console.log(data);
+            })
+          }).then(res =>{
+            res.json().then(data => {
+              console.log(data);
               
             
-        //     })
-        //   })
+            })
+          })
         const updatedExperiences = userDetails.experiences.filter((_, i) => i !== index);
         setUserDetails(prev => ({ ...prev, experiences: updatedExperiences }));
     };
+
+    console.log(formData);
+    console.log(userDetails.experiences);
+    
 
     return (
         <>
@@ -152,6 +156,55 @@ export default function FreelancerProfileExperience() {
                         <div className="mt-3">
                             <input type="checkbox" name="currentRole" checked={formData.currentRole} onChange={handleChange} className="mr-2" />
                             <label>I am currently working in this role</label>
+                        </div>
+                        <div className="flex mt-3 gap-4">
+                            <div className="w-1/2">
+                                <label className="block font-medium">Start Date *</label>
+                                <div className="flex gap-2">
+                                    <select
+                                        name="startDateMonth"
+                                        value={formData.startDate.month}
+                                        onChange={(e) => handleDateChange(e, "startDate", "month")}
+                                        className="w-1/2 border px-2 py-1 rounded-md"
+                                    >
+                                        <option value="">Month</option>
+                                        {["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+                                            .map((month) => <option key={month} value={month}>{month}</option>)}
+                                    </select>
+                                    <input
+                                        type="number"
+                                        name="startDateYear"
+                                        placeholder="Year"
+                                        value={formData.startDate.year}
+                                        onChange={(e) => handleDateChange(e, "startDate", "year")}
+                                        className="w-1/2 border px-2 py-1 rounded-md"
+                                    />
+                                </div>
+                            </div>
+
+                            <div className="w-1/2">
+                                <label className="block font-medium">End Date *</label>
+                                <div className="flex gap-2">
+                                    <select
+                                        name="endDateMonth"
+                                        value={formData.endDate.month}
+                                        onChange={(e) => handleDateChange(e, "endDate", "month")}
+                                        className="w-1/2 border px-2 py-1 rounded-md"
+                                    >
+                                        <option value="">Month</option>
+                                        {["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+                                            .map((month) => <option key={month} value={month}>{month}</option>)}
+                                    </select>
+                                    <input
+                                        type="number"
+                                        name="endDateYear"
+                                        placeholder="Year"
+                                        value={formData.endDate.year}
+                                        onChange={(e) => handleDateChange(e, "endDate", "year")}
+                                        className="w-1/2 border px-2 py-1 rounded-md"
+                                    />
+                                </div>
+                            </div>
                         </div>
                         <label className="block mt-3 font-medium">Description</label>
                         <textarea name="description" value={formData.description} onChange={handleChange} className="w-full border px-3 py-2 rounded-md mt-1" rows="3"></textarea>
