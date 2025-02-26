@@ -141,7 +141,7 @@ export default function FreelancerProfileEducation() {
                 </div>
 
                 {showEducationPopup  && (
-                    <form>
+                   
                         <div className="fixed inset-0 flex items-center justify-center bg-gray-300/50 z-100 bg-opacity-50">
                             <div className="bg-white p-6 rounded-lg shadow-lg w-[60dvw] h-[90dvh] overflow-auto">
                                 <div className='flex justify-between'>
@@ -277,7 +277,7 @@ export default function FreelancerProfileEducation() {
                                 </div>
                             </div>
                         </div>
-                    </form>
+                  
                 )}
 
             </div>
