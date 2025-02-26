@@ -45,27 +45,9 @@ export default function FreelancerProfileEducation() {
                 updatedEducation = [...prev.education, educationData];
             }
             return { ...prev, education: updatedEducation };
-
         });
-        let eduId = isEditing  ? {eduId:userDetails.education[editIndex]._id } : { }
-        fetch(import.meta.env.VITE_APP_BACKEND_URL + "/addeducation" ,{
-          method: "PUT",
-          headers:{
-            "Content-Type":"application/json"
-          },
-          body:JSON.stringify({
-            ...eduId,
-            id:localStorage.getItem("userId"),
-            update:{...educationData}
-          })
-        }).then(res =>{
-          res.json().then(data => {
-            console.log(data);
-            
-            closePopup();
-          })
-        })
-        
+
+        closePopup();
     };
 
     const editEducationEntry = (index) => {
@@ -76,24 +58,6 @@ export default function FreelancerProfileEducation() {
     };
 
     const deleteEducationEntry = (index) => {
-
-        fetch(import.meta.env.VITE_APP_BACKEND_URL + "/deleteeducation" ,{
-            method: "DELETE",
-            headers:{
-              "Content-Type":"application/json"
-            },
-            body:JSON.stringify({
-              eduId:userDetails.education[index]._id,
-              id:localStorage.getItem("userId"),
-              
-            })
-          }).then(res =>{
-            res.json().then(data => {
-              console.log(data);
-              
-              closePopup();
-            })
-          })
         setUserDetails((prev) => ({
             ...prev,
             education: prev.education.filter((_, i) => i !== index),
