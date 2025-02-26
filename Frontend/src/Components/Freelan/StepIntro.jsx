@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import Slider from "react-slick";
-import userIcon from '../../Assets/userIcon.png';
+import userIcon from '../../Assets/UserIcon.png';
 import "slick-carousel/slick/slick.css"; 
 import "slick-carousel/slick/slick-theme.css";
 import { UserDetailsContext } from '../../Context/UserDetailsContext';
