@@ -11,29 +11,32 @@ import { Link } from 'react-router-dom';
 
 export default function ClientCreateProfile() {
     const [step, setStep] = useState(0);
-    const { clientDetails} = useContext(ClientDetailsContext);
-    
+    const { clientDetails } = useContext(ClientDetailsContext);
+
     const nextStep = () => setStep((prev) => (prev === 0 ? 1 : Math.min(prev + 1, 5)));
     const prevStep = () => setStep((prev) => Math.max(prev - 1, 0));
     let name = 'Dharmik';
 
-    function savePost(){
+    function savePost() {
         fetch(import.meta.env.VITE_APP_BACKEND_URL + "/postjob", {
             method: "POST",
             headers: {
-              "Content-Type": "application/json"
+                "Content-Type": "application/json"
             },
-            body:JSON.stringify({
-                    clientId:localStorage.getItem("clientId"),
-                    ...clientDetails.job
+            body: JSON.stringify({
+                clientId: localStorage.getItem("clientId"),
+                ...clientDetails.job
             })
-        }).then(res =>{
-            res.json().then(data =>{
+        }).then(res => {
+            res.json().then(data => {
                 console.log(data);
-                
+
             })
         })
     }
+
+    console.log(clientDetails);
+
 
     return (
         <div className='z-50'>
@@ -66,7 +69,7 @@ export default function ClientCreateProfile() {
             {step === 5 && (<ClientStepFive nextStep={nextStep} />)}
 
 
-            
+
 
             {step > 0 && step <= 5 && (
                 <div className="bg-white inset-x-0 bottom-0 p-5 shadow-2xs border-t-2 border-slate-300 w-full fixed">
@@ -78,11 +81,43 @@ export default function ClientCreateProfile() {
                             <button onClick={prevStep} className="bg-gray-500 text-white py-2 px-4 rounded-lg">Back</button>
                         )}
                         {step < 5 && (
-                            <button onClick={nextStep} className="bg-green-600 text-white py-2 px-4 rounded-lg">Next</button>
+                            // bg-green-600 text-white
+                            // "py-2 px-4 rounded-lg" 
+                            <button onClick={nextStep}
+                                className={`py-2 px-4 rounded-lg ${(step === 1 && !clientDetails.job.jobTitle)
+                                    || (step === 2 && !clientDetails.job.skills.length)
+                                    || (step === 3 && (!clientDetails.job.type.exp || !clientDetails.job.type.size || clientDetails.job.time))
+                                    || (step === 4 && !clientDetails.job.type.price)
+                                    || (step === 5 && !clientDetails.job.type.desc)
+
+                                    ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                                    : "bg-green-600 text-white"} `}
+                                disabled={(step === 1 && !clientDetails.job.jobTitle) || (step === 2 && !clientDetails.job.skills.length)
+                                    || (step === 3 && (!clientDetails.job.type.exp || !clientDetails.job.type.size || clientDetails.job.time)
+                                        || (step === 4 && !clientDetails.job.type.price)
+                                    )}
+
+                            >Next</button>
                         )}
                         {step === 5 && (
-                            <Link to='/client/home' onClick={()=>{savePost(); nextStep()}} className="bg-green-600 text-white py-2 px-4 rounded-lg">Submit</Link>
+                            (clientDetails.job.type.desc ? (
+                                <Link
+                                    to='/client/home'
+                                    onClick={() => { savePost(); nextStep(); }}
+                                    className="py-2 px-4 rounded-lg bg-green-600 text-white"
+                                >
+                                    Submit
+                                </Link>
+                            ) : (
+                                <button
+                                    className="py-2 px-4 rounded-lg bg-gray-300 text-gray-500 cursor-not-allowed"
+                                    disabled
+                                >
+                                    Submit
+                                </button>
+                            ))
                         )}
+
                     </div>
                 </div>
             )}

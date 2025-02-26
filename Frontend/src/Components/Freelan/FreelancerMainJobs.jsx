@@ -106,6 +106,8 @@ export default function FreelancerMainJobs() {
 
     }, [selectedTab])
 
+    
+
     return (
         <>
             <div>
@@ -167,8 +169,7 @@ export default function FreelancerMainJobs() {
 
                             <div className="flex items-center justify-between mt-4 text-gray-600 text-sm">
                                 <div className="flex items-center gap-2">
-                                    {job.verified && <i className="fas fa-check-circle"></i>}
-                                    <span>Payment Verified</span>
+                                    
                                 </div>
                             </div>
 
