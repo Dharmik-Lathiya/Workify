@@ -3,6 +3,7 @@ import { UserDetailsContext } from '../../Context/UserDetailsContext';
 
 export default function FreelancerProfileExperience() {
     const { userDetails, setUserDetails } = useContext(UserDetailsContext);
+        const [isEditing, setIsEditing] = useState(false);
     const [showPopup, setShowPopup] = useState(false);
     const [formData, setFormData] = useState({
         title: '',
@@ -36,7 +37,7 @@ export default function FreelancerProfileExperience() {
     const handleSave = () => {
 
 
-        let expId = editingIndex  ? {expId:userDetails.experiences[editingIndex]._id } : { }
+        let expId = isEditing  ? {expId:userDetails.experiences[editingIndex]._id } : { }
         fetch(import.meta.env.VITE_APP_BACKEND_URL + "/addexperience" ,{
           method: "PUT",
           headers:{
@@ -50,19 +51,31 @@ export default function FreelancerProfileExperience() {
         }).then(res =>{
           res.json().then(data => {
             console.log(data);
-            
-           
           })
         })
         
-        let updatedExperiences = [...userDetails.experiences];
-        if (editingIndex !== null) {
-            updatedExperiences[editingIndex] = formData;
-        } else {
-            updatedExperiences.push(formData);
-        }
+        // let updatedExperiences = [...userDetails.experiences];
+        // if (editingIndex !== null) {
+        //     updatedExperiences[editingIndex] = formData;
+        // } else {
+        //     updatedExperiences.push(formData);
+        // }
+
+        let updatedExperiences; 
+        setUserDetails((prev) => {
+            if (isEditing && editingIndex !== null) {
+                updatedExperiences = prev.experiences.map((edu, index) =>
+                    index === editingIndex ? formData : edu
+                );
+            } else {
+                
+                updatedExperiences = [...prev.experiences, formData];
+            }
+            return { ...prev, education: updatedExperiences };
+        });
         setUserDetails(prev => ({ ...prev, experiences: updatedExperiences }));
         setShowPopup(false);
+        setIsEditing(false);
         setEditingIndex(null);
         setFormData({
             title: '', company: '', location: '', country: '', currentRole: false,
@@ -75,6 +88,7 @@ export default function FreelancerProfileExperience() {
         setFormData(userDetails.experiences[index]);
         setEditingIndex(index);
         setShowPopup(true);
+        setIsEditing(true);
     };
 
     const deleteExperienceEntry = (index) => {
@@ -93,7 +107,7 @@ export default function FreelancerProfileExperience() {
             res.json().then(data => {
               console.log(data);
               
-            
+        
             })
           })
         const updatedExperiences = userDetails.experiences.filter((_, i) => i !== index);
@@ -103,7 +117,6 @@ export default function FreelancerProfileExperience() {
     console.log(formData);
     console.log(userDetails.experiences);
     
-
     return (
         <>
             <div className="bg-white p-4 shadow-md rounded-lg">

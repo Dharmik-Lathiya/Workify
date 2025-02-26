@@ -104,7 +104,7 @@ export default function FreelancerProfile() {
       })
     })
 
-  }, [])
+  }, [updated])
 
 
   return (
