@@ -35,9 +35,9 @@ export default function StepNine() {
         },
         body: JSON.stringify(
           {
-            id: userId,
+            id: localStorage.getItem("userId"),
+            type: "user",
             update: {
-              type: "devloper",
               skills: userDetails.selectedSkills,
               title: userDetails.professionalTitle,
               photo: userDetails.profileImage,
@@ -94,7 +94,8 @@ export default function StepNine() {
       ...formData,
     }));
     setFlag(true)
-    console.log("Updated Profile Details:", formData.profileImage); // This should log the base64 image
+
+  console.log("Updated Profile Details:", userDetails); // This should log the base64 image
 
 
   };

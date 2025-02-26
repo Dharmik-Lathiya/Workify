@@ -36,24 +36,24 @@ export default function FreelancerProfileExperience() {
     const handleSave = () => {
 
 
-        let expId = editingIndex  ? {expId:userDetails.experiences[editingIndex]._id } : { }
-        fetch(import.meta.env.VITE_APP_BACKEND_URL + "/addexperience" ,{
-          method: "PUT",
-          headers:{
-            "Content-Type":"application/json"
-          },
-          body:JSON.stringify({
-            ...expId,
-            id:localStorage.getItem("userId"),
-            update:{...formData}
-          })
-        }).then(res =>{
-          res.json().then(data => {
-            console.log(data);
+        // let expId = editingIndex  ? {expId:userDetails.experiences[editingIndex]._id } : { }
+        // fetch(import.meta.env.VITE_APP_BACKEND_URL + "/addexperience" ,{
+        //   method: "PUT",
+        //   headers:{
+        //     "Content-Type":"application/json"
+        //   },
+        //   body:JSON.stringify({
+        //     ...expId,
+        //     id:localStorage.getItem("userId"),
+        //     update:{...formData}
+        //   })
+        // }).then(res =>{
+        //   res.json().then(data => {
+        //     console.log(data);
             
            
-          })
-        })
+        //   })
+        // })
         
         let updatedExperiences = [...userDetails.experiences];
         if (editingIndex !== null) {
@@ -79,23 +79,23 @@ export default function FreelancerProfileExperience() {
 
     const deleteExperienceEntry = (index) => {
 
-        fetch(import.meta.env.VITE_APP_BACKEND_URL + "/deleteexperience" ,{
-            method: "DELETE",
-            headers:{
-              "Content-Type":"application/json"
-            },
-            body:JSON.stringify({
-              expId:userDetails.experiences[index]._id,
-              id:localStorage.getItem("userId"),
+        // fetch(import.meta.env.VITE_APP_BACKEND_URL + "/deleteexperience" ,{
+        //     method: "DELETE",
+        //     headers:{
+        //       "Content-Type":"application/json"
+        //     },
+        //     body:JSON.stringify({
+        //       expId:userDetails.experiences[index]._id,
+        //       id:localStorage.getItem("userId"),
               
-            })
-          }).then(res =>{
-            res.json().then(data => {
-              console.log(data);
+        //     })
+        //   }).then(res =>{
+        //     res.json().then(data => {
+        //       console.log(data);
               
             
-            })
-          })
+        //     })
+        //   })
         const updatedExperiences = userDetails.experiences.filter((_, i) => i !== index);
         setUserDetails(prev => ({ ...prev, experiences: updatedExperiences }));
     };

@@ -4,6 +4,8 @@ const ClienttSchmea = require("../../models/ClientSchema")
 const userUpadater = async (req, res) => {
 
 
+    console.log(req.body.update)
+
     if (req.body.type == "user") {
         await UserSchema.findByIdAndUpdate(req.body.id, { $set: req.body.update }).then(() => {
             res.status(200).json({ success: true, message: "updated" })
