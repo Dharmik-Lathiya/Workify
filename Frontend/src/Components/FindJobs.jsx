@@ -1,10 +1,7 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import Footer from './Footer'
 
-export default function FreelancerFindJobs() {
-
-  const [jobsList, SetJobList] = useState([]);
-  
+export default function FindJobs() {
   return (
     <>
       <div className="max-w-6xl mx-auto mt-10 flex gap-6">
@@ -54,49 +51,7 @@ export default function FreelancerFindJobs() {
 
         {/* Right Side - Developers List */}
         <div className="w-3/4 space-y-6">
-          <div className="space-y-4">
-            {jobsList && jobsList.map((job, index) => (
-              <div key={index} className="bg-white p-6 rounded-xl shadow-md border">
-                <p className="text-gray-500 text-sm">{job.date}</p>
-                <div className='flex justify-between'>
-                  <h3 className="font-bold text-xl text-gray-800">{job.jobTitle}</h3>
-                  <button
-                    className="text-red-500 focus:outline-none mr-8"
-                    onClick={() => toggleSaveJob(job)}
-                  >
-                    <i className={savedJobs.some(saved => saved.jobTitle === job.jobTitle) ? "fas fa-heart" : "far fa-heart"}></i>
-                  </button>
-                </div>
-                <p className="text-gray-600 text-sm mt-2">{job.desc}</p>
 
-                <div className="flex flex-wrap gap-2 mt-3">
-                  {job.skills.map((skill, idx) => (
-                    <span
-                      key={idx}
-                      className="bg-gray-200 text-gray-700 px-3 py-1 text-xs font-medium rounded-full"
-                    >
-                      {skill}
-                    </span>
-                  ))}
-                </div>
-
-                <div className="flex items-center justify-between mt-4 text-gray-600 text-sm">
-                  <div className="flex items-center gap-2">
-                    {job.verified && <i className="fas fa-check-circle"></i>}
-                    <span>Payment Verified</span>
-                  </div>
-                </div>
-
-                <div className="flex justify-between items-center mt-2 text-gray-600 text-sm">
-                  <button className='' onClick={() => { createChat(job) }}>
-                    Contect
-                  </button>
-                </div>
-
-
-              </div>
-            ))}
-          </div>
         </div>
       </div>
     </>
