@@ -4,13 +4,19 @@ import { io } from 'socket.io-client'
 export default function Notification() {
   const socket = io("http://localhost:3000");
 
+  const [flag,setFlag] = useState(true);
   socket.on("notification", (data) => {
     console.log(data);
+    setFlag(!flag)
   })
 
   const [data, SetData] = useState([]);
+
   let i = 0;
   useEffect(() => {
+
+    console.log("erender");
+    
     const UserData = localStorage.getItem("userId") ? {type:"devloper",id: localStorage.getItem("userId") ,  model: "users"} : {id: localStorage.getItem("clientId") , model: "client"} 
 
     console.log("ghjkl");
@@ -34,7 +40,7 @@ export default function Notification() {
       })
     })
 
-  },[])
+  },[flag])
 
   console.log(data);
   
@@ -43,8 +49,9 @@ export default function Notification() {
 
       {
         
-        data && data.map((node,index) => {
-        
+        data && data.slice().reverse().map((node,index) => {
+          i++
+        if(i <= 5)
           return (<div key={index}>
             <p>{node.notificationType}</p>
             <div className='flex items-center justify-between'>

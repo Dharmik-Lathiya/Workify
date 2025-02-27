@@ -30,7 +30,8 @@ export default function ClientHeader() {
 
     socket.emit("join", "67b62ec3e4a7216330c0307d");
     socket.on("notification", (data) => {
-        SetNewNoti(true)
+        SetIsOpen(true)
+        SetNewNoti(true);
     })
 
     const [query, setQuery] = useState("");
@@ -64,32 +65,6 @@ export default function ClientHeader() {
         }
     };
     
-    //  const handleKeyDown = (e) => {
-    //     if (e.key === "Enter") {
-    //         e.preventDefault(); // Prevents page reload
-
-    //         console.log(e.target.value);
-            
-    //         let url = searchType === "Talent" ? "searchusers" : "searchjobs";
-    //          fetch(import.meta.env.VITE_APP_BACKEND_URL+"/" + url,{
-    //             method:"POST",
-    //             headers:{
-    //               "Content-Type":"application/json"
-    //             },
-    //             body:JSON.stringify({
-    //                 query:e.target.value
-    //             })
-    //          }).then((res)=>{
-    //                 res.json().then(data => {
-    //                     console.log(data);
-    //                     const route = searchType === "Talent" ? "/client/find-developer" : "/client/find-jobs";
-    //                      navigate(route)
-    //                 })
-    //          })
-
-    //      ;
-    //     }
-    // };
 
     return (
         <header className="flex items-center justify-between px-6 py-3 shadow-md bg-white">
@@ -154,7 +129,7 @@ export default function ClientHeader() {
                         <i className="far fa-bell text-xl"></i>
                     </button>
 
-                    {isOpn && <Notification set={SetNewNoti} />}
+                    {isOpn && <Notification set={SetNewNoti}/>}
                 </div>
                 <Link to='/client/profile'>
                     <img src={clientDetails.photo} alt="" className='h-9 w-9 rounded-full' />
