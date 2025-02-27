@@ -4,7 +4,7 @@ const bcrypt = require('bcrypt');
 
 const Signup = async (req,res) =>{
 
-    
+  
     let IsAlredyLogedIn;
      if (res.locals.data.type == "devloper") {
              IsAlredyLogedIn = await userSchema.findOne({email:res.locals.data.email});

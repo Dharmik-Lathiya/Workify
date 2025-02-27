@@ -5,13 +5,15 @@ import { Link } from "react-router-dom";
 export default function ClientProfile() {
   const { clientDetails, setClientDetails } = useContext(ClientDetailsContext);
   const [showPopup, setShowPopup] = useState(false);
-  
+  const [flag,setFlag] = useState(false)
   // Initialize formData from clientDetails
   const [formData, setFormData] = useState(clientDetails);
 
   // Sync formData with clientDetails when context updates
   useEffect(() => {
 
+
+    if(flag){
     fetch(import.meta.env.VITE_APP_BACKEND_URL + `/getuser/client/${localStorage.getItem("clientId")}`,{
       method:"GET"
     }).then((res)=>{
@@ -36,8 +38,9 @@ export default function ClientProfile() {
         console.log(formData);
         })
     })
+  }
 
-  }, []);
+  }, [flag]);
 
   // Handle input change
   const handleChange = (e) => {
@@ -63,6 +66,7 @@ export default function ClientProfile() {
   // Handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
+    setFlag(true)
     console.log("Updated Data:", formData);
     setClientDetails(formData); // Update context with new data
     setShowPopup(false); // Close popup
