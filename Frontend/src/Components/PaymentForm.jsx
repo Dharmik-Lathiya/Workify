@@ -1,58 +1,71 @@
-import React, { useState } from "react";
-import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
+import { useState } from "react";
 
 const PaymentForm = () => {
-    const stripe = useStripe();
-    const elements = useElements();
-    const [loading, setLoading] = useState(false);
-    const [message, setMessage] = useState("");
+    const [formData, setFormData] = useState({
+        amount: "",
+        productInfo: "",
+        firstName: "",
+        email: "",
+        phone: "",
+    });
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        setLoading(true);
-        setMessage("");
+    const handleChange = (e) => {
+        setFormData({ ...formData, [e.target.name]: e.target.value });
+    };
 
-        if (!stripe || !elements) return;
+    const handlePayment = async (e) => {
+        e.preventDefault(); // Prevent page reload
 
         try {
-            const response = await fetch("http://localhost:3000/create-payment-intent", {
+            const response = await fetch("http://localhost:5000/payment/pay", {
                 method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ amount: 20, currency: "usd" }), // Amount in USD
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(formData),
             });
 
             const data = await response.json();
 
-            if (!response.ok) {
-                throw new Error(data.error || "Payment request failed");
-            }
+            const form = document.createElement("form");
+            form.method = "POST";
+            form.action = data.action;
 
-            const result = await stripe.confirmCardPayment(data.clientSecret, {
-                payment_method: { card: elements.getElement(CardElement) },
+            Object.keys(data.payUData).forEach((key) => {
+                const input = document.createElement("input");
+                input.type = "hidden";
+                input.name = key;
+                input.value = data.payUData[key];
+                form.appendChild(input);
             });
 
-            if (result.error) {
-                setMessage(result.error.message);
-            } else {
-                setMessage("Payment successful!");
-            }
+            document.body.appendChild(form);
+            form.submit();
         } catch (error) {
-            setMessage(error.message);
+            console.error("Payment initiation failed:", error);
         }
-
-        setLoading(false);
     };
 
     return (
-        <form onSubmit={handleSubmit}>
-            <CardElement />
-            <button type="submit" disabled={!stripe || loading}>
-                {loading ? "Processing..." : "Pay Now"}
-            </button>
-            {message && <p>{message}</p>}
-        </form>
+        <div className="payment-container">
+            <h2>PayU Payment</h2>
+            <form onSubmit={handlePayment}>
+                <label>Amount:</label>
+                <input type="number" name="amount" value={formData.amount} onChange={handleChange} required />
+
+                <label>Product Info:</label>
+                <input type="text" name="productInfo" value={formData.productInfo} onChange={handleChange} required />
+
+                <label>First Name:</label>
+                <input type="text" name="firstName" value={formData.firstName} onChange={handleChange} required />
+
+                <label>Email:</label>
+                <input type="email" name="email" value={formData.email} onChange={handleChange} required />
+
+                <label>Phone:</label>
+                <input type="tel" name="phone" value={formData.phone} onChange={handleChange} required />
+
+                <button type="submit">Pay Now</button>
+            </form>
+        </div>
     );
 };
 
