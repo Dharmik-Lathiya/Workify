@@ -15,7 +15,6 @@ export default function ClientCreateProfile() {
 
     const nextStep = () => setStep((prev) => (prev === 0 ? 1 : Math.min(prev + 1, 5)));
     const prevStep = () => setStep((prev) => Math.max(prev - 1, 0));
-    let name = 'Dharmik';
 
     function savePost() {
         fetch(import.meta.env.VITE_APP_BACKEND_URL + "/postjob", {

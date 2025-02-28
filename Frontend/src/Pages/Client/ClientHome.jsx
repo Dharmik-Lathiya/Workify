@@ -10,7 +10,6 @@ export default function Dashboard() {
   const { clientDetails, setClientDetails } = useContext(ClientDetailsContext);
   const [showPopup, setShowPopup] = useState(false);
 
-  // State for job data (without curtime)
   const [jobData, setJobData] = useState({
     jobTitle: "",
     skills: [],
