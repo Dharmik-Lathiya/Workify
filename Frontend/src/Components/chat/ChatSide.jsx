@@ -12,12 +12,15 @@ export default function ChatSide({ db }) {
     
     
     const {chat} = useContext(ChatContext);
-
+   
     const {userId} =useContext(UserDetailsContext);
     const {clinetId } = useContext(ClientDetailsContext);
-    
+   
     const { id } = useParams();
-    const [message, setMessage] = useState('')
+    const [messages, setMessage] = useState({
+        message:"",
+        role:""
+    })
     const [chats, setChats] = useState([]);
     const [isDisabled, setIsDisabled] = useState(true);
     
@@ -49,7 +52,7 @@ export default function ChatSide({ db }) {
     function addChat() {
 
         setChats(prevChats => {
-            const updatedChats = [...prevChats, message];
+            const updatedChats = [...prevChats, messages];
             set(ref(db, 'chats/' + id), updatedChats);
             return updatedChats;
         });
@@ -66,7 +69,7 @@ export default function ChatSide({ db }) {
                 recivermodel: chat.reciverModel,
                 notificationType:"message",
                 role: "sender",
-                content:message
+                content:messages.message
             })
         }).then(()=>{
             console.log("fghjk");
@@ -81,15 +84,22 @@ export default function ChatSide({ db }) {
             {id && <ChatHeader isDisabled={isDisabled}   />}
             <div>
                 {
-                    chats.map((item) => {
-                        return <p>{item}</p>
+                    id && chats.map((item) => {
+                        return(
+                        <div className='  mt-5 mb-5' >
+                            <div className='flex '> 
+                            <img src={item.role ? senderid.photo : chat.reciverid.photo} alt="userprofile" className='w-10 h-10 rounded-4xl border' />
+                            <p className='text-xl ml-4'> {chat.reciverid.firstName } { chat.reciverid.lastName}</p>
+                            </div>
+                            <p className='text-xl ml-10'>{item.message}</p>
+                      </div>)
                     })
                 }
             </div>
 
             <div className='absolute flex w-full h-10 p-10   self-end bottom-10 '>
 
-                <input type="text" className='w-[80%] h-15 border' value={message} onChange={(e) => { setMessage(e.target.value) }} />
+                <input type="text" className='w-[80%] h-15 border' value={messages.message} onChange={(e) => { setMessage({message:e.target.value,role:"sender"}) }} />
 
                 <button className='h-15 w-fit border p-2 ml-5 bg-amber-900 text-white text-2xl text-center' onClick={addChat} disabled={isDisabled}>Send</button>
             </div>

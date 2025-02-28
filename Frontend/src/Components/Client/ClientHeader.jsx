@@ -30,7 +30,7 @@ export default function ClientHeader() {
 
     socket.emit("join", "67b62ec3e4a7216330c0307d");
     socket.on("notification", (data) => {
-        SetIsOpen(true)
+        SetIsOpen(false)
         SetNewNoti(true);
     })
 
@@ -43,25 +43,12 @@ export default function ClientHeader() {
             e.preventDefault();
             const searchQuery = e.target.value.trim();
             if (!searchQuery) return;
-
-            let url = searchType === "Talent" ? "searchusers" : "searchjobs";
-            fetch(import.meta.env.VITE_APP_BACKEND_URL + "/" + url, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({ query: searchQuery })
-            })
-                .then((res) => res.json())
-                .then((data) => {
-                    console.log(data);
                     const route = searchType === "Talent"
                         ? `/client/find-developer/${encodeURIComponent(searchQuery)}`
                         : `/client/find-jobs/${encodeURIComponent(searchQuery)}`;
 
                     navigate(route);
-                })
-                .catch(err => console.error("Error:", err));
+             
         }
     };
     

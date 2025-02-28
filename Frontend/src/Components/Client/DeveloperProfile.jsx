@@ -6,7 +6,7 @@ import { ClientDetailsContext } from '../../Context/ClientDetailsContext';
 export default function DeveloperProfile() {
   const { id } = useParams(); 
 
-const {clinetId } = useContext(ClientDetailsContext);
+  const {clinetId } = useContext(ClientDetailsContext);
 
   function createChat() {
 
