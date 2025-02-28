@@ -185,9 +185,9 @@ export default function FreelancerMainJobs() {
                                 <div>
                                     <p className='font-medium'>Project Completion Time: <span className='font-bold'>{job.type.time}</span></p>
                                 </div>
-                                <button className=' bg-green-600 text-white p-2 rounded' onClick={() => { createChat(job) }}>
+                                <Link to='/chat' className=' bg-green-600 text-white p-2 rounded' onClick={() => { createChat(job) }}>
                                     Message
-                                </button>
+                                </Link>
                             </div>
 
 

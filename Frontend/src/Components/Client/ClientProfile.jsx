@@ -87,13 +87,14 @@ export default function ClientProfile() {
               <p className="text-gray-500 mt-3">📍 {clientDetails.address || "No address provided"} </p>
             </div>
           </div>
-          <div className="flex gap-5">
-            <button
+          <div className="flex gap-5 items-center justify-end">
+            <div><button
               className="px-4 py-2 bg-green-500 text-white rounded-lg"
               onClick={() => setShowPopup(true)}
             >
               Profile Settings
-            </button>
+            </button></div>
+            <div><Link to='/' className="my-[10px] bg-red-600 text-white h-10 w-10 p-3 rounded">Log Out</Link></div>
           </div>
         </div>
       </div>
@@ -189,8 +190,9 @@ export default function ClientProfile() {
         <button className="bg-green-500 px-4 py-2 mt-4 text-white rounded-xl">
           Add Billing Method
         </button>
+        
       </div>
-      <Link to='/'>Log Out</Link>
+      
     </>
   );
 }

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Footer from './Footer'
-import { data, useParams } from 'react-router-dom';
+import { data, Link, useParams } from 'react-router-dom';
 
 export default function FindJobs() {
   const [jobsList, setJobList] = useState([]);
@@ -141,9 +141,9 @@ export default function FindJobs() {
                     <div>
                       <p className='font-medium'>Project Completion Time: <span className='font-bold'>{job.type.time}</span></p>
                     </div>
-                    <button className=' bg-green-600 text-white p-2 rounded ' onClick={() => { createChat(job) }}>
+                    <Link to='/chat' className=' bg-green-600 text-white p-2 rounded ' onClick={() => { createChat(job) }}>
                       Message
-                    </button>
+                    </Link>
                   </div>
 
                 </div>

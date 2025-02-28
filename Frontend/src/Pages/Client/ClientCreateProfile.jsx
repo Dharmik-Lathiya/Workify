@@ -101,7 +101,7 @@ export default function ClientCreateProfile() {
                         {step === 5 && (
                             (clientDetails.job.type.desc ? (
                                 <Link
-                                    to='/client/home'
+                                    to='/client/profile'
                                     onClick={() => { savePost(); nextStep(); }}
                                     className="py-2 px-4 rounded-lg bg-green-600 text-white"
                                 >

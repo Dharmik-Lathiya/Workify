@@ -1,9 +1,10 @@
-import React, { useContext, useState,useEffect } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import ClientDetailsContext from '../../Context/ClientDetailsContext.jsx';
 import Slider from 'react-slick';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { Link } from 'react-router-dom';
+import ClientOverview from '../../Components/Client/ClientOverview.jsx';
 
 export default function Dashboard() {
   const { clientDetails, setClientDetails } = useContext(ClientDetailsContext);
@@ -21,39 +22,39 @@ export default function Dashboard() {
       desc: "",
     },
   });
-  let [allJobs,setAllJobs] = useState([]);
-  useEffect(()=>{
-    
-        fetch(import.meta.env.VITE_APP_BACKEND_URL + `/getuser/client/${localStorage.getItem("clientId")}`,{
-          method:"GET"
-        }).then((res)=>{
-            res.json().then((data)=>{
-             
+  let [allJobs, setAllJobs] = useState([]);
+  useEffect(() => {
 
-              
-              setAllJobs(()=>{return data.postedJobs});
-              
-              setClientDetails(prevState => ({
-                ...prevState,
-                firstName: data.firstName || "",
-                lastName: data.lastName || "",
-                email: data.email || "",
-                password: data.password || "",
-                country: data.country || "India",
-                photo: data.photo || "",
-                address: data.address || "",
-                phone: data.phone || "",
-                jobs: data.postedJobs || [], 
-              
-            }));
-              console.log(clientDetails);
-             
+    fetch(import.meta.env.VITE_APP_BACKEND_URL + `/getuser/client/${localStorage.getItem("clientId")}`, {
+      method: "GET"
+    }).then((res) => {
+      res.json().then((data) => {
 
-              
-            })
-        })
-  
-      },[])
+
+
+        setAllJobs(() => { return data.postedJobs });
+
+        setClientDetails(prevState => ({
+          ...prevState,
+          firstName: data.firstName || "",
+          lastName: data.lastName || "",
+          email: data.email || "",
+          password: data.password || "",
+          country: data.country || "India",
+          photo: data.photo || "",
+          address: data.address || "",
+          phone: data.phone || "",
+          jobs: data.postedJobs || [],
+
+        }));
+        console.log(clientDetails);
+
+
+
+      })
+    })
+
+  }, [])
 
   // State for adding custom skills
   const [inputSkill, setInputSkill] = useState("");
@@ -177,7 +178,7 @@ export default function Dashboard() {
     slidesToScroll: 3,
   };
 
- 
+
 
   return (
     <div className="p-6 min-h-screen mx-auto">
@@ -344,42 +345,7 @@ export default function Dashboard() {
         </div>
       )}
 
-      {/* Overview Section */}
-      <p className="mx-10 mb-4 text-2xl font-medium ">Overview</p>
-      <div className="grid grid-cols-1 md:grid-cols-2 bg-slate-100 rounded-xl p-4 lg:grid-cols-3 gap-4">
-        { allJobs.map((job, index) =>{
-
-          console.log("lodo");
-          
-           return (
-          <div key={index} className="bg-slate-100 p-4 rounded-2xl shadow-lg border-2 border-slate-200">
-            <span className="text-[16px] font-bold">Job Title:</span>
-            <span className="text-xxl ml-2">{job.jobTitle}</span>
-
-            {/* Skills Display */}
-            <p className="text-[16px] font-medium mt-4">Selected Skills</p>
-            <div className="text-[15px] mt-2 border-slate-200 my-1 border-2 p-2 rounded-2xl mx-1">
-              {job.skills.map((skill, skillIndex) => (
-                <button key={skillIndex} className="border-2 border-slate-300 px-3 py-1 rounded-xl m-1">
-                  {skill}
-                </button>
-              ))}
-            </div>
-
-            {/* Job Details */}
-            <p className="mt-4 font-semibold">Project Type</p>
-            <ul className="text-[15px] mt-2 ml-2">
-              <li><strong>Size:</strong> {job.type.size}</li>
-              <li><strong>Time:</strong>{job.type.time} </li>
-              <li><strong>Experience:</strong>{job.type.exp} </li>
-              <li><strong>Price:</strong>{job.type.price} </li>
-              <li><strong>Description:</strong> <p>{job.type.desc.slice(0, 40)}</p></li>
-            </ul>
-          </div>
-      
-        )})}
-      </div>
-
+     <ClientOverview />
 
       {/* Additional sections (e.g., slider, Help & Resources) remain unchanged */}
       <div className="bg-white p-6 rounded-2xl shadow-lg mt-6 h-96">

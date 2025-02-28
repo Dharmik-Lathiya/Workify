@@ -60,10 +60,20 @@ function App() {
         <Route path="SignUp" element={<FreelanSignup />} />
         {localStorage.getItem("userId") ? <Route path="create-profile" element={<CreateProfile />} /> : <Route path="create-profile" element={<Navigate to={'/freelancer/signup'} />} />}
         {localStorage.getItem("userId") ? <Route path="profile" element={<FreelancerProfile />} /> : <Route path="profile" element={<Navigate to={'/freelancer/signup'} />} />}
+        {localStorage.getItem("userId") ? <Route path="home" element={<FreeLancerHome />} /> : <Route path="home" element={<Navigate to={'/freelancer/signup'} />} />}
         <Route path="find-jobs/:searchQuery" element={<FindJobs />} /> 
         <Route path="find-developer/:searchQuery" element={<FIndDevelopers />} /> 
       </Route>
-      
+      <Route path="/client" element={<ClientTemp />}>
+        <Route path="SignUp" element={<ClientSignup />} />
+        {localStorage.getItem("clientId") ? <Route path="find-developer" element={<ClientDevelperSearch />} /> : <Route path="find-developer" element={<Navigate to={'/client/signup'} />} />}
+        {localStorage.getItem("clientId") ? <Route path="developer-profile/:id" element={<DeveloperProfile />} /> : <Route path="developer-profile/:id" element={<Navigate to={'/client/signup'} />} />}
+        {localStorage.getItem("clientId") ? <Route path="create-profile" element={<ClientCreateProfile />} /> : <Route path="create-profile" element={<Navigate to={'/client/signup'} />} />}
+        {localStorage.getItem("clientId") ? <Route path="home" element={<ClientHome />} /> : <Route path="home" element={<Navigate to={'/client/signup'} />} />}
+        {localStorage.getItem("clientId") ? <Route path="profile" element={<ClientProfile />} /> : <Route path="profile" element={<Navigate to={'/client/signup'} />} />}
+        <Route path="find-jobs/:searchQuery" element={<FindJobs />} /> 
+        <Route path="find-developer/:searchQuery" element={<FIndDevelopers />} /> 
+      </Route>
      
       <Route path='/chat' element={<Chat />} />
       <Route path='/chat/:id' element={<Chat />} />

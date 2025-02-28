@@ -33,10 +33,12 @@ export default function Login() {
                         SetUserId(data._id)
                         localStorage.setItem("userId",data._id);
                         navigate('/freelancer/home');
+                        localStorage.setItem("clientId",null);
                     }else{
                         setClientId(data._id)
                         localStorage.setItem("clientId",data._id);
                         navigate('/client/home');
+                        localStorage.setItem("userId",null);
                     }
                 }
                 if (!data.success && data.message) {
