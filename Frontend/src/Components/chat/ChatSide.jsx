@@ -13,8 +13,8 @@ export default function ChatSide({ db }) {
     
     const {chat} = useContext(ChatContext);
    
-    const {userId} =useContext(UserDetailsContext);
-    const {clinetId } = useContext(ClientDetailsContext);
+    const {userId , userDetails} =useContext(UserDetailsContext);
+    const {clinetId ,clientDetails } = useContext(ClientDetailsContext);
    
     const { id } = useParams();
     const [messages, setMessage] = useState({
@@ -25,7 +25,8 @@ export default function ChatSide({ db }) {
     const [isDisabled, setIsDisabled] = useState(true);
     
     const senderid = localStorage.getItem("userId") ? {userId: localStorage.getItem("userId") ,  model: "users"} : {clientId: localStorage.getItem("clientId") , model: "client"} 
-    
+    const user = localStorage.getItem("userId") ? userDetails  :  clientDetails;
+    console.log(user)
     useEffect(() => {
 
         if (id) {
@@ -74,7 +75,10 @@ export default function ChatSide({ db }) {
         }).then(()=>{
             console.log("fghjk");
             
-            setMessage('');
+            setMessage({
+                message:"",
+                role:""
+            });
         })
     }
 
@@ -82,15 +86,12 @@ export default function ChatSide({ db }) {
         <div className='bg-amber-50 w-full  relative'>
 
             {id && <ChatHeader isDisabled={isDisabled}   />}
-            <div>
+            <div className='fixed h-100 overflow-scroll w-100'>
                 {
                     id && chats.map((item) => {
                         return(
-                        <div className='  mt-5 mb-5' >
-                            <div className='flex '> 
-                            <img src={item.role ? senderid.photo : chat.reciverid.photo} alt="userprofile" className='w-10 h-10 rounded-4xl border' />
-                            <p className='text-xl ml-4'> {chat.reciverid.firstName } { chat.reciverid.lastName}</p>
-                            </div>
+                        <div className='  mt-5 mb-5 flex' >
+                            <img src={item.role ? user.profileImage  : chat.reciverid.photo} alt="" className='w-20 h20' />
                             <p className='text-xl ml-10'>{item.message}</p>
                       </div>)
                     })
@@ -101,7 +102,7 @@ export default function ChatSide({ db }) {
 
                 <input type="text" className='w-[80%] h-15 border' value={messages.message} onChange={(e) => { setMessage({message:e.target.value,role:"sender"}) }} />
 
-                <button className='h-15 w-fit border p-2 ml-5 bg-amber-900 text-white text-2xl text-center' onClick={addChat} disabled={isDisabled}>Send</button>
+                <button className='h-15 w-fit border p-2 ml-5 bg-amber-900 text-white text-2xl text-center' onClick={addChat} >Send</button>
             </div>
 
         </div>

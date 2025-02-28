@@ -86,6 +86,11 @@ export default function FreelancerProfilePortfolio() {
   
     const deletePortfolioEntry = (index) => {
 
+     
+      const updatedPortfolio = userDetails.portfolio.filter((_, i) => i !== index);
+      setUserDetails((prev) => ({ ...prev, portfolio: updatedPortfolio }));
+
+
       fetch(import.meta.env.VITE_APP_BACKEND_URL + "/deleteportfolio" ,{
         method: "DELETE",
         headers:{
@@ -103,8 +108,6 @@ export default function FreelancerProfilePortfolio() {
           closePopup();
         })
       })
-      const updatedPortfolio = userDetails.portfolio.filter((_, i) => i !== index);
-      setUserDetails((prev) => ({ ...prev, portfolio: updatedPortfolio }));
     };
   
     const editPortfolioEntry = (index) => {
@@ -138,7 +141,7 @@ export default function FreelancerProfilePortfolio() {
           userDetails.portfolio.map((item, index) => (
             
             
-            <div key={item._id} className="py-3">
+            <div key={index} className="py-3">
               <img src={item.thumbnail} alt={item.title} className="h-auto w-full rounded-md" />
               <div className='flex mt-2 justify-between'>
                 <h3 className="text-md font-bold">{item.title}</h3>

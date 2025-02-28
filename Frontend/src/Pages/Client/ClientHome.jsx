@@ -9,6 +9,7 @@ import ClientOverview from '../../Components/Client/ClientOverview.jsx';
 export default function Dashboard() {
   const { clientDetails, setClientDetails } = useContext(ClientDetailsContext);
   const [showPopup, setShowPopup] = useState(false);
+    const [flag,setFlag] = useState(true)
 
   const [jobData, setJobData] = useState({
     jobTitle: "",
@@ -53,7 +54,7 @@ export default function Dashboard() {
       })
     })
 
-  }, [])
+  }, [flag])
 
   // State for adding custom skills
   const [inputSkill, setInputSkill] = useState("");
@@ -87,7 +88,20 @@ export default function Dashboard() {
       jobs: [...prevState.jobs, jobData],
     }));
 
-    // Reset jobData
+    fetch(import.meta.env.VITE_APP_BACKEND_URL + "/postjob", {
+      method: "POST",
+      headers: {
+          "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+          clientId: localStorage.getItem("clientId"),
+          ...jobData
+      })
+  }).then(res => {
+      res.json().then(data => {
+          console.log(data);
+
+          setFlag(!flag);
     setJobData({
       jobTitle: "",
       skills: [],
@@ -99,6 +113,11 @@ export default function Dashboard() {
         desc: "",
       },
     });
+
+      })
+  })
+
+    
     setInputSkill("");
     setShowPopup(false);
   };

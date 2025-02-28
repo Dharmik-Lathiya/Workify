@@ -6,6 +6,7 @@ export default function ClientOverview() {
     const [allJobs, setAllJobs] = useState([]);
     const [showPopup, setShowPopup] = useState(false);
     const [editIndex, setEditIndex] = useState(null);
+    const [flag,setFlag] = useState(true)
     const [jobData, setJobData] = useState({
         jobTitle: "",
         skills: [],
@@ -19,6 +20,7 @@ export default function ClientOverview() {
     });
     
     useEffect(() => {
+
         fetch(import.meta.env.VITE_APP_BACKEND_URL + `/getuser/client/${localStorage.getItem("clientId")}`, {
             method: "GET"
         }).then((res) => {
@@ -38,13 +40,93 @@ export default function ClientOverview() {
                 }));
             });
         });
-    }, []);
+    }, [flag]);
+
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+
+        setJobData((prev) => {
+            return {
+                ...prev,
+                type: {
+                    ...prev.type,
+                    [name]: value,
+                },
+            };
+
+        });
+    };
+    const handleTitleChange = (e) => {
+        const { name, value } = e.target;
+
+        setJobData((prev) => {
+            return {
+                ...prev,
+                [name]: value,
+
+            };
+
+        });
+    };
+
 
     const editJobEntry = (index) => {
         setJobData(allJobs[index]);
         setEditIndex(index);
         setShowPopup(true);
     };
+    const deleteJob = (index) => {
+
+        fetch(import.meta.env.VITE_APP_BACKEND_URL + "/deletejob", {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                id: clientDetails.jobs[index]._id,
+               
+            })
+        }).then(res =>{
+            setFlag(!flag)
+        })
+
+    };
+    const editJob = () => {
+
+        
+        fetch(import.meta.env.VITE_APP_BACKEND_URL + "/updatejob", {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                id: clientDetails.jobs[editIndex]._id,
+                update: {
+                    ...jobData
+                }
+            })
+        }).then(res => {
+            res.json().then(data => {
+                console.log(data);
+                setFlag(!flag)
+                setShowPopup(false);
+                setJobData({
+                    jobTitle: "",
+                    skills: [],
+                    type: {
+                        size: "",
+                        time: "",
+                        exp: "",
+                        price: 0,
+                        desc: "",
+                    },
+                });
+
+            })
+        })
+
+    }
 
     return (
         <>
@@ -59,7 +141,7 @@ export default function ClientOverview() {
                             </div>
                             <div>
                                 <i className="fas fa-pen p-2 h-8 bg-green-500 text-white rounded-lg cursor-pointer" onClick={() => editJobEntry(index)}></i>
-                                <i className="fas fa-trash p-2 ml-2 h-8 bg-red-500 text-white rounded-lg cursor-pointer"></i>
+                                <i className="fas fa-trash p-2 ml-2 h-8 bg-red-500 text-white rounded-lg cursor-pointer" onClick={() => deleteJob(index)}></i>
                             </div>
                         </div>
                         <p className="text-[16px] font-medium mt-4">Selected Skills</p>
@@ -87,10 +169,10 @@ export default function ClientOverview() {
                     <div className="bg-white p-6 rounded-lg shadow-lg w-[70vw] h-[70vh] overflow-auto">
                         <div className="flex justify-between">
                             <h2 className="text-xl font-bold">Post a Job</h2>
-                            <button onClick={() => setShowPopup(false)} className="p-2 px-4 bg-red-500 text-white rounded-lg">X</button>
+                            <button onClick={() => { setShowPopup(false) }} className="p-2 px-4 bg-red-500 text-white rounded-lg">X</button>
                         </div>
                         <label className="block mt-3 font-medium">Job Title</label>
-                        <input type="text" name="jobTitle" value={jobData.jobTitle} className="w-full border px-3 py-2 rounded-md mt-1" />
+                        <input type="text" name="jobTitle" value={jobData.jobTitle} className="w-full border px-3 py-2 rounded-md mt-1" onChange={handleTitleChange} />
                         <label className="block mt-3 font-medium">Skills</label>
                         <div className="text-[15px] mt-2 border border-slate-200 my-1 p-2 h-10 rounded-xl mx-1">
                             {jobData.skills.map((skill, index) => (
@@ -100,16 +182,16 @@ export default function ClientOverview() {
                             ))}
                         </div>
                         <label className="block mt-3 font-medium">Project Size</label>
-                        <input type="text" name="size" value={jobData.type.size} className="w-full border px-3 py-2 rounded-md mt-1" />
+                        <input type="text" name="size" value={jobData.type.size} className="w-full border px-3 py-2 rounded-md mt-1" onChange={handleChange} />
                         <label className="block mt-3 font-medium">Duration</label>
-                        <input type="text" name="time" value={jobData.type.time} className="w-full border px-3 py-2 rounded-md mt-1" />
+                        <input type="text" name="time" value={jobData.type.time} className="w-full border px-3 py-2 rounded-md mt-1" onChange={handleChange} />
                         <label className="block mt-3 font-medium">Experience Level</label>
-                        <input type="text" name="exp" value={jobData.type.exp} className="w-full border px-3 py-2 rounded-md mt-1" />
+                        <input type="text" name="exp" value={jobData.type.exp} className="w-full border px-3 py-2 rounded-md mt-1" onChange={handleChange} />
                         <label className="block mt-3 font-medium">Price</label>
-                        <input type="number" name="price" value={jobData.type.price} className="w-full border px-3 py-2 rounded-md mt-1" />
+                        <input type="number" name="price" value={jobData.type.price} className="w-full border px-3 py-2 rounded-md mt-1" onChange={handleChange} />
                         <label className="block mt-3 font-medium">Description</label>
-                        <textarea name="desc" value={jobData.type.desc} className="w-full border px-3 py-2 rounded-md mt-1"></textarea>
-                        <button className="mt-4 px-4 py-2 bg-green-500 text-white rounded-lg">Submit</button>
+                        <textarea name="desc" value={jobData.type.desc} className="w-full border px-3 py-2 rounded-md mt-1" onChange={handleChange}></textarea>
+                        <button className="mt-4 px-4 py-2 bg-green-500 text-white rounded-lg" onClick={editJob} >Submit</button>
                     </div>
                 </div>
             )}
