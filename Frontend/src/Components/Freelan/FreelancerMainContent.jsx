@@ -6,9 +6,9 @@ import FreelancerMainJobs from './FreelancerMainJobs.jsx'
 import { UserDetailsContext } from "../../Context/UserDetailsContext.jsx";
 
 export default function FreelancerMainContent() {
-    const {userDetails} = useContext(UserDetailsContext);
+    const { userDetails } = useContext(UserDetailsContext);
     console.log(userDetails.firstName);
-    
+
     const settings = {
         dots: true,
         infinite: true,
@@ -21,6 +21,7 @@ export default function FreelancerMainContent() {
     };
     return (
         <>
+
             <div className="p-10 flex gap-6">
                 {/* Left Section: Slider */}
                 <div className="w-2/3 ">
@@ -60,7 +61,7 @@ export default function FreelancerMainContent() {
                     </div>
 
                     {/* Jobs */}
-                    <FreelancerMainJobs/>
+                    <FreelancerMainJobs />
                 </div>
 
 
@@ -101,6 +102,7 @@ export default function FreelancerMainContent() {
                 </div>
 
             </div>
+            
         </>
     );
 }

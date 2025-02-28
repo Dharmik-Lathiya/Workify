@@ -3,20 +3,20 @@ import { UserDetailsContext } from '../../Context/UserDetailsContext'
 import FreelancerProfilePortfolio from './FreelancerProfilePortfolio.jsx';
 import FreelancerProfileEducation from './FreelancerProfileEducation.jsx';
 import FreelancerProfileExperence from './FreelancerProfileExperence.jsx';
+import { Link } from 'react-router-dom';
 
 export default function FreelancerProfile() {
   const { userDetails, setUserDetails } = useContext(UserDetailsContext);
   const [title, setTitle] = useState(userDetails.title);
-  
+
   console.log(userDetails.languages);
 
-  // title,role,urls,thumbnail,desc
-
-
-  const [updated,setUpdated] = useState(false)
+  const [updated, setUpdated] = useState(false)
   const [showProfilePopup, setShowProfilePopup] = useState(false);
   const [newTitle, setNewTitle] = useState(title);
-  
+  const [loader, setLoader] = useState(false);
+
+
   const [formData, setNewFormData] = useState({
     title: "",
     bio: "",
@@ -28,40 +28,41 @@ export default function FreelancerProfile() {
     country: "",
   });
 
-  function saveChanges(){
+  function saveChanges() {
     console.log(formData);
 
-    fetch(import.meta.env.VITE_APP_BACKEND_URL + "/updateuser" ,{
+    fetch(import.meta.env.VITE_APP_BACKEND_URL + "/updateuser", {
       method: "PUT",
-      headers:{
-        "Content-Type":"application/json"
+      headers: {
+        "Content-Type": "application/json"
       },
-      body:JSON.stringify({
-        type:"user",
-        id:localStorage.getItem("userId"),
-        update:{...formData}
+      body: JSON.stringify({
+        type: "user",
+        id: localStorage.getItem("userId"),
+        update: { ...formData }
       })
-    }).then(res =>{
+    }).then(res => {
       res.json().then(data => {
         setUpdated(!updated)
         setShowProfilePopup(false)
       })
     })
-    
+
   }
 
   console.log(userDetails.education);
-  
-  
+
+
 
   useEffect(() => {
+    setLoader(true);
     fetch(import.meta.env.VITE_APP_BACKEND_URL + `/getuser/devloper/${localStorage.getItem("userId")}`, {
       method: "GET"
     }).then((res) => {
       res.json().then((data) => {
         const addressParts = data.address ? data.address.split(" ") : [];
         console.log(data);
-        
+        setLoader(false);
 
         setUserDetails(prevState => ({
           ...prevState,
@@ -84,7 +85,7 @@ export default function FreelancerProfile() {
           experiences: data.experience || [],
           education: data.educaton || [],
           languages: data.languages || [],
-          portfolio:data.portfolio || []
+          portfolio: data.portfolio || []
 
         }));
         setNewFormData(() => {
@@ -105,10 +106,15 @@ export default function FreelancerProfile() {
   }, [updated])
 
   console.log(userDetails.city);
-  
+
 
   return (
     <>
+      {loader && (
+        <div className="fixed inset-0 bg-slate-400/30 flex items-center justify-center w-full z-50">
+          <div className="loader"></div>
+        </div>
+      )}
       <div class="max-w-6xl mt-10 mx-auto bg-white p-6 rounded-lg shadow-md">
         <div class="flex justify-between items-center mb-4">
 
@@ -123,7 +129,10 @@ export default function FreelancerProfile() {
           </div>
           <div className='flex gap-5'>
 
-            <button class="px-4 py-2 border-2 border-green-500 text-green-500 rounded-lg">See public view</button>
+            <Link to={`/freelancer/public/${localStorage.getItem("userId")}`}
+              className="px-4 py-2 border-2 border-green-500 text-green-500 rounded-lg">
+              See public view
+            </Link>
             <button class="px-4 py-2 bg-green-500 text-white rounded-lg">Profile Settings</button>
           </div>
         </div>
@@ -146,7 +155,6 @@ export default function FreelancerProfile() {
                 <li><strong>Phone:</strong> {userDetails.phone}</li>
                 <li><strong>City:</strong> {userDetails.city}</li>
                 <li><strong>Country:</strong> {userDetails.country}</li>
-
               </ul>
             </div>
           </div>
@@ -166,7 +174,7 @@ export default function FreelancerProfile() {
                   type="text"
                   name="username"
                   value={formData.title}
-                  onChange={(e)=>{ setNewFormData((prevData)=>{ return {...prevData ,title:e.target.value } } ) }}
+                  onChange={(e) => { setNewFormData((prevData) => { return { ...prevData, title: e.target.value } }) }}
                   className="w-full border px-3 py-2 rounded-md mt-1"
                 />
 
@@ -175,7 +183,7 @@ export default function FreelancerProfile() {
                   type="text"
                   name="username"
                   value={formData.bio}
-                  onChange={(e)=>{ setNewFormData((prevData)=>{ return {...prevData ,bio:e.target.value } } ) }}
+                  onChange={(e) => { setNewFormData((prevData) => { return { ...prevData, bio: e.target.value } }) }}
                   className="w-full border px-3 py-2 rounded-md mt-1"
                 />
 
@@ -184,7 +192,7 @@ export default function FreelancerProfile() {
                   type="text"
                   name="username"
                   value={formData.username}
-                  onChange={(e)=>{ setNewFormData((prevData)=>{ return {...prevData ,username:e.target.value } } ) }}
+                  onChange={(e) => { setNewFormData((prevData) => { return { ...prevData, username: e.target.value } }) }}
                   className="w-full border px-3 py-2 rounded-md mt-1"
                 />
 
@@ -193,7 +201,7 @@ export default function FreelancerProfile() {
                   type="email"
                   name="email"
                   value={formData.email}
-                  onChange={(e)=>{ setNewFormData((prevData)=>{ return {...prevData ,email:e.target.value } } ) }}
+                  onChange={(e) => { setNewFormData((prevData) => { return { ...prevData, email: e.target.value } }) }}
                   className="w-full border px-3 py-2 rounded-md mt-1"
                 />
 
@@ -204,7 +212,7 @@ export default function FreelancerProfile() {
                       type="date"
                       name="dob"
                       value={formData.dob}
-                      onChange={(e)=>{ setNewFormData((prevData)=>{ return {...prevData ,dob:e.target.value } } ) }}
+                      onChange={(e) => { setNewFormData((prevData) => { return { ...prevData, dob: e.target.value } }) }}
                       className="w-full border px-3 py-2 rounded-md mt-1"
                     />
                   </div>
@@ -214,7 +222,7 @@ export default function FreelancerProfile() {
                       type="text"
                       name="phone"
                       value={formData.phone}
-                      onChange={(e)=>{ setNewFormData((prevData)=>{ return {...prevData ,phone:e.target.value } } ) }}
+                      onChange={(e) => { setNewFormData((prevData) => { return { ...prevData, phone: e.target.value } }) }}
 
                       className="w-full border px-3 py-2 rounded-md mt-1"
                     /></div>
@@ -229,7 +237,7 @@ export default function FreelancerProfile() {
                       type="text"
                       name="location"
                       value={formData.city}
-                      onChange={(e)=>{ setNewFormData((prevData)=>{ return {...prevData ,city:e.target.value } } ) }}
+                      onChange={(e) => { setNewFormData((prevData) => { return { ...prevData, city: e.target.value } }) }}
                       className="w-full border px-3 py-2 rounded-md mt-1"
                     />
                   </div>
@@ -240,7 +248,7 @@ export default function FreelancerProfile() {
                       type="text"
                       name="Country"
                       value={formData.country}
-                      onChange={(e)=>{ setNewFormData((prevData)=>{ return {...prevData ,country:e.target.value } } ) }}
+                      onChange={(e) => { setNewFormData((prevData) => { return { ...prevData, country: e.target.value } }) }}
 
                       className="w-full border px-3 py-2 rounded-md mt-1"
                     />
@@ -273,7 +281,7 @@ export default function FreelancerProfile() {
             </div>
 
             {/* Portfolio */}
-            <FreelancerProfilePortfolio/>
+            <FreelancerProfilePortfolio />
             {/* Skills */}
             <div className="bg-white p-4 shadow-md rounded-lg">
               <h2 className="text-lg font-semibold mb-2">Selected Skills</h2>
@@ -294,10 +302,10 @@ export default function FreelancerProfile() {
             </div>
 
             {/* Education */}
-            <FreelancerProfileEducation/>
+            <FreelancerProfileEducation />
 
             {/* Other Experiences */}
-            <FreelancerProfileExperence/>
+            <FreelancerProfileExperence />
 
           </div>
         </div>

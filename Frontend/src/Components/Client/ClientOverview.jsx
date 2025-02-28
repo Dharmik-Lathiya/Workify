@@ -17,7 +17,7 @@ export default function ClientOverview() {
             desc: "",
         },
     });
-
+    
     useEffect(() => {
         fetch(import.meta.env.VITE_APP_BACKEND_URL + `/getuser/client/${localStorage.getItem("clientId")}`, {
             method: "GET"

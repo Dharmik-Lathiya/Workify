@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { UserDetailsContext } from "../../Context/UserDetailsContext.jsx";
 import { Link } from 'react-router-dom';
+import { set } from 'firebase/database';
 
 export default function FreelancerMainJobs() {
 
@@ -10,6 +11,7 @@ export default function FreelancerMainJobs() {
     const [savedJobs, setSavedJobs] = useState([]);
     const [jobsList, SetJobList] = useState([]);
     const [flag, setFlag] = useState(true);
+    const [loader, setLoader] = useState(false);
 
     const toggleSaveJob = (job) => {
 
@@ -17,6 +19,7 @@ export default function FreelancerMainJobs() {
         if (isJobSaved) {
             setSavedJobs(savedJobs.filter(saved => saved.jobTitle !== job.jobTitle));
             fetch(import.meta.env.VITE_APP_BACKEND_URL + "/savejob", {
+
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
@@ -82,7 +85,7 @@ export default function FreelancerMainJobs() {
     }
 
     useEffect(() => {
-
+        setLoader(true)
         fetch(import.meta.env.VITE_APP_BACKEND_URL + "/" + selectedTab, {
             method: "POST",
             headers: {
@@ -92,6 +95,7 @@ export default function FreelancerMainJobs() {
                 id: localStorage.getItem("userId"),
                 skills: userDetails.selectedSkills
             })
+
         }).then((res) => {
             res.json().then(data => {
                 SetJobList(() => { return data });
@@ -99,6 +103,7 @@ export default function FreelancerMainJobs() {
                 if (flag) {
                     setSelectedTab(() => { return 'getbestmatches' });
                 }
+                setLoader(false)
                 setFlag(false)
 
             })
@@ -112,6 +117,12 @@ export default function FreelancerMainJobs() {
 
     return (
         <>
+            {loader && (
+                <div className="fixed inset-0 bg-slate-400/30 flex items-center justify-center w-full z-50">
+                    <div className="loader"></div>
+                </div>
+            )}
+
             <div>
                 <div className="relative my-6">
                     <i className="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500"></i>

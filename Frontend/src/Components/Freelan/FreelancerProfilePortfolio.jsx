@@ -9,6 +9,7 @@ export default function FreelancerProfilePortfolio() {
 
     const [isEditing, setIsEditing] = useState(false);
     const [editIndex, setEditIndex] = useState(null);
+      const [loader, setLoader] = useState(false);
     const [portfolioData, setPortfolioData] = useState({
         title: '',
         role: '',
@@ -35,6 +36,8 @@ export default function FreelancerProfilePortfolio() {
   
    
     const addOrUpdatePortfolioEntry = () => {
+      setLoader(true);
+      
       setUserDetails((prev) => {
         let updatedPortfolio;
     
@@ -52,6 +55,7 @@ export default function FreelancerProfilePortfolio() {
       });
       
       let portfolioId = isEditing  ? {portfolioId:userDetails.portfolio[editIndex]._id } : { }
+      
       fetch(import.meta.env.VITE_APP_BACKEND_URL + "/addportfolio" ,{
         method: "PUT",
         headers:{
@@ -65,10 +69,16 @@ export default function FreelancerProfilePortfolio() {
       }).then(res =>{
         res.json().then(data => {
           console.log(data);
-          
+
+          setLoader(false);          
           closePopup();
         })
+      }).catch((error) => {
+        console.error("Error updating portfolio:", error);
       })
+      .finally(() => {
+        setLoader(false); // Stop loader
+      });
     };
     
     
@@ -107,6 +117,7 @@ export default function FreelancerProfilePortfolio() {
     
   
     const closePopup = () => {
+      
       setShowPortfolioPopup(false);
       setIsEditing(false);
       setEditIndex(null);
