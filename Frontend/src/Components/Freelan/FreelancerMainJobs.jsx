@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { UserDetailsContext } from "../../Context/UserDetailsContext.jsx";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { set } from 'firebase/database';
 
 export default function FreelancerMainJobs() {
@@ -12,6 +12,7 @@ export default function FreelancerMainJobs() {
     const [jobsList, SetJobList] = useState([]);
     const [flag, setFlag] = useState(true);
     const [loader, setLoader] = useState(false);
+    let Navigate = useNavigate();
 
     const toggleSaveJob = (job) => {
 
@@ -82,6 +83,7 @@ export default function FreelancerMainJobs() {
 
         })
 
+        Navigate("/chat/" + chatId);
     }
 
     useEffect(() => {
@@ -196,9 +198,9 @@ export default function FreelancerMainJobs() {
                                 <div>
                                     <p className='font-medium'>Project Completion Time: <span className='font-bold'>{job.type.time}</span></p>
                                 </div>
-                                <Link to='/chat' className=' bg-green-600 text-white p-2 rounded' onClick={() => { createChat(job) }}>
+                                <button className=' bg-green-600 text-white p-2 rounded' onClick={() => { createChat(job) }}>
                                     Message
-                                </Link>
+                                </button>
                             </div>
 
 

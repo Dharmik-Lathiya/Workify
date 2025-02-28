@@ -19,12 +19,10 @@ export default function Chat() {
       });
   
       const db = getDatabase(app);
-         
-
 
   return (
     <ChatContextProvider>
-    <div className='flex'>
+    <div className='flex border-0'>
         <ChatMenu/>
         <ChatSide db={db}/>
     </div>
