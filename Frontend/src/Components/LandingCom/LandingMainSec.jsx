@@ -1,45 +1,69 @@
-import React from 'react'
+import React from "react";
+import { motion } from "motion/react";
 
 export default function LandingMainSec() {
   return (
     <>
-    <div className='p-20'>
-        <div>
-            <div className='flex justify-between'>
-            <p className='text-4xl w-90'>Tailored Design Solutions to Bring Your Vision to Life</p>
-            <button className='bg-slate-400 text-2xl h-fit p-5 rounded-xl '  >Learn More</button>
-            </div>
+      <div className="px-6 md:px-20 py-16">
+        {/* Heading Section */}
+        <div className="flex flex-col md:flex-row items-start md:items-center justify-between">
+          <p className="text-3xl md:text-5xl font-semibold leading-snug md:w-3/5">
+            Tailored Design Solutions to Bring Your Vision to Life
+          </p>
+          <motion.button
+            className="bg-gray-700 text-white text-lg md:text-2xl font-medium px-6 py-3 rounded-xl mt-5 md:mt-0"
+            whileHover={{ scale: 0.98 }}
+            whileTap={{ scale: 0.90 }}
+          >
+            Learn More
+          </motion.button>
         </div>
 
-        <div className='flex mt-20 justify-between '>
-            <div className='hover:bg-[#a8ff36] bg-gray-200 rounded-xl p-5 group/1'>
-            <i className=" fas fa-pencil-ruler mb-5" style={{fontSize:"3rem"}} ></i>
-            <p className='group-hover/1:text-blue-400 text-2xl mb-[20rem]'>Product Design & Development</p>
+        {/* Card Section */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-16">
+          {/* Card 1 */}
+          <motion.div
+            className="group bg-gray-200 hover:bg-[#a8ff36] rounded-xl p-6 shadow-md transition-all duration-300"
+            whileHover={{ scale: 1.05 }}
+          >
+            <i className="fas fa-pencil-ruler text-5xl mb-5 text-gray-700 group-hover:text-blue-600 transition-all duration-300"></i>
+            <p className="text-xl font-semibold mb-4 text-gray-800 group-hover:text-blue-600">
+              Product Design & Development
+            </p>
+            <p className="text-md text-gray-600">
+              Crafting user-centered digital products from concept to completion, including wireframing, prototyping, and intuitive design solutions.
+            </p>
+          </motion.div>
 
-            <p className='text-xl w-110 mb-5' >Crafting user-centered digital products from concept to completion. Includes wireframing, prototyping, and delivering intuitive designs tailored to enhance user experiences.</p>
-            </div>
-           
-            <div className='bg-[#a8ff36] rounded-xl p-5 group/2'>
-            <i className="fas fa-pencil-ruler mb-5" style={{fontSize:"3rem"}} ></i>
-            <p className='group-hover/2:text-blue-400 text-2xl mb-[20rem]'>Product Design & Development</p>
+          {/* Card 2 */}
+          <motion.div
+            className="group bg-[#a8ff36] rounded-xl p-6 shadow-md transition-all duration-300"
+            whileHover={{ scale: 1.05 }}
+          >
+            <i className="fas fa-palette text-5xl mb-5 text-gray-700 group-hover:text-blue-600 transition-all duration-300"></i>
+            <p className="text-xl font-semibold mb-4 text-gray-800 group-hover:text-blue-600">
+              Brand Identity & Visual Design
+            </p>
+            <p className="text-md text-gray-600">
+              Building strong visual identities through logos, typography, color schemes, and overall branding strategies for businesses and startups.
+            </p>
+          </motion.div>
 
-            <p className='text-xl w-110 mb-5' >Crafting user-centered digital products from concept to completion. Includes wireframing, prototyping, and delivering intuitive designs tailored to enhance user experiences.</p>
-            </div>
-           
-            <div className='hover:bg-[#a8ff36] bg-gray-200 rounded-xl p-5 group/3'>
-            <i className="fas fa-pencil-ruler mb-5" style={{fontSize:"3rem"}} ></i>
-            <p className='group-hover/3:text-blue-400 text-2xl mb-[20rem]'>Product Design & Development</p>
-
-            <p className='text-xl w-110 mb-5' >Crafting user-centered digital products from concept to completion. Includes wireframing, prototyping, and delivering intuitive designs tailored to enhance user experiences.</p>
-            </div>
-           
+          {/* Card 3 */}
+          <motion.div
+            className="group bg-gray-200 hover:bg-[#a8ff36] rounded-xl p-6 shadow-md transition-all duration-300"
+            whileHover={{ scale: 1.05 }}
+          >
+            <i className="fas fa-code text-5xl mb-5 text-gray-700 group-hover:text-blue-600 transition-all duration-300"></i>
+            <p className="text-xl font-semibold mb-4 text-gray-800 group-hover:text-blue-600">
+              UI/UX Research & Prototyping
+            </p>
+            <p className="text-md text-gray-600">
+              Enhancing user experience through detailed research, usability testing, and crafting interactive prototypes that bring ideas to life.
+            </p>
+          </motion.div>
         </div>
-    </div>
-
-
-    <div>
-        
-    </div>
+      </div>
     </>
-  )
+  );
 }
