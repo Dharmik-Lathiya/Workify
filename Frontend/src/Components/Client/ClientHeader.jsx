@@ -28,8 +28,11 @@ export default function ClientHeader() {
     const [newNoti, SetNewNoti] = useState(false);
     const socket = io("http://localhost:3000");
 
-    socket.emit("join", "67b62ec3e4a7216330c0307d");
+    socket.emit("join", localStorage.getItem("clientId"));
     socket.on("notification", (data) => {
+
+        console.log(data);
+        
         SetIsOpen(false)
         SetNewNoti(true);
     })

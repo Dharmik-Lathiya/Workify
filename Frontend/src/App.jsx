@@ -10,7 +10,6 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Chat from './Components/chat/Chat';
 import FreeLancerHome from './Pages/Freelan/FreeLancerHome.jsx';
-import Notification from './Components/notification/Notification.jsx';
 import Temp from './Pages/Freelan/Temp.jsx';
 import ClientTemp from './Pages/Client/ClientTemp.jsx';
 import FreelancerProfile from './Components/Freelan/FreelancerProfile.jsx';

@@ -23,7 +23,8 @@ const getSavedJobs = require('./getters/getSavedJobs');
 const Verification = require('./auth/Verification');
 const searchJobs = require('./Search/SearchJobs');
 const searchUser = require('./Search/SearchUser');
-
+const updatepost = require('./Job/UpdateJobs');
+const deleteJob = require('./Job/DeletePost');
 
 
 
@@ -53,9 +54,11 @@ routes.put("/addexperience",experienceUpdater);
 routes.put("/updateuser",userUpdater);
 routes.put("/addchat",addChat);
 routes.put("/addnotification",addNotification);
+routes.put("/updatejob",updatepost);
 
 routes.delete("/deleteeducation",educationDeleter);
 routes.delete("/deleteexperience",experienceDeleter);
 routes.delete("/deleteportfolio",portfolioDeleter);
+routes.delete("/deletejob",deleteJob);
 
 module.exports = routes

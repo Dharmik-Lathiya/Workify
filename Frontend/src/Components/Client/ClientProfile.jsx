@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 export default function ClientProfile() {
   const { clientDetails, setClientDetails } = useContext(ClientDetailsContext);
   const [showPopup, setShowPopup] = useState(false);
-  const [flag,setFlag] = useState(false)
+  const [flag,setFlag] = useState(true)
   // Initialize formData from clientDetails
   const [formData, setFormData] = useState(clientDetails);
 
@@ -31,7 +31,8 @@ export default function ClientProfile() {
             jobs: data.postedJobs || []
           };
     
-          // Update both states in one go
+            console.log(updatedClientDetails);
+            
           setClientDetails(updatedClientDetails);
           setFormData(updatedClientDetails);
     
@@ -40,7 +41,7 @@ export default function ClientProfile() {
     })
   }
 
-  }, [flag]);
+  }, []);
 
   // Handle input change
   const handleChange = (e) => {
@@ -52,6 +53,8 @@ export default function ClientProfile() {
         const reader = new FileReader();
         reader.onloadend = () => {
           setFormData((prev) => ({ ...prev, photo: reader.result }));
+       
+          
         };
         reader.readAsDataURL(file);
       }
@@ -61,15 +64,34 @@ export default function ClientProfile() {
         [name]: type === "checkbox" ? checked : value,
       }));
     }
-  };
+      console.log(formData);
+  
+    
 
-  // Handle form submission
+  };
   const handleSubmit = (e) => {
     e.preventDefault();
     setFlag(true)
-    console.log("Updated Data:", formData);
     setClientDetails(formData); // Update context with new data
     setShowPopup(false); // Close popup
+
+
+    fetch(import.meta.env.VITE_APP_BACKEND_URL + "/updateuser" ,{
+      method: "PUT",
+      headers:{
+        "Content-Type":"application/json"
+      },
+      body:JSON.stringify({
+        type:"client",
+        id:localStorage.getItem("clientId"),
+        update:{...formData}
+      })
+    }).then(res =>{
+      res.json().then(data => {
+       
+      })
+    })
+
   };
 
   return (
@@ -78,7 +100,7 @@ export default function ClientProfile() {
         <div className="flex justify-between items-center mb-4">
           <div className="flex">
             <img
-              src={clientDetails.photo || "https://via.placeholder.com/100"}
+              src={clientDetails.photo}
               alt="Profile"
               className="h-28 w-28 rounded-full border-2"
             />
