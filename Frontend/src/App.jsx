@@ -27,7 +27,6 @@ import { ClientDetailsContext } from './Context/ClientDetailsContext';
 import FindJobs from './Components/FindJobs.jsx';
 import FIndDevelopers from './Components/FIndDevelopers.jsx';
 import PaymentForm from './Components/PaymentForm';
-
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 

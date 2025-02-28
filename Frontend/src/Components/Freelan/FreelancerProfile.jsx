@@ -60,7 +60,8 @@ export default function FreelancerProfile() {
     }).then((res) => {
       res.json().then((data) => {
         const addressParts = data.address ? data.address.split(" ") : [];
-       
+        console.log(data);
+        
 
         setUserDetails(prevState => ({
           ...prevState,

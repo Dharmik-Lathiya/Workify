@@ -15,7 +15,6 @@ export default function ClientCreateProfile() {
 
     const nextStep = () => setStep((prev) => (prev === 0 ? 1 : Math.min(prev + 1, 5)));
     const prevStep = () => setStep((prev) => Math.max(prev - 1, 0));
-    let name = 'Dharmik';
 
     function savePost() {
         fetch(import.meta.env.VITE_APP_BACKEND_URL + "/postjob", {
@@ -101,7 +100,7 @@ export default function ClientCreateProfile() {
                         {step === 5 && (
                             (clientDetails.job.type.desc ? (
                                 <Link
-                                    to='/client/home'
+                                    to='/client/profile'
                                     onClick={() => { savePost(); nextStep(); }}
                                     className="py-2 px-4 rounded-lg bg-green-600 text-white"
                                 >

@@ -20,7 +20,6 @@ export default function StepNine() {
     profileImage: "",
   });
 
-  // Sync formData with userDetails when context updates
   useEffect(() => {
     setFormData((prev) => ({
       ...prev,
@@ -95,7 +94,7 @@ export default function StepNine() {
     }));
     setFlag(true)
 
-  console.log("Updated Profile Details:", userDetails); // This should log the base64 image
+  console.log("Updated Profile Details:", userDetails);
 
 
   };
