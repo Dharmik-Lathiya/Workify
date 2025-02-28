@@ -28,6 +28,7 @@ export default function FreelancerHeader() {
 
     socket.emit("join", localStorage.getItem("userId"));
     socket.on("notification", (data) => {
+        SetIsOpen(false)
         SetNewNoti(true)
     })
 

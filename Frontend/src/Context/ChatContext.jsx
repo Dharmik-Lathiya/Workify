@@ -9,7 +9,7 @@ export const ChatContextProvider = ({ children }) => {
 
   
 
-    const [chat, setChat] = useState([]);
+    const [chat, setChat] = useState(null);
 
 
     return (
