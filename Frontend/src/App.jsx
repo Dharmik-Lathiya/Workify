@@ -29,6 +29,7 @@ import FIndDevelopers from './Components/FIndDevelopers.jsx';
 import PaymentForm from './Components/PaymentForm';
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
+import FreelancerPublicProfile from './Components/Freelan/FreelancerPublicProfile.jsx';
 
 
 const stripePromise = loadStripe("pk_test_51QwTKoGbnzXJuBBeAJJ4po5FiZSejRHh78Ka6hyrqHEDYbkmQJoSk5j3JhbcDXLOeA98N4Msp0umg7RPGtpuKKaA00D6MVrlj6"); // Replace with your actual key
@@ -62,6 +63,7 @@ function App() {
         {localStorage.getItem("userId") ? <Route path="home" element={<FreeLancerHome />} /> : <Route path="home" element={<Navigate to={'/freelancer/signup'} />} />}
         <Route path="find-jobs/:searchQuery" element={<FindJobs />} /> 
         <Route path="find-developer/:searchQuery" element={<FIndDevelopers />} /> 
+        <Route path="/freelancer/public/:userId" element={<FreelancerPublicProfile />} />
       </Route>
       <Route path="/client" element={<ClientTemp />}>
         <Route path="SignUp" element={<ClientSignup />} />
