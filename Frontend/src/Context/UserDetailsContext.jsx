@@ -30,6 +30,7 @@ export const UserDetailsProvider = ({ children }) => {
     profileImage: "",
     languages:[],
     portfolio:[],
+    reviews:[],
   });
   const [userId , SetUserId] = useState(null);
 

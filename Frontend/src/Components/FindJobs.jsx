@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import Footer from './Footer'
-import { data, Link, useParams } from 'react-router-dom';
+import { data, Link, useNavigate, useParams } from 'react-router-dom';
 
 export default function FindJobs() {
+ let Navigate = useNavigate();
   const [jobsList, setJobList] = useState([]);
 
   const [loading, setLoading] = useState(true)
@@ -27,6 +28,34 @@ export default function FindJobs() {
       })
       .finally(() => setLoading(false));
   }, [searchQuery]);
+
+  function createChat(job) {
+
+    console.log(job);
+    const senderid = localStorage.getItem("userId")
+    ? { userId: localStorage.getItem("userId"), model: "users" }
+    : { clientId: localStorage.getItem("clientId"), model: "client" };
+    let chatId = `${Date.now()}-${Math.floor(Math.random() * 10000)}`
+    fetch(import.meta.env.VITE_APP_BACKEND_URL + "/addchat", {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            ...senderid,
+            reciverid: job.clientId,
+            recivermodel: "client",
+            model: "users",
+            role: "sender",
+            chatId: chatId
+        })
+    }).then(() => {
+
+
+    })
+
+    Navigate("/chat/" + chatId);
+}
 
   return (
     <>
@@ -141,9 +170,9 @@ export default function FindJobs() {
                     <div>
                       <p className='font-medium'>Project Completion Time: <span className='font-bold'>{job.type.time}</span></p>
                     </div>
-                    <Link to='/chat' className=' bg-green-600 text-white p-2 rounded ' onClick={() => { createChat(job) }}>
+                    <button className=' bg-green-600 text-white p-2 rounded ' onClick={() => { createChat(job) }}>
                       Message
-                    </Link>
+                    </button>
                   </div>
 
                 </div>

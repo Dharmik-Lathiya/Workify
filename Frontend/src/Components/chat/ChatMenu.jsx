@@ -6,6 +6,9 @@ export default function ChatMenu() {
   const userId = localStorage.getItem("userId");
   const [chats, setChat] = useState(null);
 
+  console.log(chats);
+  
+
   useEffect(() => {
     console.log(userId, clinetId);
 
