@@ -6,7 +6,7 @@ const watchNotifications = require('./Database/watchNotification');
 const UserSchema = require('./models/UserSchema');
 const ClientSchema = require('./models/ClientSchema');
 const { Server } = require("socket.io");
-
+const crypto = require('crypto')
 const stripe = require('stripe')("sk_test_51QwTKoGbnzXJuBBehl1LyFaMOS7jR0FCemzCOGlQoZwEv00N9mEUvhnRKcTstKbmpdvzDw4nI0x4wuSeDJWopqwR00E5xnaZp6");
 
 const app = express();
@@ -30,21 +30,43 @@ watchNotifications(UserSchema,"users",io,connectedClients);
 watchNotifications(ClientSchema,"client",io,connectedClients);
 
 app.use('/',routes);
-app.post("/create-payment-intent", async (req, res) => {
-  try {
-      const { amount, currency } = req.body;
 
-      const paymentIntent = await stripe.paymentIntents.create({
-          amount: amount * 100, // Convert to cents
-          currency,
-      });
+const PAYU_MERCHANT_KEY = "rERd4X";
+const PAYU_SALT = "0LPpyx9hfnuEKxiFaIb6gkF3cwLhXyCA";  // ✅ Test mode salt
 
-      res.send({
-          clientSecret: paymentIntent.client_secret,
-      });
-  } catch (error) {
-      res.status(500).send({ error: error.message });
-  }
+const PAYU_BASE_URL = "https://test.payu.in/_payment"; // Use "https://secure.payu.in/_payment" for production
+
+app.post("/pay", async (req, res) => {
+    const { amount, productInfo, firstName, email, phone } = req.body;
+
+    const txnId = "txn" + Date.now();
+    const hashString = `${PAYU_MERCHANT_KEY}|${txnId}|${amount}|${productInfo}|${firstName}|${email}|${""}|${""}|${""}|${""}|${""}||||||${PAYU_SALT}`;
+
+    // ✅ Generate SHA-512 hash
+    const hash = crypto.createHash("sha512").update(hashString).digest("hex");
+
+    const payUData = {
+        key: PAYU_MERCHANT_KEY,
+        txnid: txnId,
+        amount: amount.toString(),
+        productinfo: productInfo,
+        firstname: firstName,
+        email: email,
+        phone: phone,
+        surl: "http://localhost:3000/payment/success",
+        furl: "http://localhost:3000/payment/fail",
+        hash: hash,
+        service_provider: "payu_paisa",
+    };
+
+    res.json({ payUData, action: PAYU_BASE_URL });
+});
+app.post("/success", (req, res) => {
+  res.json({ message: "Payment Successful!", data: req.body });
+});
+
+app.post("/fail", (req, res) => {
+  res.json({ message: "Payment Failed!", data: req.body });
 });
 
 io.on("connection", (socket) => {

@@ -26,9 +26,10 @@ export default function ChatSide({ db }) {
     
     const senderid = localStorage.getItem("userId") ? {userId: localStorage.getItem("userId") ,  model: "users"} : {clientId: localStorage.getItem("clientId") , model: "client"} 
     const user = localStorage.getItem("userId") ? userDetails  :  clientDetails;
-    console.log(user)
+  
     useEffect(() => {
-
+        console.log(clientDetails);
+        
         if (id) {
             console.log(id);
             
@@ -91,7 +92,7 @@ export default function ChatSide({ db }) {
                     id && chats.map((item) => {
                         return(
                         <div className='  mt-5 mb-5 flex' >
-                            <img src={item.role ? user.profileImage  : chat.reciverid.photo} alt="" className='w-20 h20' />
+                            <p>{item.role}</p>
                             <p className='text-xl ml-10'>{item.message}</p>
                       </div>)
                     })
@@ -100,7 +101,7 @@ export default function ChatSide({ db }) {
 
             <div className='absolute flex w-full h-10 p-10   self-end bottom-10 '>
 
-                <input type="text" className='w-[80%] h-15 border' value={messages.message} onChange={(e) => { setMessage({message:e.target.value,role:"sender"}) }} />
+                <input type="text" className='w-[80%] h-15 border' value={messages.message} onChange={(e) => { setMessage({message:e.target.value,role:user.username}) }} />
 
                 <button className='h-15 w-fit border p-2 ml-5 bg-amber-900 text-white text-2xl text-center' onClick={addChat} >Send</button>
             </div>
