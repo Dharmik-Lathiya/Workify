@@ -45,7 +45,6 @@ export default function FindJobs() {
             ...senderid,
             reciverid: job.clientId,
             recivermodel: "client",
-            model: "users",
             role: "sender",
             chatId: chatId
         })

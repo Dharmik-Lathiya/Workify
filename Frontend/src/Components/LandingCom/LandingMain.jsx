@@ -4,7 +4,7 @@ import img2 from '../../Assets/landingmainsection2.jpg'
 import slider1 from "../../Assets/1slider.jpg"
 import slider2 from "../../Assets/2slider.jpg"
 import slider3 from "../../Assets/3slider.jpg"
-import { motion } from "motion/react" 
+import { motion } from "framer-motion";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css"; 
 import "slick-carousel/slick/slick-theme.css";
