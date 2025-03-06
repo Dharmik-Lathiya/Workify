@@ -75,6 +75,12 @@ app.post("/fail", (req, res) => {
   res.json({ message: "Payment Failed!", data: req.body });
 });
 
+app.use((req, res, next) => {
+  res.setHeader("Content-Security-Policy", "default-src 'self'; font-src 'self' data:;");
+  next();
+});
+
+
 io.on("connection", (socket) => {
   console.log("New client connected:", socket.id);
 
