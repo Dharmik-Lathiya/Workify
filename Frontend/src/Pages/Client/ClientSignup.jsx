@@ -31,7 +31,7 @@ const { clientDetails, setClientDetails ,clinetId ,setClientId} = useContext(Cli
 
 
     if(formData.agreeToTerms)
-    fetch(import.meta.env.VITE_APP_BACKEND_URL + "/signup", {
+    fetch(`${import.meta.env.VITE_APP_BACKEND_URL}/signup`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
