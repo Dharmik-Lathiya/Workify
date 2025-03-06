@@ -31,6 +31,12 @@ watchNotifications(ClientSchema,"client",io,connectedClients);
 
 app.use('/',routes);
 
+process.on("uncaughtException", (err) => {
+  console.error("There was an uncaught error", err);
+  process.exit(1);
+});
+
+
 const PAYU_MERCHANT_KEY = "rERd4X";
 const PAYU_SALT = "0LPpyx9hfnuEKxiFaIb6gkF3cwLhXyCA";  // ✅ Test mode salt
 
