@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Footer from './Footer'
 import { data, Link, useNavigate, useParams } from 'react-router-dom';
+import apiFetch from '../lib/api';
 
 export default function FindJobs() {
  let Navigate = useNavigate();
@@ -10,17 +11,14 @@ export default function FindJobs() {
   const { searchQuery } = useParams();
   useEffect(() => {
     setLoading(true);
-    fetch(import.meta.env.VITE_APP_BACKEND_URL + "/searchjobs", {
+    apiFetch("/api/jobs/search", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
       body: JSON.stringify({ query: searchQuery })
     })
-      .then((res) => res.json())
       .then((data) => {
         console.log("Fetched jobs:", data);
-        setJobList(Array.isArray(data) ? data : Array.isArray(data.jobs) ? data.jobs : []);
+        const jobs = data.data?.jobs || data.data || [];
+        setJobList(Array.isArray(jobs) ? jobs : []);
       })
       .catch(err => {
         console.error("Error fetching jobs:", err);
@@ -36,11 +34,8 @@ export default function FindJobs() {
     ? { userId: localStorage.getItem("userId"), model: "users" }
     : { clientId: localStorage.getItem("clientId"), model: "client" };
     let chatId = `${Date.now()}-${Math.floor(Math.random() * 10000)}`
-    fetch(import.meta.env.VITE_APP_BACKEND_URL + "/addchat", {
+    apiFetch("/api/chats/add", {
         method: "PUT",
-        headers: {
-            "Content-Type": "application/json",
-        },
         body: JSON.stringify({
             ...senderid,
             reciverid: job.clientId,

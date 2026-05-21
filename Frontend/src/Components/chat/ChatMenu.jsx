@@ -1,35 +1,23 @@
 import React, { useEffect, useState } from "react";
 import ChatUserList from "./ChatUserList";
+import apiFetch from "../../lib/api";
 
 export default function ChatMenu() {
   const clinetId = localStorage.getItem("clientId");
   const userId = localStorage.getItem("userId");
   const [chats, setChat] = useState(null);
 
-  console.log(chats);
-  
-
   useEffect(() => {
-    console.log(userId, clinetId);
-
-    fetch(import.meta.env.VITE_APP_BACKEND_URL + "/getchat", {
+    apiFetch("/api/chats/get", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
       body: JSON.stringify({
         type: userId ? "user" : "client",
         id: userId ? userId : clinetId,
       }),
-    }).then((res) => {
-      res.json().then((data) => {
-        console.log(data);
-        if (data) {
-          setChat(() => {
-            return data;
-          });
-        }
-      });
+    }).then((data) => {
+      if (data.data) {
+        setChat(data.data);
+      }
     });
   }, []);
 

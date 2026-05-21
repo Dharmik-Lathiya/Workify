@@ -1,6 +1,7 @@
 import React, { useState, useContext, useEffect } from "react";
 import { UserDetailsContext } from "../../Context/UserDetailsContext.jsx";
 import logo from "../../Assets/UserIcon.png";
+import apiFetch from "../../lib/api";
 
 export default function StepNine() {
   const { userDetails, setUserDetails, userId } = useContext(UserDetailsContext);
@@ -27,11 +28,8 @@ export default function StepNine() {
     }));
 
     if (flag) {
-      fetch(import.meta.env.VITE_APP_BACKEND_URL + "/updateuser", {
+      apiFetch("/api/users/profile", {
         method: "PUT",
-        headers: {
-          "Content-Type": "application/json"
-        },
         body: JSON.stringify(
           {
             id: localStorage.getItem("userId"),
@@ -53,16 +51,14 @@ export default function StepNine() {
               bio: userDetails.bio,
               price: 215,
               experience: userDetails.experiences,
-              educaton: userDetails.education
+              education: userDetails.education
             }
 
           }
         )
-      }).then((res) => {
-        res.json().then(data => {
+      }).then((data) => {
           console.log(data);
 
-        })
       })
 
     }

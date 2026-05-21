@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react'
 import { UserDetailsContext } from '../../Context/UserDetailsContext'
-
+import apiFetch from '../../lib/api';
 
 export default function FreelancerProfilePortfolio() {
       const { userDetails, setUserDetails } = useContext(UserDetailsContext);
@@ -54,25 +54,19 @@ export default function FreelancerProfilePortfolio() {
         return { ...prev, portfolio: updatedPortfolio };
       });
       
-      let portfolioId = isEditing  ? {portfolioId:userDetails.portfolio[editIndex]._id } : { }
+      let portId = isEditing ? userDetails.portfolio[editIndex]._id : null;
       
-      fetch(import.meta.env.VITE_APP_BACKEND_URL + "/addportfolio" ,{
+      apiFetch("/api/users/portfolio", {
         method: "PUT",
-        headers:{
-          "Content-Type":"application/json"
-        },
-        body:JSON.stringify({
-          ...portfolioId,
-          id:localStorage.getItem("userId"),
-          update:{...portfolioData}
+        body: JSON.stringify({
+          portId,
+          id: localStorage.getItem("userId"),
+          update: { ...portfolioData }
         })
-      }).then(res =>{
-        res.json().then(data => {
+      }).then(data => {
           console.log(data);
-
-          setLoader(false);          
+          setLoader(false);
           closePopup();
-        })
       }).catch((error) => {
         console.error("Error updating portfolio:", error);
       })
@@ -81,33 +75,20 @@ export default function FreelancerProfilePortfolio() {
       });
     };
     
-    
-    
-  
     const deletePortfolioEntry = (index) => {
-
-     
       const updatedPortfolio = userDetails.portfolio.filter((_, i) => i !== index);
       setUserDetails((prev) => ({ ...prev, portfolio: updatedPortfolio }));
 
-
-      fetch(import.meta.env.VITE_APP_BACKEND_URL + "/deleteportfolio" ,{
+      apiFetch("/api/users/portfolio", {
         method: "DELETE",
-        headers:{
-          "Content-Type":"application/json"
-        },
-        body:JSON.stringify({
-          portfolioId:userDetails.portfolio[index]._id,
-          id:localStorage.getItem("userId"),
-          
+        body: JSON.stringify({
+          portId: userDetails.portfolio[index]._id,
+          id: localStorage.getItem("userId"),
         })
-      }).then(res =>{
-        res.json().then(data => {
+      }).then(data => {
           console.log(data);
-          
           closePopup();
-        })
-      })
+      });
     };
   
     const editPortfolioEntry = (index) => {
@@ -117,10 +98,7 @@ export default function FreelancerProfilePortfolio() {
       setShowPortfolioPopup(true);
     };
     
-    
-  
     const closePopup = () => {
-      
       setShowPortfolioPopup(false);
       setIsEditing(false);
       setEditIndex(null);
@@ -139,8 +117,6 @@ export default function FreelancerProfilePortfolio() {
       <div className="grid grid-cols-2 gap-10">
         {userDetails.portfolio.length > 0 ? (
           userDetails.portfolio.map((item, index) => (
-            
-            
             <div key={index} className="py-3">
               <img src={item.thumbnail} alt={item.title} className="h-auto w-full rounded-md" />
               <div className='flex mt-2 justify-between'>

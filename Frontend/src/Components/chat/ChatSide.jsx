@@ -5,6 +5,7 @@ import { UserDetailsContext } from "../../Context/UserDetailsContext";
 import { ClientDetailsContext } from "../../Context/ClientDetailsContext";
 import ChatContext from "../../Context/ChatContext";
 import ChatHeader from "./ChatHeader";
+import apiFetch from "../../lib/api";
 
 export default function ChatSide({ db }) {
   const { chat } = useContext(ChatContext);
@@ -24,14 +25,10 @@ export default function ChatSide({ db }) {
     : { clientId: localStorage.getItem("clientId"), model: "client" };
   const user = localStorage.getItem("userId") ? userDetails : clientDetails;
 
-  console.log(user);
-
   useEffect(() => {
     if (id) {
-      console.log(id);
       onValue(ref(db, "chats/" + id), (snapshot) => {
         const data = snapshot.val();
-        console.log(data);
         if (data) {
           setChats(data);
           setIsDisabled(false);
@@ -50,11 +47,8 @@ export default function ChatSide({ db }) {
       return updatedChats;
     });
 
-    fetch(import.meta.env.VITE_APP_BACKEND_URL + "/addnotification", {
+    apiFetch("/api/notifications/add", {
       method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
       body: JSON.stringify({
         ...senderid,
         reciverid: chat.reciverid._id,

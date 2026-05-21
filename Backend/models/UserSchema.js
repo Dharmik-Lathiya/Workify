@@ -44,7 +44,7 @@ const userSchema = new mongoose.Schema({
         currentRole:Boolean
 
     }],
-    educaton: [{
+    education: [{
         school: String,
         degree: String,
         country: String,

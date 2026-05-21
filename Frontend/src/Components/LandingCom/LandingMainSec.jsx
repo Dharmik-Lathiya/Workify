@@ -1,69 +1,58 @@
 import React from "react";
 import { motion } from "framer-motion";
+import { Briefcase, Code, Palette, Smartphone, LineChart, Globe } from "lucide-react";
 
 export default function LandingMainSec() {
+  const categories = [
+    { icon: <Code size={32} />, title: "Development & IT", rating: "4.85/5", skills: 1853 },
+    { icon: <Palette size={32} />, title: "Design & Creative", rating: "4.91/5", skills: 968 },
+    { icon: <Briefcase size={32} />, title: "Sales & Marketing", rating: "4.77/5", skills: 392 },
+    { icon: <Smartphone size={32} />, title: "Writing & Translation", rating: "4.92/5", skills: 505 },
+    { icon: <LineChart size={32} />, title: "Finance & Accounting", rating: "4.79/5", skills: 214 },
+    { icon: <Globe size={32} />, title: "Admin & Customer Support", rating: "4.77/5", skills: 508 },
+  ];
+
   return (
-    <>
-      <div className="px-6 md:px-20 py-16">
-        {/* Heading Section */}
-        <div className="flex flex-col md:flex-row items-start md:items-center justify-between">
-          <p className="text-3xl md:text-5xl font-semibold leading-snug md:w-3/5">
-            Tailored Design Solutions to Bring Your Vision to Life
+    <div className="bg-white py-24 px-6 md:px-12">
+      <div className="container mx-auto max-w-7xl">
+        <div className="mb-16">
+          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+            Browse talent by category
+          </h2>
+          <p className="text-xl text-gray-600">
+            Looking for work? <a href="/freelancer/SignUp" className="text-green-600 hover:underline font-medium">Browse jobs</a>
           </p>
-          <motion.button
-            className="bg-gray-700 text-white text-lg md:text-2xl font-medium px-6 py-3 rounded-xl mt-5 md:mt-0"
-            whileHover={{ scale: 0.98 }}
-            whileTap={{ scale: 0.90 }}
-          >
-            Learn More
-          </motion.button>
         </div>
 
-        {/* Card Section */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-16">
-          {/* Card 1 */}
-          <motion.div
-            className="group bg-gray-200 hover:bg-[#a8ff36] rounded-xl p-6 shadow-md transition-all duration-300"
-            whileHover={{ scale: 1.05 }}
-          >
-            <i className="fas fa-pencil-ruler text-5xl mb-5 text-gray-700 group-hover:text-blue-600 transition-all duration-300"></i>
-            <p className="text-xl font-semibold mb-4 text-gray-800 group-hover:text-blue-600">
-              Product Design & Development
-            </p>
-            <p className="text-md text-gray-600">
-              Crafting user-centered digital products from concept to completion, including wireframing, prototyping, and intuitive design solutions.
-            </p>
-          </motion.div>
-
-          {/* Card 2 */}
-          <motion.div
-            className="group bg-[#a8ff36] rounded-xl p-6 shadow-md transition-all duration-300"
-            whileHover={{ scale: 1.05 }}
-          >
-            <i className="fas fa-palette text-5xl mb-5 text-gray-700 group-hover:text-blue-600 transition-all duration-300"></i>
-            <p className="text-xl font-semibold mb-4 text-gray-800 group-hover:text-blue-600">
-              Brand Identity & Visual Design
-            </p>
-            <p className="text-md text-gray-600">
-              Building strong visual identities through logos, typography, color schemes, and overall branding strategies for businesses and startups.
-            </p>
-          </motion.div>
-
-          {/* Card 3 */}
-          <motion.div
-            className="group bg-gray-200 hover:bg-[#a8ff36] rounded-xl p-6 shadow-md transition-all duration-300"
-            whileHover={{ scale: 1.05 }}
-          >
-            <i className="fas fa-code text-5xl mb-5 text-gray-700 group-hover:text-blue-600 transition-all duration-300"></i>
-            <p className="text-xl font-semibold mb-4 text-gray-800 group-hover:text-blue-600">
-              UI/UX Research & Prototyping
-            </p>
-            <p className="text-md text-gray-600">
-              Enhancing user experience through detailed research, usability testing, and crafting interactive prototypes that bring ideas to life.
-            </p>
-          </motion.div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          {categories.map((category, index) => (
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+              whileHover={{ y: -5, transition: { duration: 0.2 } }}
+              className="bg-gray-50 rounded-2xl p-8 hover:bg-green-50 hover:shadow-lg transition-all duration-300 cursor-pointer group border border-gray-100"
+            >
+              <div className="mb-6 text-gray-700 group-hover:text-green-600 transition-colors">
+                {category.icon}
+              </div>
+              <h3 className="text-2xl font-semibold text-gray-900 mb-4 group-hover:text-green-700">
+                {category.title}
+              </h3>
+              <div className="flex items-center text-gray-500 gap-4">
+                <div className="flex items-center gap-1">
+                  <span className="text-green-500">★</span>
+                  <span className="font-medium">{category.rating}</span>
+                </div>
+                <div className="text-gray-400">•</div>
+                <div className="font-medium">{category.skills} skills</div>
+              </div>
+            </motion.div>
+          ))}
         </div>
       </div>
-    </>
+    </div>
   );
 }

@@ -8,6 +8,7 @@ import ClientStepFour from '../../Components/Client/ClientStepFour';
 import ClientStepFive from '../../Components/Client/ClientStepFive';
 import { ClientDetailsContext } from '../../Context/ClientDetailsContext';
 import { Link } from 'react-router-dom';
+import apiFetch from '../../lib/api';
 
 export default function ClientCreateProfile() {
     const [step, setStep] = useState(0);
@@ -17,20 +18,14 @@ export default function ClientCreateProfile() {
     const prevStep = () => setStep((prev) => Math.max(prev - 1, 0));
 
     function savePost() {
-        fetch(import.meta.env.VITE_APP_BACKEND_URL + "/postjob", {
+        apiFetch("/api/jobs/post", {
             method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
             body: JSON.stringify({
                 clientId: localStorage.getItem("clientId"),
                 ...clientDetails.job
             })
-        }).then(res => {
-            res.json().then(data => {
-                console.log(data);
-
-            })
+        }).then(data => {
+            console.log(data);
         })
     }
 

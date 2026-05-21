@@ -1,9 +1,10 @@
 import React, { useContext, useState } from 'react';
 import { UserDetailsContext } from '../../Context/UserDetailsContext';
+import apiFetch from '../../lib/api';
 
 export default function FreelancerProfileExperience() {
     const { userDetails, setUserDetails } = useContext(UserDetailsContext);
-        const [isEditing, setIsEditing] = useState(false);
+    const [isEditing, setIsEditing] = useState(false);
     const [showPopup, setShowPopup] = useState(false);
     const [formData, setFormData] = useState({
         title: '',
@@ -35,45 +36,29 @@ export default function FreelancerProfileExperience() {
     };
 
     const handleSave = () => {
-
-
-        let expId = isEditing  ? {expId:userDetails.experiences[editingIndex]._id } : { }
-        fetch(import.meta.env.VITE_APP_BACKEND_URL + "/addexperience" ,{
-          method: "PUT",
-          headers:{
-            "Content-Type":"application/json"
-          },
-          body:JSON.stringify({
-            ...expId,
-            id:localStorage.getItem("userId"),
-            update:{...formData}
-          })
-        }).then(res =>{
-          res.json().then(data => {
+        let expId = isEditing ? userDetails.experiences[editingIndex]._id : null;
+        apiFetch("/api/users/experience", {
+            method: "PUT",
+            body: JSON.stringify({
+                expId,
+                id: localStorage.getItem("userId"),
+                update: { ...formData }
+            })
+        }).then(data => {
             console.log(data);
-          })
-        })
-        
-        // let updatedExperiences = [...userDetails.experiences];
-        // if (editingIndex !== null) {
-        //     updatedExperiences[editingIndex] = formData;
-        // } else {
-        //     updatedExperiences.push(formData);
-        // }
+        });
 
-        let updatedExperiences; 
+        let updatedExperiences;
         setUserDetails((prev) => {
             if (isEditing && editingIndex !== null) {
                 updatedExperiences = prev.experiences.map((edu, index) =>
                     index === editingIndex ? formData : edu
                 );
             } else {
-                
                 updatedExperiences = [...prev.experiences, formData];
             }
-            return { ...prev, education: updatedExperiences };
+            return { ...prev, experiences: updatedExperiences };
         });
-        setUserDetails(prev => ({ ...prev, experiences: updatedExperiences }));
         setShowPopup(false);
         setIsEditing(false);
         setEditingIndex(null);
@@ -92,31 +77,19 @@ export default function FreelancerProfileExperience() {
     };
 
     const deleteExperienceEntry = (index) => {
-
-        fetch(import.meta.env.VITE_APP_BACKEND_URL + "/deleteexperience" ,{
+        apiFetch("/api/users/experience", {
             method: "DELETE",
-            headers:{
-              "Content-Type":"application/json"
-            },
-            body:JSON.stringify({
-              expId:userDetails.experiences[index]._id,
-              id:localStorage.getItem("userId"),
-              
+            body: JSON.stringify({
+                expId: userDetails.experiences[index]._id,
+                id: localStorage.getItem("userId"),
             })
-          }).then(res =>{
-            res.json().then(data => {
-              console.log(data);
-              
-        
-            })
-          })
+        }).then(data => {
+            console.log(data);
+        });
         const updatedExperiences = userDetails.experiences.filter((_, i) => i !== index);
         setUserDetails(prev => ({ ...prev, experiences: updatedExperiences }));
     };
 
-    console.log(formData);
-    console.log(userDetails.experiences);
-    
     return (
         <>
             <div className="bg-white p-4 shadow-md rounded-lg">

@@ -1,5 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { UserDetailsContext } from '../../Context/UserDetailsContext';
+import apiFetch from '../../lib/api';
 
 export default function FreelancerProfileEducation() {
     const { userDetails, setUserDetails } = useContext(UserDetailsContext);
@@ -47,22 +48,18 @@ export default function FreelancerProfileEducation() {
             return { ...prev, education: updatedEducation };
         });
         let eduId = isEditing  ? {eduId:userDetails.education[editIndex]._id } : { }
-        fetch(import.meta.env.VITE_APP_BACKEND_URL + "/addeducation" ,{
+        apiFetch("/api/users/education" ,{
           method: "PUT",
-          headers:{
-            "Content-Type":"application/json"
-          },
           body:JSON.stringify({
             ...eduId,
             id:localStorage.getItem("userId"),
             update:{...educationData}
           })
-        }).then(res =>{
-          res.json().then(data => {
+        }).then(data => {
             console.log(data);
-            
-      closePopup();
-          })
+            closePopup();
+        }).catch(err => {
+            console.error("Error updating education:", err);
         })
         
     };
@@ -76,22 +73,18 @@ export default function FreelancerProfileEducation() {
 
     const deleteEducationEntry = (index) => {
 
-        fetch(import.meta.env.VITE_APP_BACKEND_URL + "/deleteeducation" ,{
+        apiFetch("/api/users/education" ,{
             method: "DELETE",
-            headers:{
-              "Content-Type":"application/json"
-            },
             body:JSON.stringify({
               eduId:userDetails.education[index]._id,
               id:localStorage.getItem("userId"),
               
             })
-          }).then(res =>{
-            res.json().then(data => {
+          }).then(data => {
               console.log(data);
-              
               closePopup();
-            })
+          }).catch(err => {
+              console.error("Error deleting education:", err);
           })
         setUserDetails((prev) => ({
             ...prev,

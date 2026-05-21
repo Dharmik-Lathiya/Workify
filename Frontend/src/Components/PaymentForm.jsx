@@ -1,4 +1,5 @@
 import { useState } from "react";
+import apiFetch from "../lib/api";
 
 const PaymentForm = () => {
     const [formData, setFormData] = useState({
@@ -17,23 +18,20 @@ const PaymentForm = () => {
         e.preventDefault(); // Prevent page reload
 
         try {
-            const response = await fetch("http://localhost:3000/pay", {
+            const data = await apiFetch("/api/payment/pay", {
                 method: "POST",
-                headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(formData),
             });
 
-            const data = await response.json();
-
             const form = document.createElement("form");
             form.method = "POST";
-            form.action = data.action;
+            form.action = data.data.action;
 
-            Object.keys(data.payUData).forEach((key) => {
+            Object.keys(data.data.payUData).forEach((key) => {
                 const input = document.createElement("input");
                 input.type = "hidden";
                 input.name = key;
-                input.value = data.payUData[key];
+                input.value = data.data.payUData[key];
                 form.appendChild(input);
             });
 

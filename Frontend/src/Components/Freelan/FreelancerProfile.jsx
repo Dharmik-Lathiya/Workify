@@ -4,6 +4,7 @@ import FreelancerProfilePortfolio from './FreelancerProfilePortfolio.jsx';
 import FreelancerProfileEducation from './FreelancerProfileEducation.jsx';
 import FreelancerProfileExperence from './FreelancerProfileExperence.jsx';
 import { Link } from 'react-router-dom';
+import apiFetch from '../../lib/api';
 
 export default function FreelancerProfile() {
   const { userDetails, setUserDetails } = useContext(UserDetailsContext);
@@ -28,26 +29,23 @@ export default function FreelancerProfile() {
     country: "",
   });
 
-  function saveChanges() {
+  async function saveChanges() {
     console.log(formData);
 
-    fetch(import.meta.env.VITE_APP_BACKEND_URL + "/updateuser", {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        type: "user",
-        id: localStorage.getItem("userId"),
-        update: { ...formData }
-      })
-    }).then(res => {
-      res.json().then(data => {
-        setUpdated(!updated)
-        setShowProfilePopup(false)
-      })
-    })
-
+    try {
+      await apiFetch("/api/users/profile", {
+        method: "PUT",
+        body: JSON.stringify({
+          type: "user",
+          id: localStorage.getItem("userId"),
+          update: { ...formData }
+        })
+      });
+      setUpdated(!updated)
+      setShowProfilePopup(false)
+    } catch (error) {
+      console.error("Error updating user:", error);
+    }
   }
 
   console.log(userDetails.education);
@@ -56,51 +54,53 @@ export default function FreelancerProfile() {
 
   useEffect(() => {
     setLoader(true);
-    fetch(import.meta.env.VITE_APP_BACKEND_URL + `/getuser/devloper/${localStorage.getItem("userId")}`, {
+    apiFetch(`/api/users/profile/developer/${localStorage.getItem("userId")}`, {
       method: "GET"
-    }).then((res) => {
-      res.json().then((data) => {
-        const addressParts = data.address ? data.address.split(" ") : [];
-        console.log(data);
-        setLoader(false);
+    }).then((data) => {
+      const userData = data.data;
+      const addressParts = userData.address ? userData.address.split(" ") : [];
+      console.log(userData);
+      setLoader(false);
 
-        setUserDetails(prevState => ({
-          ...prevState,
-          firstName: data.firstName || "",
-          lastName: data.lastName || "",
-          username: data.username || "",
-          email: data.email || "",
-          password: data.password || "",
-          country: data.country || "India",
-          bio: data.bio || "",
-          dob: data.dob || "",
-          street: data.street,
-          city: data.city,
-          state: data.state,
-          zip: data.zipCode,
-          phone: data.phone || "",
-          profileImage: data.photo || "",
-          selectedSkills: data.skills || [],
-          professionalTitle: data.title || "",
-          experiences: data.experience || [],
-          education: data.educaton || [],
-          languages: data.languages || [],
-          portfolio: data.portfolio || []
+      setUserDetails(prevState => ({
+        ...prevState,
+        firstName: userData.firstName || "",
+        lastName: userData.lastName || "",
+        username: userData.username || "",
+        email: userData.email || "",
+        password: userData.password || "",
+        country: userData.country || "India",
+        bio: userData.bio || "",
+        dob: userData.dob || "",
+        street: userData.street,
+        city: userData.city,
+        state: userData.state,
+        zip: userData.zipCode,
+        phone: userData.phone || "",
+        profileImage: userData.photo || "",
+        selectedSkills: userData.skills || [],
+        professionalTitle: userData.title || "",
+        experiences: userData.experience || [],
+        education: userData.education || [],
+        languages: userData.languages || [],
+        portfolio: userData.portfolio || []
 
-        }));
-        setNewFormData(() => {
-          return {
-            username: data.username || "",
-            email: data.email || "",
-            bio: data.bio || "",
-            dob: data.dob || "",
-            phone: data.phone || "",
-            city: data.city,
-            country: data.country || "India",
-            title: data.title || "",
-          }
-        })
+      }));
+      setNewFormData(() => {
+        return {
+          username: userData.username || "",
+          email: userData.email || "",
+          bio: userData.bio || "",
+          dob: userData.dob || "",
+          phone: userData.phone || "",
+          city: userData.city,
+          country: userData.country || "India",
+          title: userData.title || "",
+        }
       })
+    }).catch(err => {
+      console.error("Error fetching user profile:", err);
+      setLoader(false);
     })
 
   }, [updated])

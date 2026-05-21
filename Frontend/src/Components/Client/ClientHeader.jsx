@@ -1,41 +1,36 @@
 import React, { useEffect, useContext, useState } from 'react'
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import logo from '../../Assets/logo.png'
-import { UserDetailsContext } from '../../Context/UserDetailsContext';
 import { ClientDetailsContext } from '../../Context/ClientDetailsContext';
 import Notification from '../Freelan/Notification'
 import { io } from 'socket.io-client';
-import { useLocation,useNavigate  } from 'react-router-dom';
+import { Search, Bell, MessageSquare, HelpCircle, ChevronDown, PlusCircle } from 'lucide-react';
+import { Button } from '../UI/Button';
 
 export default function ClientHeader() {
     const location = useLocation();
 
-    if ((window.location.pathname === "/freelancer/signup") || (window.location.pathname === "/freelancer/create-profile") || (window.location.pathname === "/client/signup") || (window.location.pathname === "/client/create-profile")) {
-        return;
+    if (["/freelancer/signup", "/freelancer/create-profile", "/client/signup", "/client/create-profile"].includes(window.location.pathname)) {
+        return null;
     }
 
-
-    useEffect(() => {
-        console.log("Pathname changed:", location.pathname);
-    }, [location.pathname]);
-
-    const { userDetails } = useContext(UserDetailsContext);
-    const {clientDetails} = useContext(ClientDetailsContext);
-    console.log(clientDetails);
-    
-
+    const { clientDetails } = useContext(ClientDetailsContext);
     const [isOpn, SetIsOpen] = useState(false);
     const [newNoti, SetNewNoti] = useState(false);
-    const socket = io("http://localhost:3000");
-
-    socket.emit("join", localStorage.getItem("clientId"));
-    socket.on("notification", (data) => {
-
-        console.log(data);
-        
-        SetIsOpen(false)
-        SetNewNoti(true);
-    })
+    
+    // Move socket initialization to useEffect to prevent multiple connections
+    useEffect(() => {
+        const socket = io(import.meta.env.VITE_APP_BACKEND_URL || "http://localhost:3000");
+        const clientId = localStorage.getItem("clientId");
+        if (clientId) {
+            socket.emit("join", clientId);
+            socket.on("notification", () => {
+                SetIsOpen(false);
+                SetNewNoti(true);
+            });
+        }
+        return () => socket.disconnect();
+    }, []);
 
     const [query, setQuery] = useState("");
     const [searchType, setSearchType] = useState("Talent");
@@ -46,86 +41,91 @@ export default function ClientHeader() {
             e.preventDefault();
             const searchQuery = e.target.value.trim();
             if (!searchQuery) return;
-                    const route = searchType === "Talent"
-                        ? `/client/find-developer/${encodeURIComponent(searchQuery)}`
-                        : `/client/find-jobs/${encodeURIComponent(searchQuery)}`;
-
-                    navigate(route);
-             
+            const route = searchType === "Talent"
+                ? `/client/find-developer/${encodeURIComponent(searchQuery)}`
+                : `/client/find-jobs/${encodeURIComponent(searchQuery)}`;
+            navigate(route);
         }
     };
     
-
     return (
-        <header className="flex items-center justify-between px-6 py-3 shadow-md bg-white">
-            <div className="flex items-center gap-6">
-                <img src={logo} alt="Upwork Logo" className="h-8 w-24" />
-                <nav className="hidden md:flex items-center gap-4 text-gray-700">
-                    <ul className="flex gap-4">
-                        <Link to='/client/home'>
-                            <li className="relative group cursor-pointer flex items-center gap-1">
-                                Hire Talent
-                            </li>
-                        </Link>
-                        <Link to='/client/find-developer'>
-                            <li className="relative group cursor-pointer flex items-center gap-1">
-                                Manage Work
-                            </li>
-                        </Link>
-
-                        <li className="relative group cursor-pointer flex items-center gap-1">
-                            Why Upwork
-                        </li>
-                        <li className="relative group cursor-pointer flex items-center gap-1">
-                            Reports
-                        </li>
-                        <Link to='/chat'>
-                        <li className="relative group cursor-pointer flex items-center gap-1">
-                            Message
-                        </li>
-                        </Link>
-                    </ul>
+        <header className="flex items-center justify-between px-6 py-3 border-b border-gray-200 bg-white sticky top-0 z-50">
+            <div className="flex items-center gap-8">
+                <Link to='/client/home'>
+                    <img src={logo} alt="Workify Logo" className="h-8 object-contain" />
+                </Link>
+                <nav className="hidden md:flex items-center gap-6 text-sm font-medium text-gray-700">
+                    <Link to='/client/home' className="hover:text-green-600 transition-colors">Hire Talent</Link>
+                    <Link to='/client/find-developer' className="hover:text-green-600 transition-colors">Manage Work</Link>
+                    <Link to='/chat' className="hover:text-green-600 transition-colors flex items-center gap-1">
+                        Messages <MessageSquare size={16} />
+                    </Link>
                 </nav>
             </div>
-            <div className="flex items-center gap-4">
-                <div className="relative border rounded-full flex items-center">
-                    <i className="fas fa-search absolute left-3 text-gray-500"></i>
+            
+            <div className="flex items-center gap-6">
+                <div className="hidden lg:flex relative items-center bg-gray-100 rounded-full pr-2">
+                    <div className="pl-4 pr-2 text-gray-500">
+                        <Search size={18} />
+                    </div>
                     <input
                         type="text"
                         placeholder="Search"
                         value={query}
                         onChange={(e) => setQuery(e.target.value)}
                         onKeyDown={handleKeyDown}
-                        className="px-4 py-2 rounded-full pl-10 focus:outline-none focus:ring-2 focus:ring-gray-400 flex-grow"
+                        className="bg-transparent py-2 px-2 focus:outline-none w-48 text-sm"
                     />
-                    <select
-                        name="searchType"
-                        value={searchType}
-                        onChange={(e) => setSearchType(e.target.value)}
-                        className="rounded-full py-2 px-4 bg-white border"
-                    >
-                        <option value="Talent">Talent</option>
-                        <option value="Jobs">Jobs</option>
-                    </select>
-                
+                    <div className="flex items-center gap-1 border-l border-gray-300 pl-3 py-1 cursor-pointer">
+                        <select
+                            name="searchType"
+                            value={searchType}
+                            onChange={(e) => setSearchType(e.target.value)}
+                            className="bg-transparent text-sm font-medium outline-none cursor-pointer appearance-none pr-1"
+                        >
+                            <option value="Talent">Talent</option>
+                            <option value="Jobs">Jobs</option>
+                        </select>
+                        <ChevronDown size={14} className="text-gray-500" />
+                    </div>
                 </div>
 
+                <div className="hidden md:block">
+                   <Button variant="outline" size="sm" className="rounded-full gap-2 text-green-600 border-green-600 hover:bg-green-50">
+                     <PlusCircle size={16} /> Post a Job
+                   </Button>
+                </div>
 
-                <i class="fas fa-question"></i>
-                <div className='relative'>
-
-                    <button onClick={() => { SetIsOpen(!isOpn); SetNewNoti(false) }} className='relative'>
-                        {newNoti && <p className='text-red-700 text-[5rem] absolute top-[-5.5rem] right-[-0.3rem]' >.</p>}
-                        <i className="far fa-bell text-xl"></i>
+                <div className="flex items-center gap-4 text-gray-600">
+                    <button className="hover:text-green-600 transition-colors">
+                        <HelpCircle size={22} />
                     </button>
-
-                    {isOpn && <Notification set={SetNewNoti}/>}
+                    
+                    <div className="relative">
+                        <button 
+                            onClick={() => { SetIsOpen(!isOpn); SetNewNoti(false) }} 
+                            className="relative hover:text-green-600 transition-colors"
+                        >
+                            {newNoti && <span className="absolute top-0 right-0 w-2.5 h-2.5 bg-red-500 rounded-full border-2 border-white"></span>}
+                            <Bell size={22} />
+                        </button>
+                        {isOpn && (
+                            <div className="absolute right-0 mt-2 w-80 bg-white border border-gray-200 rounded-xl shadow-lg z-50">
+                                <Notification set={SetNewNoti} />
+                            </div>
+                        )}
+                    </div>
+                    
+                    <Link to='/client/profile' className="ml-2">
+                        {clientDetails?.photo ? (
+                            <img src={clientDetails.photo} alt="Profile" className="h-9 w-9 rounded-full border border-gray-200 object-cover" />
+                        ) : (
+                            <div className="h-9 w-9 rounded-full bg-green-600 text-white flex items-center justify-center font-bold text-sm">
+                                {clientDetails?.firstName?.charAt(0) || 'C'}
+                            </div>
+                        )}
+                    </Link>
                 </div>
-                <Link to='/client/profile'>
-                    <img src={clientDetails.photo} alt="" className='h-9 w-9 rounded-full' />
-                </Link>
-
-
             </div>
         </header>
     )

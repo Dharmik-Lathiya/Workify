@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { io } from 'socket.io-client'
+import apiFetch from '../../lib/api';
 
 export default function Notification() {
-  const socket = io("http://localhost:3000");
+  const socket = io(import.meta.env.VITE_APP_BACKEND_URL);
 
   const [flag,setFlag] = useState(true);
   socket.on("notification", (data) => {
@@ -17,27 +18,20 @@ export default function Notification() {
 
     console.log("erender");
     
-    const UserData = localStorage.getItem("userId") ? {type:"devloper",id: localStorage.getItem("userId") ,  model: "users"} : {id: localStorage.getItem("clientId") , model: "client"} 
+    const UserData = localStorage.getItem("userId") ? {type:"developer",id: localStorage.getItem("userId") ,  model: "users"} : {id: localStorage.getItem("clientId") , model: "client"} 
 
     console.log("ghjkl");
-    fetch("http://localhost:3000" + "/getnotification", {
+    apiFetch("/api/notifications/get", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
       body: JSON.stringify({
        ...UserData
       })
-    }).then((res) => {
-      res.json().then(data => {
-      
-      
+    }).then((data) => {
         if(!data.message){
-
-          SetData((prev) => data)
+          SetData(data.data || [])
         }
-        
-      })
+    }).catch(err => {
+      console.error("Error fetching notifications:", err);
     })
 
   },[flag])

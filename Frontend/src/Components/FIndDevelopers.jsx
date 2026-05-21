@@ -1,6 +1,7 @@
 import React, { useEffect, useState ,useContext} from 'react'
 import { Link, useParams } from 'react-router-dom';
 import { ClientDetailsContext } from '../Context/ClientDetailsContext';
+import apiFetch from '../lib/api';
 
 export default function FIndDevelopers() {
   const {searchQuery} = useParams()
@@ -14,11 +15,8 @@ export default function FIndDevelopers() {
     function createChat() {
   
       let chatId = `${Date.now()}-${Math.floor(Math.random() * 10000)}`
-      fetch(import.meta.env.VITE_APP_BACKEND_URL + "/addchat", {
+      apiFetch("/api/chats/add", {
         method: "PUT",
-        headers: {
-            "Content-Type": "application/json",
-        },
         body: JSON.stringify({
             clientId: clinetId,
             reciverid: id,
@@ -36,17 +34,13 @@ export default function FIndDevelopers() {
   useEffect(()=>{
     setLoader(true);
 
-    fetch(import.meta.env.VITE_APP_BACKEND_URL + "/searchusers", {
+    apiFetch("/api/users/search", {
       method: "POST",
-      headers: {
-          "Content-Type": "application/json"
-      },
       body: JSON.stringify({ query: searchQuery })
   })
-      .then((res) => res.json())
       .then((data) => {
           console.log(data);
-        setDeveloper([...data.users]); 
+        setDeveloper([...data.data.users]); 
         setLoader(false);
 
        

@@ -1,53 +1,49 @@
-const Joi = require('joi')
+const Joi = require('joi');
 
 const schema = Joi.object({
-    firstName: Joi.string().min(2).max(50).required().messages({
-        'string.empty':'First name is required',
-        'string.min': 'First name must be at least 5 characters',
-        'string.max': 'First name must be at most 50 characters'
+  firstName: Joi.string().min(2).max(50).required().messages({
+    'string.empty': 'First name is required',
+    'string.min': 'First name must be at least 2 characters',
+    'string.max': 'First name must be at most 50 characters'
+  }),
+  lastName: Joi.string().min(2).max(50).required().messages({
+    'string.empty': 'Last name is required',
+    'string.min': 'Last name must be at least 2 characters',
+    'string.max': 'Last name must be at most 50 characters'
+  }),
+  username: Joi.string().min(5).max(50).required().messages({
+    'string.empty': 'Username is required',
+    'string.min': 'Username must be at least 5 characters',
+    'string.max': 'Username must be at most 50 characters'
+  }),
+  email: Joi.string().email().required().messages({
+    'string.empty': 'Email is required',
+    'string.email': 'Invalid email format'
+  }),
+  password: Joi.string()
+    .min(8)
+    .max(30)
+    .required()
+    .messages({
+      'string.empty': 'Password is required',
+      'string.min': 'Password must be at least 8 characters',
+      'string.max': 'Password must be at most 30 characters',
     }),
-    
-    lastName: Joi.string().min(2).max(50).required().messages({
-        'string.empty': 'Last name is required',
-        'string.min': 'Last name must be at least 5 characters',
-        'string.max': 'Last name must be at most 50 characters'
-    }),
-    username: Joi.string().min(5).max(50).required().messages({
-        'string.empty': 'username is required',
-        'string.min': 'username must be at least 5 characters',
-        'string.max': 'username must be at most 50 characters'
-    }),
-    
-    email: Joi.string().email().required().messages({
-        'string.empty': 'Email is required',
-        'string.email': 'Invalid email format'
-    }),
-    
-    password: Joi.string()
-        .min(8)
-        .max(30)
-        .required()
-        .messages({
-            'string.empty': 'Password is required',
-            'string.min': 'Password must be at least 8 characters',
-            'string.max': 'Password must be at most 30 characters',
-        })
-}).options({ abortEarly: false });
+  type: Joi.string().valid('developer', 'client').default('developer')
+}).options({ abortEarly: false, allowUnknown: true });
 
+const validationSignup = (req, res, next) => {
+  const { error } = schema.validate(req.body);
 
-const validationSignup = (req,res,next) => {
+  if (error) {
+    return res.status(400).json({
+      success: false,
+      message: error.details.map(d => d.message).join(', '),
+      errors: error.details
+    });
+  }
 
-    console.log(req.body);
-    
-    const {firstName,lastName,username,email,password} = req.body
-    const {error , value} = schema.validate({firstName:firstName,lastName:lastName,username:username,email:email,password:password})
-    
-    if(error){
-        res.status(401).send({success:false,...error})
-    }else{
-        res.locals.data = req.body;
-        next()
-    }
-}
+  next();
+};
 
-module.exports = validationSignup
+module.exports = validationSignup;

@@ -1,6 +1,7 @@
 import React, { useContext, useState, useEffect } from "react";
 import { ClientDetailsContext } from "../../Context/ClientDetailsContext";
 import { Link } from "react-router-dom";
+import apiFetch from "../../lib/api";
 
 export default function ClientProfile() {
   const { clientDetails, setClientDetails } = useContext(ClientDetailsContext);
@@ -14,11 +15,10 @@ export default function ClientProfile() {
 
 
     if(flag){
-    fetch(import.meta.env.VITE_APP_BACKEND_URL + `/getuser/client/${localStorage.getItem("clientId")}`,{
+    apiFetch(`/api/users/profile/client/${localStorage.getItem("clientId")}`,{
       method:"GET"
     }).then((res)=>{
-        res.json().then((data)=>{
-
+          const data = res.data;
           const updatedClientDetails = {
             firstName: data.firstName || "",
             lastName: data.lastName || "",
@@ -37,7 +37,6 @@ export default function ClientProfile() {
           setFormData(updatedClientDetails);
     
         console.log(formData);
-        })
     })
   }
 
@@ -76,20 +75,15 @@ export default function ClientProfile() {
     setShowPopup(false); // Close popup
 
 
-    fetch(import.meta.env.VITE_APP_BACKEND_URL + "/updateuser" ,{
+    apiFetch("/api/users/profile" ,{
       method: "PUT",
-      headers:{
-        "Content-Type":"application/json"
-      },
       body:JSON.stringify({
         type:"client",
         id:localStorage.getItem("clientId"),
         update:{...formData}
       })
     }).then(res =>{
-      res.json().then(data => {
        
-      })
     })
 
   };

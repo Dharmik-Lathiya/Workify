@@ -1,67 +1,79 @@
 import React from "react";
+import { Facebook, Twitter, Linkedin, Youtube, Instagram, Apple, Smartphone } from "lucide-react";
 
 const Footer = () => {
   return (
-    <footer className="bg-black text-white py-12 p-10 m-6 rounded-[10px]">
-      <div className="max-w-7xl mx-auto px-6">
+    <footer className="bg-gray-900 text-white py-16 px-10 m-4 rounded-3xl">
+      <div className="max-w-7xl mx-auto">
         {/* Top Section */}
-        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6 text-sm">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-sm mb-12">
           <div>
-            <h3 className="font-semibold">About Us</h3>
-            <ul className="mt-2 space-y-1 text-gray-400">
-              <li>Feedback</li>
-              <li>Trust, Safety & Security</li>
+            <h3 className="font-semibold text-lg mb-4">About Us</h3>
+            <ul className="space-y-3 text-gray-400">
+              <li className="hover:text-white cursor-pointer transition-colors">About Workify</li>
+              <li className="hover:text-white cursor-pointer transition-colors">Careers</li>
+              <li className="hover:text-white cursor-pointer transition-colors">Press</li>
+              <li className="hover:text-white cursor-pointer transition-colors">Trust, Safety & Security</li>
             </ul>
           </div>
           <div>
-            <h3 className="font-semibold">Help & Support</h3>
-            <ul className="mt-2 space-y-1 text-gray-400">
-              <li>Upwork Foundation</li>
-              <li>Terms of Service</li>
+            <h3 className="font-semibold text-lg mb-4">For Clients</h3>
+            <ul className="space-y-3 text-gray-400">
+              <li className="hover:text-white cursor-pointer transition-colors">How to hire</li>
+              <li className="hover:text-white cursor-pointer transition-colors">Talent Marketplace</li>
+              <li className="hover:text-white cursor-pointer transition-colors">Project Catalog</li>
+              <li className="hover:text-white cursor-pointer transition-colors">Enterprise</li>
             </ul>
           </div>
           <div>
-            <h3 className="font-semibold">Privacy Policy</h3>
-            <ul className="mt-2 space-y-1 text-gray-400">
-              <li>CA Notice at Collection</li>
-              <li>Cookie Settings</li>
+            <h3 className="font-semibold text-lg mb-4">For Talent</h3>
+            <ul className="space-y-3 text-gray-400">
+              <li className="hover:text-white cursor-pointer transition-colors">How to find work</li>
+              <li className="hover:text-white cursor-pointer transition-colors">Direct Contracts</li>
+              <li className="hover:text-white cursor-pointer transition-colors">Find freelance jobs worldwide</li>
             </ul>
           </div>
           <div>
-            <h3 className="font-semibold">Accessibility</h3>
-            <ul className="mt-2 space-y-1 text-gray-400">
-              <li>Desktop App</li>
-              <li>Cookie Policy</li>
-              <li>Enterprise Solutions</li>
+            <h3 className="font-semibold text-lg mb-4">Resources</h3>
+            <ul className="space-y-3 text-gray-400">
+              <li className="hover:text-white cursor-pointer transition-colors">Help & Support</li>
+              <li className="hover:text-white cursor-pointer transition-colors">Success Stories</li>
+              <li className="hover:text-white cursor-pointer transition-colors">Workify Reviews</li>
+              <li className="hover:text-white cursor-pointer transition-colors">Blog</li>
             </ul>
           </div>
         </div>
 
         {/* Social Media & Mobile App */}
-        <div className="mt-8 flex flex-col md:flex-row justify-between items-center border-t border-gray-700 pt-4">
-          <div className="flex items-center space-x-4">
-            <span className="text-gray-400">Follow Us</span>
-            <div className="flex space-x-3">
-              <i className="fab fa-facebook text-xl p-2 border rounded-full"></i>
-              <i className="fab fa-linkedin text-xl p-2 border rounded-full"></i>
-              <i className="fab fa-twitter text-xl p-2 border rounded-full"></i>
-              <i className="fab fa-youtube text-xl p-2 border rounded-full"></i>
-              <i className="fab fa-instagram text-xl p-2 border rounded-full"></i>
+        <div className="flex flex-col md:flex-row justify-between items-center border-t border-gray-800 pt-8 gap-6">
+          <div className="flex items-center space-x-6">
+            <span className="text-gray-400 font-medium">Follow Us</span>
+            <div className="flex space-x-4">
+              <a href="#" className="p-2 bg-gray-800 rounded-full hover:bg-gray-700 transition-colors"><Facebook size={20} /></a>
+              <a href="#" className="p-2 bg-gray-800 rounded-full hover:bg-gray-700 transition-colors"><Linkedin size={20} /></a>
+              <a href="#" className="p-2 bg-gray-800 rounded-full hover:bg-gray-700 transition-colors"><Twitter size={20} /></a>
+              <a href="#" className="p-2 bg-gray-800 rounded-full hover:bg-gray-700 transition-colors"><Youtube size={20} /></a>
+              <a href="#" className="p-2 bg-gray-800 rounded-full hover:bg-gray-700 transition-colors"><Instagram size={20} /></a>
             </div>
           </div>
 
-          <div className="flex items-center space-x-4 mt-4 md:mt-0">
-            <span className="text-gray-400">Mobile app</span>
-            <div className="flex space-x-3">
-              <i className="fab fa-apple text-xl p-2 border rounded-full"></i>
-              <i className="fab fa-android text-xl p-2 border rounded-full"></i>
+          <div className="flex items-center space-x-6">
+            <span className="text-gray-400 font-medium">Mobile app</span>
+            <div className="flex space-x-4">
+              <a href="#" className="p-2 bg-gray-800 rounded-full hover:bg-gray-700 transition-colors"><Apple size={20} /></a>
+              <a href="#" className="p-2 bg-gray-800 rounded-full hover:bg-gray-700 transition-colors"><Smartphone size={20} /></a>
             </div>
           </div>
         </div>
 
         {/* Copyright Section */}
-        <div className="text-center text-gray-500 text-sm mt-6">
-          © 2015 - 2025 Upwork® Global Inc.
+        <div className="flex flex-col md:flex-row justify-between items-center mt-12 text-gray-500 text-sm">
+          <p>© 2026 Workify Global Inc.</p>
+          <div className="flex space-x-6 mt-4 md:mt-0">
+            <a href="#" className="hover:text-white transition-colors">Terms of Service</a>
+            <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
+            <a href="#" className="hover:text-white transition-colors">Accessibility</a>
+          </div>
         </div>
       </div>
     </footer>

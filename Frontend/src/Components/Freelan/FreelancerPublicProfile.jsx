@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import apiFetch from "../../lib/api";
 
 export default function FreelancerPublicProfile() {
     const { userId } = useParams(); // Get user ID from URL
@@ -8,10 +9,9 @@ export default function FreelancerPublicProfile() {
 
     useEffect(() => {
         setLoader(true);
-        fetch(import.meta.env.VITE_APP_BACKEND_URL + `/getuser/devloper/${userId}`)
-            .then((res) => res.json())
+        apiFetch(`/api/users/profile/developer/${userId}`)
             .then((data) => {
-                setUserDetails(data);
+                setUserDetails(data.data);
                 setLoader(false);
             })
             .catch((error) => {
@@ -35,7 +35,7 @@ export default function FreelancerPublicProfile() {
     }
 
     
-    console.log(userDetails.educaton);
+    console.log(userDetails.education);
     
 
     return (

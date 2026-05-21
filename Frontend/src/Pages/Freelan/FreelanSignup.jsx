@@ -4,6 +4,7 @@ import { useUser } from "../../Context/HeaderComponent";
 import { Link, useNavigate } from "react-router-dom";
 import { UserDetailsContext } from "../../Context/UserDetailsContext";
 import logo from '../../Assets/logo.png'
+import apiFetch from "../../lib/api";
 
 const FreelanSignup = () => {
   const { userDetails, setUserDetails ,userId,SetUserId} = useContext(UserDetailsContext);
@@ -32,20 +33,17 @@ const FreelanSignup = () => {
     }));
 
    
+
   };
 
   useEffect(()=>{
 
-
-    if(formData.agreeToTerms)
-    fetch(import.meta.env.VITE_APP_BACKEND_URL + "/signup", {
+    if(formData.agreeToTerms && userDetails.email)
+    apiFetch("/api/auth/signup", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
       body: JSON.stringify(
         {
-          type: "devloper",
+          type: "developer",
           firstName: userDetails.firstName,
           lastName: userDetails.lastName,
           username: userDetails.username,
@@ -53,20 +51,21 @@ const FreelanSignup = () => {
           password: userDetails.password,
         }
       )
-    }).then((res) => {
-      res.json().then(data => {
+    }).then((data) => {
         console.log(data);
         
         if (data.success) {
+          localStorage.setItem("token", data.data.token);
           SetUserId((pervId) =>{
-            return data._id
+            return data.data._id
           })
-          localStorage.setItem("userId",data._id);
+          localStorage.setItem("userId", data.data._id);
           
           navigate("/freelancer/create-profile");
         }
-        if (!data.success && data.message) {
-    
+    }).catch((err) => {
+        const data = err.data || {};
+        if (data.message) {
           toast.error(data.message, {
             position: "top-center",
             autoClose: 5000,
@@ -76,10 +75,8 @@ const FreelanSignup = () => {
             draggable: true,
             progress: undefined,
             theme: "light",
-    
           });
-        } else {
-    
+        } else if (data.details) {
           data.details.map((detail) => {
             toast.error(detail.message, {
               position: "top-center",
@@ -90,13 +87,11 @@ const FreelanSignup = () => {
               draggable: true,
               progress: undefined,
               theme: "light",
-    
             });
-    
           })
+        } else {
+            toast.error(err.message || "An error occurred during signup.");
         }
-
-      })
     })
 
   },[userDetails])

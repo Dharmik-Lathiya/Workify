@@ -3,6 +3,7 @@ import { useUser } from "../../Context/HeaderComponent";
 import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from 'react-toastify';
 import { ClientDetailsContext } from '../../Context/ClientDetailsContext';
+import apiFetch from '../../lib/api';
 
 export default function ClientSignup() {
     
@@ -30,12 +31,9 @@ const { clientDetails, setClientDetails ,clinetId ,setClientId} = useContext(Cli
   useEffect(()=>{
 
 
-    if(formData.agreeToTerms)
-    fetch(`${import.meta.env.VITE_APP_BACKEND_URL}/signup`, {
+    if(formData.agreeToTerms && clientDetails.email)
+    apiFetch("/api/auth/signup", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
       body: JSON.stringify(
         {
           type: "client",
@@ -46,21 +44,20 @@ const { clientDetails, setClientDetails ,clinetId ,setClientId} = useContext(Cli
           password: clientDetails.password,
         }
       )
-    }).then((res) => {
-      res.json().then(data => {
+    }).then((data) => {
         console.log(data);
         
         if (data.success) {
+          localStorage.setItem("token", data.data.token);
           setClientId((pervId) =>{
-            return data._id
+            return data.data._id
           })
-          localStorage.setItem("clientId",data._id);  
+          localStorage.setItem("clientId", data.data._id);  
           navigate("/client/create-profile");
-          
-
         }
-        if (!data.success && data.message) {
-    
+    }).catch((err) => {
+        const data = err.data || {};
+        if (data.message) {
           toast.error(data.message, {
             position: "top-center",
             autoClose: 5000,
@@ -70,10 +67,8 @@ const { clientDetails, setClientDetails ,clinetId ,setClientId} = useContext(Cli
             draggable: true,
             progress: undefined,
             theme: "light",
-    
           });
-        } else {
-    
+        } else if (data.details) {
           data.details.map((detail) => {
             toast.error(detail.message, {
               position: "top-center",
@@ -84,13 +79,11 @@ const { clientDetails, setClientDetails ,clinetId ,setClientId} = useContext(Cli
               draggable: true,
               progress: undefined,
               theme: "light",
-    
             });
-    
           })
+        } else {
+            toast.error(err.message || "An error occurred during signup.");
         }
-
-      })
     })
 
   },[clientDetails])
