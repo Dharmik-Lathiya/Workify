@@ -43,7 +43,7 @@ export default function FreelancerMainJobs() {
     function createChat(job) {
         let chatId = `${Date.now()}-${Math.floor(Math.random() * 10000)}`
         apiFetch("/api/chats/add", {
-            method: "PUT",
+            method: "POST",
             body: JSON.stringify({
                 userId: userId,
                 reciverid: job.clientId,

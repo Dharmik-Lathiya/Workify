@@ -13,7 +13,7 @@ export default function DeveloperProfile() {
 
     let chatId = `${Date.now()}-${Math.floor(Math.random() * 10000)}`
     apiFetch("/api/chats/add", {
-      method: "PUT",
+      method: "POST",
       body: JSON.stringify({
           clientId: clinetId,
           reciverid: id,

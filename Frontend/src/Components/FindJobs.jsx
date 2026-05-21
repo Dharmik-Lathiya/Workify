@@ -35,7 +35,7 @@ export default function FindJobs() {
     : { clientId: localStorage.getItem("clientId"), model: "client" };
     let chatId = `${Date.now()}-${Math.floor(Math.random() * 10000)}`
     apiFetch("/api/chats/add", {
-        method: "PUT",
+        method: "POST",
         body: JSON.stringify({
             ...senderid,
             reciverid: job.clientId,
